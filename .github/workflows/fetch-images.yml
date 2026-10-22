@@ -1,0 +1,25 @@
+name: Descargar Imagenes de Heroes
+on:
+  workflow_dispatch:
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Descargar fotos
+        run: |
+          mkdir -p assets/heroes
+          cd assets/heroes
+          # Lista de heroes principales
+          heroes=("abrams" "apollo" "baba" "bebop" "billy" "calico" "celeste" "deadman-danny" "the-doorman" "drifter" "dynamo" "graves" "grey-talon" "haze" "holliday" "infernus" "ivy" "kelvin" "lady-geist" "lash" "mcginnis" "mina" "mirage" "mo-and-krill" "nurse-harrow" "paige" "paradox" "pocket" "rat-king" "rem" "seven" "shiv" "silver" "sinclair" "solomon" "venator" "victor" "vindicta" "violet" "viscous" "vyper" "warden" "wraith" "yamato")
+          for h in "${heroes[@]}"; do
+            curl -s -L "https://assets.deadlock-api.com/images/heroes/${h}_card.png" -o "${h}.png" || true
+          done
+      - name: Guardar en Github
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add assets/
+          git commit -m "Agregar imagenes de heroes" || exit 0
+          git push
