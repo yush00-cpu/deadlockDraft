@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-[#0B0D0E]">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deadlock 1v1 Item Draft</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        deadlock: {
+                            bg: '#0F1215',
+                            card: '#161A1E',
+                            border: '#2A3038',
+                            gold: '#D1A23D',
+                            goldHover: '#E5C365',
+                            weapon: '#F97316',
+                            weaponGlow: 'rgba(249, 115, 22, 0.25)',
+                            spirit: '#A162F7',
+                            spiritGlow: 'rgba(161, 98, 247, 0.25)',
+                            vitality: '#4ADE80',
+                            vitalityGlow: 'rgba(74, 222, 128, 0.25)',
+                        }
+                    },
+                    fontFamily: {
+                        title: ['Cinzel', 'serif'],
+                        sans: ['Rajdhani', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background: radial-gradient(circle at center, #161a1f 0%, #090b0d 100%);
+            color: #E2E8F0;
+            font-family: 'Rajdhani', sans-serif;
+            user-select: none;
+        }
+
+        .font-title {
+            font-family: 'Cinzel', serif;
+        }
+
+        .glass-panel {
+            background: rgba(22, 26, 30, 0.88);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(209, 162, 61, 0.2);
+        }
+
+        .gold-border-glow {
+            box-shadow: 0 0 15px rgba(209, 162, 61, 0.2);
+        }
+
+        /* 3D Card Flip Animation */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .card-inner.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: 0.75rem;
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* Category Glows */
+        .card-weapon {
+            border: 1.5px solid rgba(249, 115, 22, 0.5);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5), inset 0 0 15px rgba(249, 115, 22, 0.1);
+        }
+
+        .card-spirit {
+            border: 1.5px solid rgba(161, 98, 247, 0.5);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5), inset 0 0 15px rgba(161, 98, 247, 0.1);
+        }
+
+        .card-vitality {
+            border: 1.5px solid rgba(74, 222, 128, 0.5);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5), inset 0 0 15px rgba(74, 222, 128, 0.1);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0F1215;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2A3038;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D1A23D;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between overflow-x-hidden">
+
+    <!-- Header / Navbar -->
+    <header class="w-full border-b border-[#2A3038] bg-[#0A0C0E]/90 px-6 py-4 flex items-center justify-between sticky top-0 z-50 backdrop-blur-md">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded border border-[#D1A23D] bg-[#161A1E] flex items-center justify-center text-[#D1A23D] shadow-md shadow-[#D1A23D]/10">
+                <i data-lucide="crosshair" class="w-6 h-6"></i>
+            </div>
+            <div>
+                <h1 class="font-title text-xl font-bold tracking-wider text-white flex items-center gap-2">
+                    DEADLOCK <span class="text-[#D1A23D] text-sm px-2 py-0.5 rounded bg-[#D1A23D]/10 border border-[#D1A23D]/30 font-sans">ITEM DRAFT 1v1</span>
+                </h1>
+                <p class="text-xs text-gray-400">Selección de Héroes, Imágenes Reales e Ítems por Build</p>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-4">
+            <button id="soundToggle" onclick="toggleSound()" class="p-2 rounded bg-[#161A1E] border border-[#2A3038] text-gray-300 hover:text-[#D1A23D] hover:border-[#D1A23D] transition flex items-center gap-2 text-sm">
+                <i id="soundIcon" data-lucide="volume-2" class="w-4 h-4"></i>
+                <span id="soundText" class="hidden sm:inline">Sonido: ON</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow container mx-auto px-4 py-6 flex items-center justify-center">
+
+        <!-- SCREEN 1: SETUP GAME & HERO SELECTION -->
+        <section id="setupScreen" class="w-full max-w-4xl glass-panel p-6 sm:p-8 rounded-xl gold-border-glow animate-fade-in">
+            <div class="text-center mb-6">
+                <h2 class="font-title text-3xl font-extrabold text-white tracking-wide mb-1">CONFIGURACIÓN DE PARTIDA</h2>
+                <p class="text-gray-400 text-sm">Personaliza la sala, elige héroes y configura tus rutas de imágenes o rondas.</p>
+            </div>
+
+            <form id="setupForm" onsubmit="startGame(event)" class="space-y-6">
+                <!-- Names -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-300 mb-1 flex items-center gap-2">
+                            <i data-lucide="user" class="w-4 h-4 text-[#F97316]"></i> Nombre Jugador 1
+                        </label>
+                        <input type="text" id="p1NameInput" value="Jugador 1" oninput="updatePlayerTabNames()" required
+                            class="w-full bg-[#0F1215] border border-[#2A3038] rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-[#F97316] transition font-sans">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-300 mb-1 flex items-center gap-2">
+                            <i data-lucide="user" class="w-4 h-4 text-[#A162F7]"></i> Nombre Jugador 2
+                        </label>
+                        <input type="text" id="p2NameInput" value="Jugador 2" oninput="updatePlayerTabNames()" required
+                            class="w-full bg-[#0F1215] border border-[#2A3038] rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-[#A162F7] transition font-sans">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Game Mode Selection -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-300 mb-1 flex items-center gap-2">
+                            <i data-lucide="help-circle" class="w-4 h-4 text-[#D1A23D]"></i> Modo de Revelación
+                        </label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button type="button" onclick="setMode('mystery')" id="btnModeMystery" class="mode-btn py-2.5 px-3 rounded-lg border border-[#D1A23D] bg-[#D1A23D]/20 text-[#D1A23D] font-bold text-xs text-center transition flex items-center justify-center gap-1.5">
+                                <i data-lucide="eye-off" class="w-4 h-4"></i> Oculta
+                            </button>
+                            <button type="button" onclick="setMode('normal')" id="btnModeNormal" class="mode-btn py-2.5 px-3 rounded-lg border border-[#2A3038] bg-[#0F1215] text-gray-400 font-bold text-xs text-center hover:border-[#D1A23D] transition flex items-center justify-center gap-1.5">
+                                <i data-lucide="eye" class="w-4 h-4"></i> Visible
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Rounds Selection -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-300 mb-1 flex items-center gap-2">
+                            <i data-lucide="layers" class="w-4 h-4 text-[#D1A23D]"></i> Rondas
+                        </label>
+                        <div class="grid grid-cols-4 gap-2">
+                            <button type="button" onclick="setRounds(3)" id="btnRound3" class="round-btn py-2.5 rounded-lg border border-[#D1A23D] bg-[#D1A23D]/20 text-[#D1A23D] font-bold text-center transition">3</button>
+                            <button type="button" onclick="setRounds(4)" id="btnRound4" class="round-btn py-2.5 rounded-lg border border-[#2A3038] bg-[#0F1215] text-gray-400 font-bold text-center hover:border-[#D1A23D] transition">4</button>
+                            <button type="button" onclick="setRounds(5)" id="btnRound5" class="round-btn py-2.5 rounded-lg border border-[#2A3038] bg-[#0F1215] text-gray-400 font-bold text-center hover:border-[#D1A23D] transition">5</button>
+                            <button type="button" onclick="setRounds(6)" id="btnRound6" class="round-btn py-2.5 rounded-lg border border-[#2A3038] bg-[#0F1215] text-gray-400 font-bold text-center hover:border-[#D1A23D] transition">6</button>
+                        </div>
+                    </div>
+
+                    <!-- Asset Source Selection -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-300 mb-1 flex items-center gap-2">
+                            <i data-lucide="image" class="w-4 h-4 text-[#D1A23D]"></i> Origen de Imágenes
+                        </label>
+                        <select id="assetPathSource" onchange="setAssetPath(this.value)" class="w-full bg-[#0F1215] border border-[#2A3038] text-white rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-[#D1A23D]">
+                            <option value="wiki">Wiki/Servidor Online (Auto)</option>
+                            <option value="local">Carpeta Local (assets/)</option>
+                            <option value="vector">Íconos Vectoriales (Offline)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- HERO SELECTION SECTION -->
+                <div class="pt-2 border-t border-[#2A3038]">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
+                        <div>
+                            <h3 class="font-title text-xl font-bold text-white flex items-center gap-2">
+                                <i data-lucide="users" class="w-5 h-5 text-[#D1A23D]"></i> SELECCIÓN DE HÉROES
+                            </h3>
+                            <p class="text-xs text-gray-400">Haz clic en una pestaña para asignar o cambiar el personaje de cada jugador.</p>
+                        </div>
+
+                        <!-- Player Active Switcher Tabs -->
+                        <div class="flex p-1 bg-[#0F1215] border border-[#2A3038] rounded-lg w-full sm:w-auto">
+                            <button type="button" onclick="setActiveSelectingPlayer(0)" id="tabP1" class="flex-1 sm:flex-initial py-1.5 px-4 rounded-md font-bold text-xs transition flex items-center justify-center gap-2 bg-[#F97316] text-black">
+                                <span class="w-2 h-2 rounded-full bg-black"></span>
+                                <span id="tabP1Text">Jugador 1: Sin elegir</span>
+                            </button>
+                            <button type="button" onclick="setActiveSelectingPlayer(1)" id="tabP2" class="flex-1 sm:flex-initial py-1.5 px-4 rounded-md font-bold text-xs transition flex items-center justify-center gap-2 text-gray-400 hover:text-white">
+                                <span class="w-2 h-2 rounded-full bg-gray-500"></span>
+                                <span id="tabP2Text">Jugador 2: Sin elegir</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Selected Heroes Banner Preview -->
+                    <div class="grid grid-cols-2 gap-4 mb-4 p-3 bg-[#0F1215]/80 rounded-xl border border-[#2A3038]">
+                        <div id="p1ChoicePreview" class="flex items-center space-x-3 p-2 rounded-lg border border-[#F97316]/30 bg-[#F97316]/10 overflow-hidden">
+                            <div id="p1HeroImgBox" class="w-12 h-12 rounded-lg bg-[#F97316]/20 border border-[#F97316] flex items-center justify-center font-title font-bold text-[#F97316] text-lg overflow-hidden shrink-0">
+                                ?
+                            </div>
+                            <div class="overflow-hidden">
+                                <div class="text-[10px] text-[#F97316] font-bold tracking-wider uppercase">JUGADOR 1</div>
+                                <div id="p1HeroNameDisplay" class="font-bold text-white text-sm truncate">Ninguno seleccionado</div>
+                            </div>
+                        </div>
+
+                        <div id="p2ChoicePreview" class="flex items-center space-x-3 p-2 rounded-lg border border-[#2A3038] bg-[#161A1E] overflow-hidden">
+                            <div id="p2HeroImgBox" class="w-12 h-12 rounded-lg bg-[#2A3038] border border-gray-600 flex items-center justify-center font-title font-bold text-gray-400 text-lg overflow-hidden shrink-0">
+                                ?
+                            </div>
+                            <div class="overflow-hidden">
+                                <div class="text-[10px] text-[#A162F7] font-bold tracking-wider uppercase">JUGADOR 2</div>
+                                <div id="p2HeroNameDisplay" class="font-bold text-white text-sm truncate">Ninguno seleccionado</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hero Grid (44 Heroes) -->
+                    <div id="heroGrid" class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2 max-h-[240px] overflow-y-auto p-2 bg-[#0F1215] rounded-xl border border-[#2A3038]">
+                        <!-- Rendered dynamically -->
+                    </div>
+                </div>
+
+                <!-- Start Button (Disabled until both heroes selected) -->
+                <button type="submit" id="btnStartGame" disabled
+                    class="w-full py-4 mt-2 bg-gray-800 text-gray-500 cursor-not-allowed font-title font-bold text-xl rounded-lg border border-[#2A3038] flex items-center justify-center gap-2">
+                    <i data-lucide="shield-alert" class="w-6 h-6"></i> SELECCIONA AMBOS HÉROES PARA INICIAR
+                </button>
+            </form>
+        </section>
+
+        <!-- SCREEN 2: DRAFTING BOARD -->
+        <section id="draftScreen" class="w-full max-w-6xl hidden flex-col space-y-6">
+            
+            <!-- Turn & Game Progress Status Header -->
+            <div class="glass-panel p-4 rounded-xl flex flex-col md:flex-row items-center justify-between gap-4 border-l-4" id="turnHeaderBanner">
+                <div class="flex items-center space-x-4">
+                    <div id="playerAvatar" class="w-14 h-14 rounded-lg bg-[#D1A23D]/20 border border-[#D1A23D] flex items-center justify-center text-[#D1A23D] font-bold text-xl font-title overflow-hidden shrink-0">
+                        ?
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs tracking-widest text-gray-400 uppercase">TURNO ACTUAL</span>
+                            <span id="playerHeroBadge" class="text-[10px] font-bold px-2 py-0.5 rounded bg-[#D1A23D]/20 text-[#D1A23D] border border-[#D1A23D]/30">HEROE</span>
+                        </div>
+                        <h2 id="currentPlayerTurnText" class="text-2xl font-bold font-title text-white">Jugador 1</h2>
+                    </div>
+                </div>
+
+                <!-- Round Tracker -->
+                <div class="flex items-center gap-6 bg-[#0F1215] px-6 py-2 rounded-lg border border-[#2A3038]">
+                    <div class="text-center">
+                        <span class="text-xs text-gray-400 block">RONDA</span>
+                        <span id="currentRoundDisplay" class="font-title text-xl text-[#D1A23D] font-bold">1 / 3</span>
+                    </div>
+                    <div class="h-8 w-px bg-[#2A3038]"></div>
+                    <div class="text-center">
+                        <span class="text-xs text-gray-400 block">ÍTEMS ELEGIDOS</span>
+                        <span id="itemsPickedDisplay" class="font-title text-xl text-white font-bold">0 / 6</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Choice Hint -->
+            <div class="text-center">
+                <p id="draftInstructionText" class="text-gray-300 font-semibold text-lg flex items-center justify-center gap-2">
+                    <i data-lucide="sparkles" class="w-5 h-5 text-[#D1A23D]"></i> Selecciona una carta para descubrir tu ítem:
+                </p>
+            </div>
+
+            <!-- 3 Item Cards Container -->
+            <div id="cardsContainer" class="grid grid-cols-1 md:grid-cols-3 gap-6 my-4 min-h-[380px]">
+                <!-- Dynamically generated cards via JS -->
+            </div>
+
+            <!-- Current Inventories Quick View -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+                <!-- P1 Inventory Preview -->
+                <div class="glass-panel p-4 rounded-xl border-t-2 border-[#F97316]">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 id="p1InvTitle" class="font-bold text-white font-title flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-[#F97316]"></span> Jugador 1
+                        </h3>
+                        <span id="p1CostBadge" class="text-xs px-2.5 py-1 rounded bg-[#0F1215] border border-[#2A3038] text-[#D1A23D] font-mono">0 Almas</span>
+                    </div>
+                    <div id="p1MiniList" class="flex flex-wrap gap-2 min-h-[48px] p-2 bg-[#0F1215]/60 rounded-lg border border-[#2A3038]/50">
+                        <span class="text-xs text-gray-500 italic p-1">Sin ítems aún...</span>
+                    </div>
+                </div>
+
+                <!-- P2 Inventory Preview -->
+                <div class="glass-panel p-4 rounded-xl border-t-2 border-[#A162F7]">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 id="p2InvTitle" class="font-bold text-white font-title flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-[#A162F7]"></span> Jugador 2
+                        </h3>
+                        <span id="p2CostBadge" class="text-xs px-2.5 py-1 rounded bg-[#0F1215] border border-[#2A3038] text-[#D1A23D] font-mono">0 Almas</span>
+                    </div>
+                    <div id="p2MiniList" class="flex flex-wrap gap-2 min-h-[48px] p-2 bg-[#0F1215]/60 rounded-lg border border-[#2A3038]/50">
+                        <span class="text-xs text-gray-500 italic p-1">Sin ítems aún...</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MODAL: ITEM REVEAL ANNOUNCEMENT -->
+        <div id="revealModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
+            <div class="glass-panel max-w-md w-full p-6 rounded-2xl border-2 border-[#D1A23D] shadow-2xl shadow-[#D1A23D]/20 text-center transform scale-90 transition-transform duration-300" id="revealModalBox">
+                <div class="inline-flex p-3 rounded-full bg-[#D1A23D]/10 border border-[#D1A23D] text-[#D1A23D] mb-4 animate-bounce">
+                    <i data-lucide="sparkles" class="w-8 h-8"></i>
+                </div>
+                
+                <h3 class="font-title text-xl text-gray-300 mb-1" id="revealPlayerTitle">¡TE TOCÓ UN ÍTEM!</h3>
+                <h2 class="font-title text-3xl font-black text-white mb-2" id="revealItemName">Nombre del Ítem</h2>
+                
+                <!-- Hero Build Match Badge -->
+                <div id="revealHeroMatchBadge" class="inline-block text-xs font-bold px-3 py-1 rounded-full bg-[#D1A23D]/20 text-[#D1A23D] border border-[#D1A23D]/40 mb-4 hidden">
+                    ★ RECOMENDADO PARA TU HÉROE
+                </div>
+
+                <!-- Reveal Card Box -->
+                <div id="revealCardBox" class="p-6 rounded-xl bg-[#0F1215] border mb-6 flex flex-col items-center justify-center">
+                    <div id="revealItemIconBox" class="w-24 h-24 rounded-2xl bg-[#161A1E] border flex items-center justify-center mb-3 shadow-inner overflow-hidden">
+                        <!-- Loaded dynamically -->
+                    </div>
+                    <span id="revealItemCategory" class="text-xs px-3 py-1 rounded-full font-bold tracking-wider mb-2">ARMAS</span>
+                    <span id="revealItemTier" class="text-sm font-mono text-[#D1A23D] font-bold">Tier 1 (800 Almas)</span>
+                </div>
+
+                <button onclick="confirmItemAndNext()" class="w-full py-4 bg-gradient-to-r from-[#D1A23D] to-[#E5C365] text-black font-title font-bold text-lg rounded-xl shadow-lg hover:shadow-[#D1A23D]/30 transition transform active:scale-95 flex items-center justify-center gap-2">
+                    CONTINUAR <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- SCREEN 3: SUMMARY / VICTORY -->
+        <section id="summaryScreen" class="w-full max-w-5xl hidden flex-col space-y-6 animate-fade-in">
+            <!-- Header Banner -->
+            <div class="text-center glass-panel p-6 rounded-xl border-b-4 border-[#D1A23D]">
+                <div class="inline-flex p-3 rounded-full bg-[#D1A23D]/10 border border-[#D1A23D] text-[#D1A23D] mb-3">
+                    <i data-lucide="trophy" class="w-8 h-8"></i>
+                </div>
+                <h2 class="font-title text-3xl font-extrabold text-white">¡DRAFT FINALIZADO!</h2>
+                <p class="text-gray-400 text-sm mt-1">Comparación de Builds de los Jugadores</p>
+            </div>
+
+            <!-- Both Player Inventories Full View -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- P1 Full Summary -->
+                <div class="glass-panel p-6 rounded-xl border border-[#2A3038] flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start border-b border-[#2A3038] pb-4 mb-4">
+                            <div class="flex items-center space-x-3">
+                                <div id="p1SummaryAvatar" class="w-12 h-12 rounded-lg bg-[#F97316]/20 border border-[#F97316] flex items-center justify-center overflow-hidden shrink-0 font-title font-bold text-[#F97316]">
+                                    ?
+                                </div>
+                                <div>
+                                    <span id="p1SummaryHeroBadge" class="text-[10px] font-bold px-2 py-0.5 rounded bg-[#F97316]/20 text-[#F97316] border border-[#F97316]/30 uppercase">HEROE</span>
+                                    <h3 id="p1SummaryName" class="font-title text-xl font-bold text-white mt-0.5">Jugador 1</h3>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-xs text-gray-400 block">VALOR TOTAL</span>
+                                <span id="p1TotalCost" class="text-xl font-bold font-mono text-[#D1A23D]">0 Almas</span>
+                            </div>
+                        </div>
+
+                        <!-- Category Breakdown Bars -->
+                        <div class="space-y-2 mb-6">
+                            <div class="flex justify-between text-xs text-gray-400">
+                                <span>Armas (<span id="p1WeaponCount">0</span>)</span>
+                                <span>Espíritu (<span id="p1SpiritCount">0</span>)</span>
+                                <span>Vitalidad (<span id="p1VitalityCount">0</span>)</span>
+                            </div>
+                            <div class="h-2 rounded-full bg-[#0F1215] flex overflow-hidden border border-[#2A3038]">
+                                <div id="p1WeaponBar" class="bg-[#F97316] h-full transition-all" style="width: 33%"></div>
+                                <div id="p1SpiritBar" class="bg-[#A162F7] h-full transition-all" style="width: 33%"></div>
+                                <div id="p1VitalityBar" class="bg-[#4ADE80] h-full transition-all" style="width: 34%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Full Item List P1 -->
+                        <div id="p1FullList" class="space-y-2 max-h-[320px] overflow-y-auto pr-2">
+                            <!-- Items inserted dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- P2 Full Summary -->
+                <div class="glass-panel p-6 rounded-xl border border-[#2A3038] flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start border-b border-[#2A3038] pb-4 mb-4">
+                            <div class="flex items-center space-x-3">
+                                <div id="p2SummaryAvatar" class="w-12 h-12 rounded-lg bg-[#A162F7]/20 border border-[#A162F7] flex items-center justify-center overflow-hidden shrink-0 font-title font-bold text-[#A162F7]">
+                                    ?
+                                </div>
+                                <div>
+                                    <span id="p2SummaryHeroBadge" class="text-[10px] font-bold px-2 py-0.5 rounded bg-[#A162F7]/20 text-[#A162F7] border border-[#A162F7]/30 uppercase">HEROE</span>
+                                    <h3 id="p2SummaryName" class="font-title text-xl font-bold text-white mt-0.5">Jugador 2</h3>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-xs text-gray-400 block">VALOR TOTAL</span>
+                                <span id="p2TotalCost" class="text-xl font-bold font-mono text-[#D1A23D]">0 Almas</span>
+                            </div>
+                        </div>
+
+                        <!-- Category Breakdown Bars -->
+                        <div class="space-y-2 mb-6">
+                            <div class="flex justify-between text-xs text-gray-400">
+                                <span>Armas (<span id="p2WeaponCount">0</span>)</span>
+                                <span>Espíritu (<span id="p2SpiritCount">0</span>)</span>
+                                <span>Vitalidad (<span id="p2VitalityCount">0</span>)</span>
+                            </div>
+                            <div class="h-2 rounded-full bg-[#0F1215] flex overflow-hidden border border-[#2A3038]">
+                                <div id="p2WeaponBar" class="bg-[#F97316] h-full transition-all" style="width: 33%"></div>
+                                <div id="p2SpiritBar" class="bg-[#A162F7] h-full transition-all" style="width: 33%"></div>
+                                <div id="p2VitalityBar" class="bg-[#4ADE80] h-full transition-all" style="width: 34%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Full Item List P2 -->
+                        <div id="p2FullList" class="space-y-2 max-h-[320px] overflow-y-auto pr-2">
+                            <!-- Items inserted dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex flex-col sm:flex-row justify-center gap-4 pt-4">
+                <button onclick="copyBuildsToClipboard()" class="py-3 px-6 bg-[#161A1E] hover:bg-[#2A3038] border border-[#2A3038] hover:border-[#D1A23D] text-white font-bold rounded-lg transition flex items-center justify-center gap-2">
+                    <i data-lucide="copy" class="w-5 h-5 text-[#D1A23D]"></i> Copiar Resumen de Builds
+                </button>
+                <button onclick="resetGame()" class="py-3 px-8 bg-gradient-to-r from-[#D1A23D] to-[#E5C365] text-black font-title font-bold rounded-lg shadow-lg hover:shadow-[#D1A23D]/30 transition flex items-center justify-center gap-2">
+                    <i data-lucide="rotate-ccw" class="w-5 h-5"></i> Jugar Otra Vez
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Notification Toast Box -->
+    <div id="toast" class="fixed bottom-6 right-6 bg-[#161A1E] border border-[#D1A23D] text-white px-5 py-3 rounded-lg shadow-xl translate-y-20 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-3 z-50">
+        <i data-lucide="info" class="w-5 h-5 text-[#D1A23D]"></i>
+        <span id="toastMsg" class="text-sm font-semibold">Mensaje</span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full border-t border-[#2A3038] bg-[#0A0C0E] py-3 text-center text-xs text-gray-500">
+        Deadlock Item Draft &bull; Basado en los personajes e ítems oficiales de Deadlock
+    </footer>
+
+    <!-- App Logic Script -->
+    <script>
+        /* ==================== ASSET IMAGE HANDLERS & MAPPING ==================== */
+        let assetSource = "wiki"; // "wiki", "local", "vector"
+
+        function getHeroImageUrl(heroName) {
+            if (assetSource === "vector") return null;
+            const formatted = heroName.replace(/ /g, "_");
+            if (assetSource === "local") {
+                return `assets/heroes/${formatted.toLowerCase()}.png`;
+            }
+            // Online Wiki CDN
+            return `https://deadlock.wiki/images/thumb/${formatted}_card.png/120px-${formatted}_card.png`;
+        }
+
+        function getItemImageUrl(itemName) {
+            if (assetSource === "vector") return null;
+            const formatted = itemName.replace(/ /g, "_");
+            if (assetSource === "local") {
+                return `assets/items/${formatted.toLowerCase()}.png`;
+            }
+            // Online Wiki CDN
+            return `https://deadlock.wiki/images/thumb/${formatted}_item.png/100px-${formatted}_item.png`;
+        }
+
+        /* Helper function to generate an <img> tag with smart error fallback to SVG icons */
+        function createFallbackImageHTML(src, fallbackCharOrIcon, altText, extraClasses = "w-full h-full object-cover") {
+            if (!src) {
+                return `<div class="w-full h-full flex items-center justify-center font-bold">${fallbackCharOrIcon}</div>`;
+            }
+            return `<img src="${src}" alt="${altText}" class="${extraClasses}" onerror="this.onerror=null; this.parentNode.innerHTML='<div class=\'w-full h-full flex items-center justify-center font-bold\'>${fallbackCharOrIcon}</div>';">`;
+        }
+
+        /* ==================== HEROES & BUILD PROFILE WEIGHTS ==================== */
+        const HERO_BUILDS = {
+            "Victor": { focus: "Espíritu", core: ["Extra Spirit", "Extra Regen", "Mystic Expansion", "Radiant Regeneration", "Infuser", "Superior Cooldown", "Refresher", "Escalating Exposure", "Boundless Spirit"] },
+            "Haze": { focus: "Armas", core: ["Headshot Booster", "High-Velocity Rounds", "Active Reload", "Kinetic Dash", "Long Range", "Ricochet", "Glass Cannon", "Silencer", "Lucky Shot"] },
+            "Abrams": { focus: "Vitalidad", core: ["Melee Lifesteal", "Extra Health", "Restorative Locket", "Melee Charge", "Lifestrike", "Colossus", "Phantom Strike", "Plated Armor"] },
+            "Seven": { focus: "Espíritu", core: ["Mystic Burst", "Extra Charge", "Compress Cooldown", "Mystic Slow", "Boundless Spirit", "Echo Shard", "Tesla Bullets"] },
+            "Infernus": { focus: "Armas", core: ["Toxic Bullets", "Alchemical Fire", "Spirit Shredder", "Rapid Rounds", "Ricochet", "Leech"] },
+            "Dynamo": { focus: "Espíritu", core: ["Extra Spirit", "Healing Nova", "Superior Cooldown", "Refresher", "Quantum Entanglement", "Majestic Leap"] },
+            "Kelvin": { focus: "Vitalidad", core: ["Extra Health", "Cold Front", "Enduring Speed", "Fortitude", "Arctic Blast", "Frozen Shelter"] },
+            "Yamato": { focus: "Espíritu", core: ["Extra Spirit", "Mystic Burst", "Spirit Strike", "Refresher", "Shadow Weave", "Boundless Spirit"] },
+            "Vindicta": { focus: "Armas", core: ["High-Velocity Rounds", "Long Range", "Sharpshooter", "Glass Cannon", "Headhunter"] },
+            "Wraith": { focus: "Armas", core: ["Rapid Rounds", "Active Reload", "Titanic Magazine", "Tesla Bullets", "Ricochet"] }
+        };
+
+        const HEROES_ROSTER = [
+            "Abrams", "Apollo", "Baba", "Bebop", "Billy", "Calico", "Celeste", "Deadman Danny",
+            "The Doorman", "Drifter", "Dynamo", "Graves", "Grey Talon", "Haze", "Holliday", "Infernus",
+            "Ivy", "Kelvin", "Lady Geist", "Lash", "McGinnis", "Mina", "Mirage", "Mo & Krill",
+            "Nurse Harrow", "Paige", "Paradox", "Pocket", "Rat King", "Rem", "Seven", "Shiv",
+            "Silver", "Sinclair", "Solomon", "Venator", "Victor", "Vindicta", "Violet", "Viscous",
+            "Vyper", "Warden", "Wraith", "Yamato"
+        ];
+
+        /* ==================== DEADLOCK ITEMS DATABASE ==================== */
+        const DEADLOCK_DATABASE = [
+            // TIER 1 (800)
+            { id: "w_1_1", name: "Close Quarters", category: "Armas", tier: 1, cost: 800, icon: "crosshair" },
+            { id: "w_1_2", name: "Extended Magazine", category: "Armas", tier: 1, cost: 800, icon: "layers" },
+            { id: "w_1_3", name: "Headshot Booster", category: "Armas", tier: 1, cost: 800, icon: "target" },
+            { id: "w_1_4", name: "High-Velocity Rounds", category: "Armas", tier: 1, cost: 800, icon: "zap" },
+            { id: "w_1_5", name: "Monster Rounds", category: "Armas", tier: 1, cost: 800, icon: "skull" },
+            { id: "w_1_6", name: "Rapid Rounds", category: "Armas", tier: 1, cost: 800, icon: "wind" },
+            { id: "w_1_7", name: "Restorative Shot", category: "Armas", tier: 1, cost: 800, icon: "heart-pulse" },
+
+            { id: "s_1_1", name: "Extra Charge", category: "Espíritu", tier: 1, cost: 800, icon: "battery-charging" },
+            { id: "s_1_2", name: "Extra Spirit", category: "Espíritu", tier: 1, cost: 800, icon: "sparkles" },
+            { id: "s_1_3", name: "Golden Goose Egg", category: "Espíritu", tier: 1, cost: 800, icon: "egg" },
+            { id: "s_1_4", name: "Mystic Burst", category: "Espíritu", tier: 1, cost: 800, icon: "flame" },
+            { id: "s_1_5", name: "Mystic Expansion", category: "Espíritu", tier: 1, cost: 800, icon: "maximize-2" },
+            { id: "s_1_6", name: "Mystic Regeneration", category: "Espíritu", tier: 1, cost: 800, icon: "refresh-cw" },
+            { id: "s_1_7", name: "Rusted Barrel", category: "Espíritu", tier: 1, cost: 800, icon: "shield" },
+            { id: "s_1_8", name: "Spirit Strike", category: "Espíritu", tier: 1, cost: 800, icon: "sword" },
+
+            { id: "v_1_1", name: "Extra Health", category: "Vitalidad", tier: 1, cost: 800, icon: "heart" },
+            { id: "v_1_2", name: "Extra Regen", category: "Vitalidad", tier: 1, cost: 800, icon: "plus-circle" },
+            { id: "v_1_3", name: "Extra Stamina", category: "Vitalidad", tier: 1, cost: 800, icon: "gauge" },
+            { id: "v_1_4", name: "Grit", category: "Vitalidad", tier: 1, cost: 800, icon: "shield-alert" },
+            { id: "v_1_5", name: "Healing Rite", category: "Vitalidad", tier: 1, cost: 800, icon: "sparkle" },
+            { id: "v_1_6", name: "Melee Lifesteal", category: "Vitalidad", tier: 1, cost: 800, icon: "droplet" },
+            { id: "v_1_7", name: "Rebuttal", category: "Vitalidad", tier: 1, cost: 800, icon: "swords" },
+            { id: "v_1_8", name: "Sprint Boots", category: "Vitalidad", tier: 1, cost: 800, icon: "footprints" },
+
+            // TIER 2 (1600)
+            { id: "w_2_1", name: "Active Reload", category: "Armas", tier: 2, cost: 1600, icon: "rotate-cw" },
+            { id: "w_2_2", name: "Fleetfoot", category: "Armas", tier: 2, cost: 1600, icon: "footprints" },
+            { id: "w_2_3", name: "Intensifying Magazine", category: "Armas", tier: 2, cost: 1600, icon: "trending-up" },
+            { id: "w_2_4", name: "Kinetic Dash", category: "Armas", tier: 2, cost: 1600, icon: "fast-forward" },
+            { id: "w_2_5", name: "Long Range", category: "Armas", tier: 2, cost: 1600, icon: "eye" },
+            { id: "w_2_6", name: "Melee Charge", category: "Armas", tier: 2, cost: 1600, icon: "zap" },
+            { id: "w_2_7", name: "Mystic Shot", category: "Armas", tier: 2, cost: 1600, icon: "wand2" },
+            { id: "w_2_8", name: "Opening Rounds", category: "Armas", tier: 2, cost: 1600, icon: "play" },
+            { id: "w_2_9", name: "Recharging Rush", category: "Armas", tier: 2, cost: 1600, icon: "battery-charging" },
+            { id: "w_2_10", name: "Slowing Bullets", category: "Armas", tier: 2, cost: 1600, icon: "clock" },
+            { id: "w_2_11", name: "Spirit Shredder", category: "Armas", tier: 2, cost: 1600, icon: "scissors" },
+            { id: "w_2_12", name: "Split Shot", category: "Armas", tier: 2, cost: 1600, icon: "git-fork" },
+            { id: "w_2_13", name: "Stalker", category: "Armas", tier: 2, cost: 1600, icon: "ghost" },
+            { id: "w_2_14", name: "Swift Striker", category: "Armas", tier: 2, cost: 1600, icon: "swords" },
+            { id: "w_2_15", name: "Titanic Magazine", category: "Armas", tier: 2, cost: 1600, icon: "box" },
+            { id: "w_2_16", name: "Weakening Headshot", category: "Armas", tier: 2, cost: 1600, icon: "target" },
+
+            { id: "s_2_1", name: "Arcane Surge", category: "Espíritu", tier: 2, cost: 1600, icon: "activity" },
+            { id: "s_2_2", name: "Bullet Resist Shredder", category: "Espíritu", tier: 2, cost: 1600, icon: "shield-off" },
+            { id: "s_2_3", name: "Cold Front", category: "Espíritu", tier: 2, cost: 1600, icon: "snowflake" },
+            { id: "s_2_4", name: "Compress Cooldown", category: "Espíritu", tier: 2, cost: 1600, icon: "timer" },
+            { id: "s_2_5", name: "Duration Extender", category: "Espíritu", tier: 2, cost: 1600, icon: "hourglass" },
+            { id: "s_2_6", name: "Improved Spirit", category: "Espíritu", tier: 2, cost: 1600, icon: "sparkles" },
+            { id: "s_2_7", name: "Mystic Slow", category: "Espíritu", tier: 2, cost: 1600, icon: "cloud-snow" },
+            { id: "s_2_8", name: "Mystic Vulnerability", category: "Espíritu", tier: 2, cost: 1600, icon: "alert-triangle" },
+            { id: "s_2_9", name: "Quicksilver Reload", category: "Espíritu", tier: 2, cost: 1600, icon: "zap" },
+            { id: "s_2_10", name: "Slowing Hex", category: "Espíritu", tier: 2, cost: 1600, icon: "disc" },
+            { id: "s_2_11", name: "Spirit Sap", category: "Espíritu", tier: 2, cost: 1600, icon: "droplets" },
+            { id: "s_2_12", name: "Suppressor", category: "Espíritu", tier: 2, cost: 1600, icon: "volume-x" },
+
+            { id: "v_2_1", name: "Battle Vest", category: "Vitalidad", tier: 2, cost: 1600, icon: "shirt" },
+            { id: "v_2_2", name: "Bullet Lifesteal", category: "Vitalidad", tier: 2, cost: 1600, icon: "heart-handshake" },
+            { id: "v_2_3", name: "Debuff Reducer", category: "Vitalidad", tier: 2, cost: 1600, icon: "shield-check" },
+            { id: "v_2_4", name: "Enchanter's Emblem", category: "Vitalidad", tier: 2, cost: 1600, icon: "award" },
+            { id: "v_2_5", name: "Enduring Speed", category: "Vitalidad", tier: 2, cost: 1600, icon: "footprints" },
+            { id: "v_2_6", name: "Guardian Ward", category: "Vitalidad", tier: 2, cost: 1600, icon: "shield" },
+            { id: "v_2_7", name: "Healbane", category: "Vitalidad", tier: 2, cost: 1600, icon: "skull" },
+            { id: "v_2_8", name: "Healing Booster", category: "Vitalidad", tier: 2, cost: 1600, icon: "heart-pulse" },
+            { id: "v_2_9", name: "Reactive Barrier", category: "Vitalidad", tier: 2, cost: 1600, icon: "shield" },
+            { id: "v_2_10", name: "Restorative Locket", category: "Vitalidad", tier: 2, cost: 1600, icon: "gem" },
+            { id: "v_2_11", name: "Return Fire", category: "Vitalidad", tier: 2, cost: 1600, icon: "corner-up-left" },
+            { id: "v_2_12", name: "Spirit Lifesteal", category: "Vitalidad", tier: 2, cost: 1600, icon: "heart" },
+            { id: "v_2_13", name: "Spirit Shielding", category: "Vitalidad", tier: 2, cost: 1600, icon: "shield-ellipsis" },
+            { id: "v_2_14", name: "Trophy Collector", category: "Vitalidad", tier: 2, cost: 1600, icon: "trophy" },
+            { id: "v_2_15", name: "Weapon Shielding", category: "Vitalidad", tier: 2, cost: 1600, icon: "shield" },
+
+            // TIER 3 (3200)
+            { id: "w_3_1", name: "Alchemical Fire", category: "Armas", tier: 3, cost: 3200, icon: "flame" },
+            { id: "w_3_2", name: "Ballistic Enchantment", category: "Armas", tier: 3, cost: 3200, icon: "sparkles" },
+            { id: "w_3_3", name: "Berserker", category: "Armas", tier: 3, cost: 3200, icon: "swords" },
+            { id: "w_3_4", name: "Blood Tribute", category: "Armas", tier: 3, cost: 3200, icon: "droplet" },
+            { id: "w_3_5", name: "Burst Fire", category: "Armas", tier: 3, cost: 3200, icon: "zap" },
+            { id: "w_3_6", name: "Cultist Sacrifice", category: "Armas", tier: 3, cost: 3200, icon: "skull" },
+            { id: "w_3_7", name: "Escalating Resilience", category: "Armas", tier: 3, cost: 3200, icon: "trending-up" },
+            { id: "w_3_8", name: "Express Shot", category: "Armas", tier: 3, cost: 3200, icon: "fast-forward" },
+            { id: "w_3_9", name: "Headhunter", category: "Armas", tier: 3, cost: 3200, icon: "crosshair" },
+            { id: "w_3_10", name: "Heroic Aura", category: "Armas", tier: 3, cost: 3200, icon: "sun" },
+            { id: "w_3_11", name: "Hollow Point", category: "Armas", tier: 3, cost: 3200, icon: "circle" },
+            { id: "w_3_12", name: "Hunter's Aura", category: "Armas", tier: 3, cost: 3200, icon: "eye" },
+            { id: "w_3_13", name: "Point Blank", category: "Armas", tier: 3, cost: 3200, icon: "target" },
+            { id: "w_3_14", name: "Shadow Weave", category: "Armas", tier: 3, cost: 3200, icon: "cloud" },
+            { id: "w_3_15", name: "Sharpshooter", category: "Armas", tier: 3, cost: 3200, icon: "crosshair" },
+            { id: "w_3_16", name: "Spirit Rend", category: "Armas", tier: 3, cost: 3200, icon: "scissors" },
+            { id: "w_3_17", name: "Tesla Bullets", category: "Armas", tier: 3, cost: 3200, icon: "zap" },
+            { id: "w_3_18", name: "Toxic Bullets", category: "Armas", tier: 3, cost: 3200, icon: "biohazard" },
+            { id: "w_3_19", name: "Weighted Shots", category: "Armas", tier: 3, cost: 3200, icon: "anchor" },
+
+            { id: "s_3_1", name: "Decay", category: "Espíritu", tier: 3, cost: 3200, icon: "skull" },
+            { id: "s_3_2", name: "Disarming Hex", category: "Espíritu", tier: 3, cost: 3200, icon: "lock" },
+            { id: "s_3_3", name: "Greater Expansion", category: "Espíritu", tier: 3, cost: 3200, icon: "maximize" },
+            { id: "s_3_4", name: "Knockdown", category: "Espíritu", tier: 3, cost: 3200, icon: "arrow-down-circle" },
+            { id: "s_3_5", name: "Radiant Regeneration", category: "Espíritu", tier: 3, cost: 3200, icon: "sun" },
+            { id: "s_3_6", name: "Rapid Recharge", category: "Espíritu", tier: 3, cost: 3200, icon: "battery-charging" },
+            { id: "s_3_7", name: "Silence Wave", category: "Espíritu", tier: 3, cost: 3200, icon: "volume-x" },
+            { id: "s_3_8", name: "Spirit Snatch", category: "Espíritu", tier: 3, cost: 3200, icon: "ghost" },
+            { id: "s_3_9", name: "Superior Cooldown", category: "Espíritu", tier: 3, cost: 3200, icon: "clock" },
+            { id: "s_3_10", name: "Superior Duration", category: "Espíritu", tier: 3, cost: 3200, icon: "hourglass" },
+            { id: "s_3_11", name: "Surge of Power", category: "Espíritu", tier: 3, cost: 3200, icon: "bolt" },
+            { id: "s_3_12", name: "Tankbuster", category: "Espíritu", tier: 3, cost: 3200, icon: "bomb" },
+            { id: "s_3_13", name: "Torment Pulse", category: "Espíritu", tier: 3, cost: 3200, icon: "radio" },
+
+            { id: "v_3_1", name: "Bullet Resilience", category: "Vitalidad", tier: 3, cost: 3200, icon: "shield" },
+            { id: "v_3_2", name: "Counterspell", category: "Vitalidad", tier: 3, cost: 3200, icon: "shield-off" },
+            { id: "v_3_3", name: "Dispel Magic", category: "Vitalidad", tier: 3, cost: 3200, icon: "wand" },
+            { id: "v_3_4", name: "Fortitude", category: "Vitalidad", tier: 3, cost: 3200, icon: "heart-pulse" },
+            { id: "v_3_5", name: "Fury Trance", category: "Vitalidad", tier: 3, cost: 3200, icon: "flame" },
+            { id: "v_3_6", name: "Healing Nova", category: "Vitalidad", tier: 3, cost: 3200, icon: "sparkles" },
+            { id: "v_3_7", name: "Lifestrike", category: "Vitalidad", tier: 3, cost: 3200, icon: "heart" },
+            { id: "v_3_8", name: "Majestic Leap", category: "Vitalidad", tier: 3, cost: 3200, icon: "arrow-up-circle" },
+            { id: "v_3_9", name: "Metal Skin", category: "Vitalidad", tier: 3, cost: 3200, icon: "shield" },
+            { id: "v_3_10", name: "Rescue Beam", category: "Vitalidad", tier: 3, cost: 3200, icon: "life-buoy" },
+            { id: "v_3_11", name: "Spirit Resilience", category: "Vitalidad", tier: 3, cost: 3200, icon: "shield" },
+            { id: "v_3_12", name: "Stamina Mastery", category: "Vitalidad", tier: 3, cost: 3200, icon: "zap" },
+            { id: "v_3_13", name: "Veil Walker", category: "Vitalidad", tier: 3, cost: 3200, icon: "footprints" },
+            { id: "v_3_14", name: "Warp Stone", category: "Vitalidad", tier: 3, cost: 3200, icon: "navigation" },
+
+            // TIER 4 (6400)
+            { id: "w_4_1", name: "Armor Piercer", category: "Armas", tier: 4, cost: 6400, icon: "crosshair" },
+            { id: "w_4_2", name: "Capacitor", category: "Armas", tier: 4, cost: 6400, icon: "battery-charging" },
+            { id: "w_4_3", name: "Crippling Headshot", category: "Armas", tier: 4, cost: 6400, icon: "target" },
+            { id: "w_4_4", name: "Crushing Fists", category: "Armas", tier: 4, cost: 6400, icon: "swords" },
+            { id: "w_4_5", name: "Frenzy", category: "Armas", tier: 4, cost: 6400, icon: "flame" },
+            { id: "w_4_6", name: "Glass Cannon", category: "Armas", tier: 4, cost: 6400, icon: "sparkles" },
+            { id: "w_4_7", name: "Lucky Shot", category: "Armas", tier: 4, cost: 6400, icon: "clover" },
+            { id: "w_4_8", name: "Ricochet", category: "Armas", tier: 4, cost: 6400, icon: "git-commit" },
+            { id: "w_4_9", name: "Silencer", category: "Armas", tier: 4, cost: 6400, icon: "volume-x" },
+            { id: "w_4_10", name: "Spellslinger", category: "Armas", tier: 4, cost: 6400, icon: "wand2" },
+            { id: "w_4_11", name: "Spiritual Overflow", category: "Armas", tier: 4, cost: 6400, icon: "sun" },
+
+            { id: "s_4_1", name: "Arctic Blast", category: "Espíritu", tier: 4, cost: 6400, icon: "snowflake" },
+            { id: "s_4_2", name: "Boundless Spirit", category: "Espíritu", tier: 4, cost: 6400, icon: "infinity" },
+            { id: "s_4_3", name: "Cursed Relic", category: "Espíritu", tier: 4, cost: 6400, icon: "skull" },
+            { id: "s_4_4", name: "Echo Shard", category: "Espíritu", tier: 4, cost: 6400, icon: "layers" },
+            { id: "s_4_5", name: "Escalating Exposure", category: "Espíritu", tier: 4, cost: 6400, icon: "trending-up" },
+            { id: "s_4_6", name: "Ethereal Shift", category: "Espíritu", tier: 4, cost: 6400, icon: "ghost" },
+            { id: "s_4_7", name: "Focus Lens", category: "Espíritu", tier: 4, cost: 6400, icon: "search" },
+            { id: "s_4_8", name: "Lightning Scroll", category: "Espíritu", tier: 4, cost: 6400, icon: "zap" },
+            { id: "s_4_9", name: "Magic Carpet", category: "Espíritu", tier: 4, cost: 6400, icon: "wind" },
+            { id: "s_4_10", name: "Mercurial Magnum", category: "Espíritu", tier: 4, cost: 6400, icon: "crosshair" },
+            { id: "s_4_11", name: "Mystic Reverb", category: "Espíritu", tier: 4, cost: 6400, icon: "radio" },
+            { id: "s_4_12", name: "Refresher", category: "Espíritu", tier: 4, cost: 6400, icon: "rotate-cw" },
+            { id: "s_4_13", name: "Scourge", category: "Espíritu", tier: 4, cost: 6400, icon: "biohazard" },
+            { id: "s_4_14", name: "Spirit Burn", category: "Espíritu", tier: 4, cost: 6400, icon: "flame" },
+            { id: "s_4_15", name: "Transcendent Cooldown", category: "Espíritu", tier: 4, cost: 6400, icon: "timer" },
+            { id: "s_4_16", name: "Vortex Web", category: "Espíritu", tier: 4, cost: 6400, icon: "disc" },
+
+            { id: "v_4_1", name: "Cheat Death", category: "Vitalidad", tier: 4, cost: 6400, icon: "heart-pulse" },
+            { id: "v_4_2", name: "Colossus", category: "Vitalidad", tier: 4, cost: 6400, icon: "shield" },
+            { id: "v_4_3", name: "Divine Barrier", category: "Vitalidad", tier: 4, cost: 6400, icon: "shield-check" },
+            { id: "v_4_4", name: "Diviner's Kevlar", category: "Vitalidad", tier: 4, cost: 6400, icon: "shirt" },
+            { id: "v_4_5", name: "Healing Tempo", category: "Vitalidad", tier: 4, cost: 6400, icon: "activity" },
+            { id: "v_4_6", name: "Indomitable", category: "Vitalidad", tier: 4, cost: 6400, icon: "shield-alert" },
+            { id: "v_4_7", name: "Infuser", category: "Vitalidad", tier: 4, cost: 6400, icon: "syringe" },
+            { id: "v_4_8", name: "Inhibitor", category: "Vitalidad", tier: 4, cost: 6400, icon: "lock" },
+            { id: "v_4_9", name: "Juggernaut", category: "Vitalidad", tier: 4, cost: 6400, icon: "crown" },
+            { id: "v_4_10", name: "Leech", category: "Vitalidad", tier: 4, cost: 6400, icon: "droplet" },
+            { id: "v_4_11", name: "Phantom Strike", category: "Vitalidad", tier: 4, cost: 6400, icon: "swords" },
+            { id: "v_4_12", name: "Plated Armor", category: "Vitalidad", tier: 4, cost: 6400, icon: "shield" },
+            { id: "v_4_13", name: "Siphon Bullets", category: "Vitalidad", tier: 4, cost: 6400, icon: "target" },
+            { id: "v_4_14", name: "Spellbreaker", category: "Vitalidad", tier: 4, cost: 6400, icon: "shield-off" },
+            { id: "v_4_15", name: "Unstoppable", category: "Vitalidad", tier: 4, cost: 6400, icon: "zap" },
+            { id: "v_4_16", name: "Vampiric Burst", category: "Vitalidad", tier: 4, cost: 6400, icon: "heart" },
+            { id: "v_4_17", name: "Witchmail", category: "Vitalidad", tier: 4, cost: 6400, icon: "shirt" }
+        ];
+
+        /* ==================== GAME STATE ==================== */
+        let gameState = {
+            mode: "mystery", // "mystery" or "normal"
+            players: [
+                { id: 1, name: "Jugador 1", hero: null, build: [], color: "#F97316" },
+                { id: 2, name: "Jugador 2", hero: null, build: [], color: "#A162F7" }
+            ],
+            activeSelectingPlayerIndex: 0,
+            maxRounds: 3,
+            currentTurnIndex: 0,
+            totalTurns: 6,
+            currentOptions: [],
+            pendingChosenItem: null,
+            soundEnabled: true
+        };
+
+        /* ==================== SOUND SYSTEM (Web Audio API) ==================== */
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSynthesizedSound(type) {
+            if (!gameState.soundEnabled) return;
+            try {
+                const now = audioCtx.currentTime;
+
+                if (type === 'click') {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(400, now);
+                    osc.frequency.exponentialRampToValueAtTime(800, now + 0.08);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+                    osc.start(now);
+                    osc.stop(now + 0.08);
+                } else if (type === 'flip') {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(150, now);
+                    osc.frequency.exponentialRampToValueAtTime(450, now + 0.2);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+                    osc.start(now);
+                    osc.stop(now + 0.2);
+                } else if (type === 'reveal') {
+                    [300, 450, 600, 900].forEach((freq, idx) => {
+                        const osc = audioCtx.createOscillator();
+                        const gain = audioCtx.createGain();
+                        osc.connect(gain);
+                        gain.connect(audioCtx.destination);
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(freq, now + idx * 0.06);
+                        gain.gain.setValueAtTime(0.25, now + idx * 0.06);
+                        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.06 + 0.2);
+                        osc.start(now + idx * 0.06);
+                        osc.stop(now + idx * 0.06 + 0.2);
+                    });
+                } else if (type === 'finish') {
+                    [440, 554.37, 659.25, 880].forEach((freq, idx) => {
+                        const subOsc = audioCtx.createOscillator();
+                        const subGain = audioCtx.createGain();
+                        subOsc.connect(subGain);
+                        subGain.connect(audioCtx.destination);
+                        subOsc.type = 'sine';
+                        subOsc.frequency.setValueAtTime(freq, now + idx * 0.1);
+                        subGain.gain.setValueAtTime(0.2, now + idx * 0.1);
+                        subGain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.1 + 0.25);
+                        subOsc.start(now + idx * 0.1);
+                        subOsc.stop(now + idx * 0.1 + 0.25);
+                    });
+                }
+            } catch (e) {
+                console.log("Audio API notice:", e);
+            }
+        }
+
+        function toggleSound() {
+            gameState.soundEnabled = !gameState.soundEnabled;
+            const icon = document.getElementById("soundIcon");
+            const text = document.getElementById("soundText");
+            if (gameState.soundEnabled) {
+                icon.setAttribute("data-lucide", "volume-2");
+                text.innerText = "Sonido: ON";
+                showToast("Sonido activado");
+            } else {
+                icon.setAttribute("data-lucide", "volume-x");
+                text.innerText = "Sonido: OFF";
+                showToast("Sonido desactivado");
+            }
+            lucide.createIcons();
+            playSynthesizedSound('click');
+        }
+
+        /* ==================== SETUP & HERO GRID LOGIC ==================== */
+
+        function setAssetPath(val) {
+            playSynthesizedSound('click');
+            assetSource = val;
+            showToast(`Cargando imágenes desde: ${val.toUpperCase()}`);
+            renderHeroGrid();
+            updateHeroTabUI();
+        }
+
+        function renderHeroGrid() {
+            const grid = document.getElementById("heroGrid");
+            grid.innerHTML = "";
+
+            const p1Hero = gameState.players[0].hero;
+            const p2Hero = gameState.players[1].hero;
+
+            HEROES_ROSTER.forEach(heroName => {
+                const btn = document.createElement("button");
+                btn.type = "button";
+
+                const isP1 = p1Hero === heroName;
+                const isP2 = p2Hero === heroName;
+
+                let borderStyle = "border-[#2A3038] bg-[#161A1E] text-gray-300 hover:border-[#D1A23D]";
+                let badgeHTML = "";
+
+                if (isP1 && isP2) {
+                    borderStyle = "border-[#D1A23D] bg-[#D1A23D]/20 text-[#D1A23D]";
+                    badgeHTML = `<span class="absolute top-1 right-1 text-[8px] font-bold px-1 rounded bg-[#D1A23D] text-black z-10">P1&P2</span>`;
+                } else if (isP1) {
+                    borderStyle = "border-[#F97316] bg-[#F97316]/20 text-[#F97316]";
+                    badgeHTML = `<span class="absolute top-1 right-1 text-[8px] font-bold px-1 rounded bg-[#F97316] text-black z-10">P1</span>`;
+                } else if (isP2) {
+                    borderStyle = "border-[#A162F7] bg-[#A162F7]/20 text-[#A162F7]";
+                    badgeHTML = `<span class="absolute top-1 right-1 text-[8px] font-bold px-1 rounded bg-[#A162F7] text-black z-10">P2</span>`;
+                }
+
+                btn.className = `relative p-1.5 rounded-lg border flex flex-col items-center justify-center text-center transition transform active:scale-95 ${borderStyle}`;
+                btn.onclick = () => selectHeroForActivePlayer(heroName);
+
+                const imgUrl = getHeroImageUrl(heroName);
+                const imageContainer = createFallbackImageHTML(imgUrl, heroName.charAt(0), heroName, "w-10 h-10 rounded-full object-cover border border-current mb-1");
+
+                btn.innerHTML = `
+                    ${badgeHTML}
+                    <div class="w-10 h-10 rounded-full bg-[#0F1215] flex items-center justify-center overflow-hidden mb-1">
+                        ${imageContainer}
+                    </div>
+                    <span class="text-[11px] font-semibold truncate w-full leading-tight">${heroName}</span>
+                `;
+
+                grid.appendChild(btn);
+            });
+        }
+
+        function setActiveSelectingPlayer(index) {
+            playSynthesizedSound('click');
+            gameState.activeSelectingPlayerIndex = index;
+            updateHeroTabUI();
+            renderHeroGrid();
+        }
+
+        function selectHeroForActivePlayer(heroName) {
+            playSynthesizedSound('click');
+            const activeIdx = gameState.activeSelectingPlayerIndex;
+            const activePlayer = gameState.players[activeIdx];
+
+            if (activePlayer.hero === heroName) {
+                activePlayer.hero = null;
+            } else {
+                activePlayer.hero = heroName;
+            }
+
+            updateHeroTabUI();
+            renderHeroGrid();
+            validateForm();
+        }
+
+        function updatePlayerTabNames() {
+            const p1 = document.getElementById("p1NameInput").value.trim() || "Jugador 1";
+            const p2 = document.getElementById("p2NameInput").value.trim() || "Jugador 2";
+
+            gameState.players[0].name = p1;
+            gameState.players[1].name = p2;
+
+            updateHeroTabUI();
+        }
+
+        function updateHeroTabUI() {
+            const p1 = gameState.players[0];
+            const p2 = gameState.players[1];
+            const activeIdx = gameState.activeSelectingPlayerIndex;
+
+            // Tab 1
+            const tabP1 = document.getElementById("tabP1");
+            document.getElementById("tabP1Text").innerText = `${p1.name}: ${p1.hero || 'Sin elegir'}`;
+            tabP1.className = activeIdx === 0 
+                ? "flex-1 sm:flex-initial py-1.5 px-4 rounded-md font-bold text-xs transition flex items-center justify-center gap-2 bg-[#F97316] text-black shadow-md"
+                : "flex-1 sm:flex-initial py-1.5 px-4 rounded-md font-bold text-xs transition flex items-center justify-center gap-2 text-gray-400 hover:text-white";
+
+            // Tab 2
+            const tabP2 = document.getElementById("tabP2");
+            document.getElementById("tabP2Text").innerText = `${p2.name}: ${p2.hero || 'Sin elegir'}`;
+            tabP2.className = activeIdx === 1
+                ? "flex-1 sm:flex-initial py-1.5 px-4 rounded-md font-bold text-xs transition flex items-center justify-center gap-2 bg-[#A162F7] text-black shadow-md"
+                : "flex-1 sm:flex-initial py-1.5 px-4 rounded-md font-bold text-xs transition flex items-center justify-center gap-2 text-gray-400 hover:text-white";
+
+            // Previews
+            document.getElementById("p1HeroNameDisplay").innerText = p1.hero || "Ninguno seleccionado";
+            document.getElementById("p1HeroImgBox").innerHTML = p1.hero 
+                ? createFallbackImageHTML(getHeroImageUrl(p1.hero), p1.hero.charAt(0), p1.hero)
+                : "?";
+
+            document.getElementById("p2HeroNameDisplay").innerText = p2.hero || "Ninguno seleccionado";
+            document.getElementById("p2HeroImgBox").innerHTML = p2.hero
+                ? createFallbackImageHTML(getHeroImageUrl(p2.hero), p2.hero.charAt(0), p2.hero)
+                : "?";
+        }
+
+        function validateForm() {
+            const p1Ready = !!gameState.players[0].hero;
+            const p2Ready = !!gameState.players[1].hero;
+            const btn = document.getElementById("btnStartGame");
+
+            if (p1Ready && p2Ready) {
+                btn.disabled = false;
+                btn.className = "w-full py-4 mt-2 bg-gradient-to-r from-[#D1A23D] to-[#E5C365] hover:from-[#E5C365] hover:to-[#D1A23D] text-black font-title font-bold text-xl rounded-lg shadow-lg shadow-[#D1A23D]/20 hover:shadow-[#D1A23D]/40 transition transform active:scale-95 flex items-center justify-center gap-2 cursor-pointer";
+                btn.innerHTML = `<i data-lucide="play" class="w-6 h-6 fill-current"></i> INICIAR DRAFT DE DEADLOCK`;
+            } else {
+                btn.disabled = true;
+                btn.className = "w-full py-4 mt-2 bg-gray-800 text-gray-500 cursor-not-allowed font-title font-bold text-xl rounded-lg border border-[#2A3038] flex items-center justify-center gap-2";
+                btn.innerHTML = `<i data-lucide="shield-alert" class="w-6 h-6"></i> SELECCIONA HÉROE PARA AMBOS JUGADORES`;
+            }
+            lucide.createIcons();
+        }
+
+        function setMode(mode) {
+            playSynthesizedSound('click');
+            gameState.mode = mode;
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.className = "mode-btn py-2.5 px-3 rounded-lg border border-[#2A3038] bg-[#0F1215] text-gray-400 font-bold text-xs text-center hover:border-[#D1A23D] transition flex items-center justify-center gap-1.5";
+            });
+            const activeBtn = document.getElementById(mode === 'mystery' ? 'btnModeMystery' : 'btnModeNormal');
+            if (activeBtn) {
+                activeBtn.className = "mode-btn py-2.5 px-3 rounded-lg border border-[#D1A23D] bg-[#D1A23D]/20 text-[#D1A23D] font-bold text-xs text-center transition flex items-center justify-center gap-1.5";
+            }
+        }
+
+        function setRounds(rounds) {
+            playSynthesizedSound('click');
+            gameState.maxRounds = rounds;
+            document.querySelectorAll('.round-btn').forEach(btn => {
+                btn.className = "round-btn py-2.5 rounded-lg border border-[#2A3038] bg-[#0F1215] text-gray-400 font-bold text-center hover:border-[#D1A23D] transition";
+            });
+            const activeBtn = document.getElementById(`btnRound${rounds}`);
+            if (activeBtn) {
+                activeBtn.className = "round-btn py-2.5 rounded-lg border border-[#D1A23D] bg-[#D1A23D]/20 text-[#D1A23D] font-bold text-center transition";
+            }
+        }
+
+        function startGame(e) {
+            e.preventDefault();
+            if (!gameState.players[0].hero || !gameState.players[1].hero) {
+                showToast("Ambos jugadores deben seleccionar un héroe.");
+                return;
+            }
+
+            playSynthesizedSound('click');
+
+            const p1 = document.getElementById("p1NameInput").value.trim() || "Jugador 1";
+            const p2 = document.getElementById("p2NameInput").value.trim() || "Jugador 2";
+
+            gameState.players[0].name = p1;
+            gameState.players[1].name = p2;
+            gameState.players[0].build = [];
+            gameState.players[1].build = [];
+            gameState.currentTurnIndex = 0;
+            gameState.totalTurns = gameState.maxRounds * 2;
+
+            document.getElementById("p1InvTitle").innerHTML = `<span class="w-3 h-3 rounded-full bg-[#F97316]"></span> ${p1} (${gameState.players[0].hero})`;
+            document.getElementById("p2InvTitle").innerHTML = `<span class="w-3 h-3 rounded-full bg-[#A162F7]"></span> ${p2} (${gameState.players[1].hero})`;
+
+            document.getElementById("setupScreen").classList.add("hidden");
+            document.getElementById("draftScreen").classList.remove("hidden");
+            document.getElementById("draftScreen").classList.add("flex");
+
+            updateTurnUI();
+            generateWeightedItemChoices();
+        }
+
+        function getCurrentPlayer() {
+            return gameState.players[gameState.currentTurnIndex % 2];
+        }
+
+        function updateTurnUI() {
+            const player = getCurrentPlayer();
+            const roundNumber = Math.floor(gameState.currentTurnIndex / 2) + 1;
+            const banner = document.getElementById("turnHeaderBanner");
+            const avatar = document.getElementById("playerAvatar");
+            const heroBadge = document.getElementById("playerHeroBadge");
+            const instruction = document.getElementById("draftInstructionText");
+
+            document.getElementById("currentPlayerTurnText").innerText = player.name;
+            heroBadge.innerText = player.hero.toUpperCase();
+            document.getElementById("currentRoundDisplay").innerText = `${roundNumber} / ${gameState.maxRounds}`;
+            document.getElementById("itemsPickedDisplay").innerText = `${gameState.currentTurnIndex} / ${gameState.totalTurns}`;
+
+            if (gameState.mode === 'mystery') {
+                instruction.innerHTML = `<i data-lucide="help-circle" class="w-5 h-5 text-[#D1A23D]"></i> Elige una Carta Misteriosa a ciegas:`;
+            } else {
+                instruction.innerHTML = `<i data-lucide="sparkles" class="w-5 h-5 text-[#D1A23D]"></i> Elige 1 de los 3 ítems visibles:`;
+            }
+
+            avatar.innerHTML = createFallbackImageHTML(getHeroImageUrl(player.hero), player.hero.charAt(0), player.hero);
+
+            if (player.id === 1) {
+                banner.style.borderColor = "#F97316";
+                avatar.style.backgroundColor = "rgba(249, 115, 22, 0.2)";
+                avatar.style.borderColor = "#F97316";
+                avatar.style.color = "#F97316";
+                heroBadge.className = "text-[10px] font-bold px-2 py-0.5 rounded bg-[#F97316]/20 text-[#F97316] border border-[#F97316]/30 uppercase";
+            } else {
+                banner.style.borderColor = "#A162F7";
+                avatar.style.backgroundColor = "rgba(161, 98, 247, 0.2)";
+                avatar.style.borderColor = "#A162F7";
+                avatar.style.color = "#A162F7";
+                heroBadge.className = "text-[10px] font-bold px-2 py-0.5 rounded bg-[#A162F7]/20 text-[#A162F7] border border-[#A162F7]/30 uppercase";
+            }
+
+            renderMiniInventories();
+            lucide.createIcons();
+        }
+
+        /* SMART HERO WEIGHTED DRAFT LOGIC */
+        function generateWeightedItemChoices() {
+            const player = getCurrentPlayer();
+            const heroBuildProfile = HERO_BUILDS[player.hero] || { focus: "Armas", core: [] };
+
+            const usedIds = new Set([
+                ...gameState.players[0].build.map(i => i.id),
+                ...gameState.players[1].build.map(i => i.id)
+            ]);
+
+            const available = DEADLOCK_DATABASE.filter(item => !usedIds.has(item.id));
+
+            // Weight items according to hero build profile
+            const weightedPool = [];
+            available.forEach(item => {
+                let weight = 1;
+                // Core build items get 4x weight
+                if (heroBuildProfile.core.includes(item.name)) {
+                    weight += 4;
+                }
+                // Matching category focus gets 2x weight
+                if (item.category === heroBuildProfile.focus) {
+                    weight += 2;
+                }
+                for (let i = 0; i < weight; i++) {
+                    weightedPool.push(item);
+                }
+            });
+
+            // Pick 3 unique items randomly from weighted pool
+            const selected = [];
+            const selectedIds = new Set();
+
+            while (selected.length < 3 && weightedPool.length > 0) {
+                const randIndex = Math.floor(Math.random() * weightedPool.length);
+                const candidate = weightedPool[randIndex];
+                if (!selectedIds.has(candidate.id)) {
+                    selected.push(candidate);
+                    selectedIds.add(candidate.id);
+                }
+            }
+
+            gameState.currentOptions = selected;
+            renderItemCards();
+        }
+
+        function isRecommendedForHero(item, heroName) {
+            const profile = HERO_BUILDS[heroName];
+            if (!profile) return false;
+            return profile.core.includes(item.name) || profile.focus === item.category;
+        }
+
+        function renderItemCards() {
+            const container = document.getElementById("cardsContainer");
+            container.innerHTML = "";
+
+            const currentPlayer = getCurrentPlayer();
+
+            gameState.currentOptions.forEach((item, index) => {
+                const wrapper = document.createElement("div");
+                wrapper.className = "perspective-1000 h-84";
+
+                let categoryClass = "card-weapon";
+                let categoryBg = "bg-[#F97316]/10 text-[#F97316] border-[#F97316]/30";
+                if (item.category === "Espíritu") {
+                    categoryClass = "card-spirit";
+                    categoryBg = "bg-[#A162F7]/10 text-[#A162F7] border-[#A162F7]/30";
+                } else if (item.category === "Vitalidad") {
+                    categoryClass = "card-vitality";
+                    categoryBg = "bg-[#4ADE80]/10 text-[#4ADE80] border-[#4ADE80]/30";
+                }
+
+                const isRec = isRecommendedForHero(item, currentPlayer.hero);
+                const recBadgeHTML = isRec ? `<span class="text-[9px] font-bold px-2 py-0.5 rounded bg-[#D1A23D]/20 text-[#D1A23D] border border-[#D1A23D]/30 block mb-1">★ RECOMENDADO</span>` : '';
+
+                const itemImgHTML = createFallbackImageHTML(
+                    getItemImageUrl(item.name),
+                    `<i data-lucide="${item.icon}" class="w-8 h-8"></i>`,
+                    item.name,
+                    "w-full h-full object-contain p-2"
+                );
+
+                if (gameState.mode === 'mystery') {
+                    // MYSTERY FLIP CARD HTML STRUCTURE
+                    wrapper.innerHTML = `
+                        <div class="card-inner" id="cardInner_${index}">
+                            <!-- FRONT OF CARD (CLOSED MYSTERY) -->
+                            <div class="card-front glass-panel p-6 border-2 border-[#D1A23D]/50 hover:border-[#D1A23D] flex flex-col justify-between items-center text-center cursor-pointer shadow-lg hover:shadow-[#D1A23D]/20 transition group" onclick="chooseMysteryCard(${index})">
+                                <div class="w-full flex justify-between items-center">
+                                    <span class="text-xs px-2.5 py-1 rounded bg-[#0F1215] border border-[#2A3038] text-[#D1A23D] font-mono">OPCIÓN #${index + 1}</span>
+                                    <i data-lucide="help-circle" class="w-5 h-5 text-[#D1A23D]"></i>
+                                </div>
+                                
+                                <div class="my-auto flex flex-col items-center">
+                                    <div class="w-20 h-20 rounded-full bg-[#0F1215] border-2 border-[#D1A23D]/40 flex items-center justify-center text-[#D1A23D] mb-3 group-hover:scale-110 group-hover:border-[#D1A23D] transition duration-300">
+                                        <i data-lucide="box" class="w-10 h-10 animate-pulse"></i>
+                                    </div>
+                                    <h3 class="font-title text-xl font-bold text-white tracking-wider">CARTA MISTERIOSA</h3>
+                                    <p class="text-xs text-gray-400 mt-1">¿Qué ítem habrá adentro?</p>
+                                </div>
+
+                                <button class="w-full py-3 rounded-lg bg-[#D1A23D]/20 group-hover:bg-[#D1A23D] text-[#D1A23D] group-hover:text-black font-title font-bold transition flex items-center justify-center gap-2">
+                                    ELEGIR ESTA CARTA
+                                </button>
+                            </div>
+
+                            <!-- BACK OF CARD (REVEALED ITEM) -->
+                            <div class="card-back glass-panel p-6 ${categoryClass} flex flex-col justify-between">
+                                <div>
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="text-xs px-2.5 py-1 rounded-full border ${categoryBg} font-bold tracking-wider">
+                                            ${item.category.toUpperCase()}
+                                        </span>
+                                        <span class="text-xs font-mono px-2.5 py-1 rounded bg-[#0F1215] border border-[#2A3038] text-[#D1A23D] font-semibold">
+                                            TIER ${item.tier}
+                                        </span>
+                                    </div>
+                                    <div class="my-2 text-center flex flex-col items-center">
+                                        ${recBadgeHTML}
+                                        <div class="w-16 h-16 rounded-2xl bg-[#0F1215] border border-[#2A3038] flex items-center justify-center text-white mb-2 overflow-hidden">
+                                            ${itemImgHTML}
+                                        </div>
+                                        <h3 class="font-title text-xl font-bold text-white leading-tight">${item.name}</h3>
+                                        <span class="text-xs font-mono text-[#D1A23D] mt-1">${item.cost} Almas</span>
+                                    </div>
+                                </div>
+                                <div class="text-center text-xs text-[#D1A23D] font-bold py-2 bg-[#0F1215] rounded border border-[#2A3038]">
+                                    ¡ELEGIDO!
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    // NORMAL MODE CARD
+                    wrapper.innerHTML = `
+                        <div class="h-full glass-panel rounded-xl p-6 flex flex-col justify-between cursor-pointer ${categoryClass} transition transform hover:-translate-y-2" onclick="chooseNormalCard(${index})">
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-xs px-2.5 py-1 rounded-full border ${categoryBg} font-bold tracking-wider">
+                                        ${item.category.toUpperCase()}
+                                    </span>
+                                    <span class="text-xs font-mono px-2.5 py-1 rounded bg-[#0F1215] border border-[#2A3038] text-[#D1A23D] font-semibold">
+                                        TIER ${item.tier} (${item.cost} ⚡)
+                                    </span>
+                                </div>
+                                <div class="my-2 text-center flex flex-col items-center">
+                                    ${recBadgeHTML}
+                                    <div class="w-16 h-16 rounded-2xl bg-[#0F1215] border border-[#2A3038] flex items-center justify-center text-white mb-2 overflow-hidden">
+                                        ${itemImgHTML}
+                                    </div>
+                                    <h3 class="font-title text-xl font-bold text-white leading-tight">${item.name}</h3>
+                                </div>
+                            </div>
+                            <button class="w-full py-3 mt-2 rounded-lg bg-[#0F1215] hover:bg-[#D1A23D] text-gray-300 hover:text-black font-bold border border-[#2A3038] hover:border-[#D1A23D] transition flex items-center justify-center gap-2">
+                                ELEGIR ÍTEM
+                            </button>
+                        </div>
+                    `;
+                }
+
+                container.appendChild(wrapper);
+            });
+
+            lucide.createIcons();
+        }
+
+        function chooseMysteryCard(index) {
+            playSynthesizedSound('flip');
+            const cardInner = document.getElementById(`cardInner_${index}`);
+            if (cardInner) {
+                cardInner.classList.add("flipped");
+            }
+
+            const chosenItem = gameState.currentOptions[index];
+            gameState.pendingChosenItem = chosenItem;
+
+            setTimeout(() => {
+                playSynthesizedSound('reveal');
+                openRevealModal(chosenItem);
+            }, 600);
+        }
+
+        function chooseNormalCard(index) {
+            playSynthesizedSound('reveal');
+            const chosenItem = gameState.currentOptions[index];
+            gameState.pendingChosenItem = chosenItem;
+            openRevealModal(chosenItem);
+        }
+
+        function openRevealModal(item) {
+            const player = getCurrentPlayer();
+            const modal = document.getElementById("revealModal");
+            const modalBox = document.getElementById("revealModalBox");
+
+            document.getElementById("revealPlayerTitle").innerText = `¡${player.name.toUpperCase()} (${player.hero.toUpperCase()}) HA RECIBIDO!`;
+            document.getElementById("revealItemName").innerText = item.name;
+
+            const recBadge = document.getElementById("revealHeroMatchBadge");
+            if (isRecommendedForHero(item, player.hero)) {
+                recBadge.innerText = `★ RECOMENDADO PARA ${player.hero.toUpperCase()}`;
+                recBadge.classList.remove("hidden");
+            } else {
+                recBadge.classList.add("hidden");
+            }
+
+            const iconBox = document.getElementById("revealItemIconBox");
+            const catBadge = document.getElementById("revealItemCategory");
+            const tierText = document.getElementById("revealItemTier");
+            const cardBox = document.getElementById("revealCardBox");
+
+            let catColor = "text-[#F97316] bg-[#F97316]/10 border-[#F97316]/30";
+            let borderColor = "rgba(249, 115, 22, 0.4)";
+            if (item.category === "Espíritu") {
+                catColor = "text-[#A162F7] bg-[#A162F7]/10 border-[#A162F7]/30";
+                borderColor = "rgba(161, 98, 247, 0.4)";
+            } else if (item.category === "Vitalidad") {
+                catColor = "text-[#4ADE80] bg-[#4ADE80]/10 border-[#4ADE80]/30";
+                borderColor = "rgba(74, 222, 128, 0.4)";
+            }
+
+            cardBox.style.borderColor = borderColor;
+            iconBox.style.borderColor = borderColor;
+            catBadge.className = `text-xs px-3 py-1 rounded-full font-bold tracking-wider mb-2 border ${catColor}`;
+            catBadge.innerText = item.category.toUpperCase();
+
+            tierText.innerText = `Tier ${item.tier} (${item.cost} Almas)`;
+
+            iconBox.innerHTML = createFallbackImageHTML(
+                getItemImageUrl(item.name),
+                `<i data-lucide="${item.icon}" class="w-10 h-10"></i>`,
+                item.name,
+                "w-full h-full object-contain p-2"
+            );
+
+            lucide.createIcons();
+
+            modal.classList.remove("hidden");
+            setTimeout(() => {
+                modal.classList.remove("opacity-0");
+                modalBox.classList.remove("scale-90");
+                modalBox.classList.add("scale-100");
+            }, 10);
+        }
+
+        function confirmItemAndNext() {
+            playSynthesizedSound('click');
+            const modal = document.getElementById("revealModal");
+            const modalBox = document.getElementById("revealModalBox");
+
+            modal.classList.add("opacity-0");
+            modalBox.classList.remove("scale-100");
+            modalBox.classList.add("scale-90");
+
+            setTimeout(() => {
+                modal.classList.add("hidden");
+
+                if (gameState.pendingChosenItem) {
+                    const player = getCurrentPlayer();
+                    player.build.push(gameState.pendingChosenItem);
+                    showToast(`${player.name} (${player.hero}) añadió: ${gameState.pendingChosenItem.name}`);
+                    gameState.pendingChosenItem = null;
+
+                    gameState.currentTurnIndex++;
+
+                    if (gameState.currentTurnIndex >= gameState.totalTurns) {
+                        finishGame();
+                    } else {
+                        updateTurnUI();
+                        generateWeightedItemChoices();
+                    }
+                }
+            }, 300);
+        }
+
+        function renderMiniInventories() {
+            [0, 1].forEach(idx => {
+                const player = gameState.players[idx];
+                const miniList = document.getElementById(idx === 0 ? "p1MiniList" : "p2MiniList");
+                const costBadge = document.getElementById(idx === 0 ? "p1CostBadge" : "p2CostBadge");
+
+                const totalCost = player.build.reduce((sum, item) => sum + item.cost, 0);
+                costBadge.innerText = `${totalCost.toLocaleString()} Almas`;
+
+                if (player.build.length === 0) {
+                    miniList.innerHTML = `<span class="text-xs text-gray-500 italic p-1">Sin ítems aún...</span>`;
+                } else {
+                    miniList.innerHTML = player.build.map(item => {
+                        let colorClass = "text-[#F97316] border-[#F97316]/30 bg-[#F97316]/10";
+                        if (item.category === "Espíritu") colorClass = "text-[#A162F7] border-[#A162F7]/30 bg-[#A162F7]/10";
+                        if (item.category === "Vitalidad") colorClass = "text-[#4ADE80] border-[#4ADE80]/30 bg-[#4ADE80]/10";
+
+                        return `
+                            <span class="text-xs px-2 py-1 rounded border ${colorClass} font-medium flex items-center gap-1">
+                                <span class="w-4 h-4 rounded overflow-hidden bg-black/40 flex items-center justify-center inline-block">
+                                    ${createFallbackImageHTML(getItemImageUrl(item.name), '•', item.name, "w-full h-full object-cover")}
+                                </span>
+                                ${item.name}
+                            </span>
+                        `;
+                    }).join("");
+                }
+            });
+        }
+
+        function finishGame() {
+            playSynthesizedSound('finish');
+
+            document.getElementById("draftScreen").classList.add("hidden");
+            document.getElementById("summaryScreen").classList.remove("hidden");
+            document.getElementById("summaryScreen").classList.add("flex");
+
+            renderSummary();
+        }
+
+        function renderSummary() {
+            [0, 1].forEach(idx => {
+                const player = gameState.players[idx];
+                const prefix = idx === 0 ? "p1" : "p2";
+
+                document.getElementById(`${prefix}SummaryHeroBadge`).innerText = player.hero;
+                document.getElementById(`${prefix}SummaryName`).innerText = player.name;
+                document.getElementById(`${prefix}SummaryAvatar`).innerHTML = createFallbackImageHTML(
+                    getHeroImageUrl(player.hero),
+                    player.hero.charAt(0),
+                    player.hero
+                );
+
+                const totalCost = player.build.reduce((sum, item) => sum + item.cost, 0);
+                document.getElementById(`${prefix}TotalCost`).innerText = `${totalCost.toLocaleString()} Almas`;
+
+                const weapons = player.build.filter(i => i.category === "Armas");
+                const spirits = player.build.filter(i => i.category === "Espíritu");
+                const vitality = player.build.filter(i => i.category === "Vitalidad");
+
+                document.getElementById(`${prefix}WeaponCount`).innerText = weapons.length;
+                document.getElementById(`${prefix}SpiritCount`).innerText = spirits.length;
+                document.getElementById(`${prefix}VitalityCount`).innerText = vitality.length;
+
+                const total = player.build.length || 1;
+                document.getElementById(`${prefix}WeaponBar`).style.width = `${(weapons.length / total) * 100}%`;
+                document.getElementById(`${prefix}SpiritBar`).style.width = `${(spirits.length / total) * 100}%`;
+                document.getElementById(`${prefix}VitalityBar`).style.width = `${(vitality.length / total) * 100}%`;
+
+                const listContainer = document.getElementById(`${prefix}FullList`);
+                listContainer.innerHTML = player.build.map(item => {
+                    let borderClass = "border-[#F97316]/40";
+                    let textClass = "text-[#F97316]";
+                    if (item.category === "Espíritu") {
+                        borderClass = "border-[#A162F7]/40";
+                        textClass = "text-[#A162F7]";
+                    } else if (item.category === "Vitalidad") {
+                        borderClass = "border-[#4ADE80]/40";
+                        textClass = "text-[#4ADE80]";
+                    }
+
+                    const recText = isRecommendedForHero(item, player.hero) 
+                        ? `<span class="text-[9px] font-bold text-[#D1A23D] block">★ RECOMENDADO</span>` 
+                        : '';
+
+                    return `
+                        <div class="p-2.5 rounded-lg bg-[#0F1215] border ${borderClass} flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 rounded bg-[#161A1E] flex items-center justify-center overflow-hidden shrink-0 border border-[#2A3038]">
+                                    ${createFallbackImageHTML(getItemImageUrl(item.name), `<i data-lucide="${item.icon}" class="w-4 h-4 ${textClass}"></i>`, item.name)}
+                                </div>
+                                <div>
+                                    <div class="font-bold text-white text-sm">${item.name}</div>
+                                    <div class="text-xs text-gray-400">${item.category} ${recText}</div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-xs font-mono text-[#D1A23D] block font-semibold">T${item.tier}</span>
+                                <span class="text-xs text-gray-400 font-mono">${item.cost} ⚡</span>
+                            </div>
+                        </div>
+                    `;
+                }).join("");
+            });
+
+            lucide.createIcons();
+        }
+
+        function resetGame() {
+            playSynthesizedSound('click');
+            document.getElementById("summaryScreen").classList.add("hidden");
+            document.getElementById("setupScreen").classList.remove("hidden");
+            renderHeroGrid();
+            updateHeroTabUI();
+            validateForm();
+        }
+
+        function copyBuildsToClipboard() {
+            playSynthesizedSound('click');
+            const p1 = gameState.players[0];
+            const p2 = gameState.players[1];
+
+            let text = `🎮 **RESUMEN DRAFT DEADLOCK 1v1** 🎮\n\n`;
+
+            text += `👤 ${p1.name} [${p1.hero}] (Total: ${p1.build.reduce((s,i)=>s+i.cost,0)} Almas):\n`;
+            p1.build.forEach(i => text += ` - [T${i.tier}] ${i.name} (${i.category})\n`);
+
+            text += `\n👤 ${p2.name} [${p2.hero}] (Total: ${p2.build.reduce((s,i)=>s+i.cost,0)} Almas):\n`;
+            p2.build.forEach(i => text += ` - [T${i.tier}] ${i.name} (${i.category})\n`);
+
+            const dummy = document.createElement("textarea");
+            document.body.appendChild(dummy);
+            dummy.value = text;
+            dummy.select();
+            document.execCommand("copy");
+            document.body.removeChild(dummy);
+
+            showToast("¡Builds copiadas al portapapeles!");
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById("toast");
+            document.getElementById("toastMsg").innerText = msg;
+            toast.classList.remove("translate-y-20", "opacity-0");
+            toast.classList.add("translate-y-0", "opacity-100");
+
+            setTimeout(() => {
+                toast.classList.add("translate-y-20", "opacity-0");
+                toast.classList.remove("translate-y-0", "opacity-100");
+            }, 2500);
+        }
+
+        window.onload = function() {
+            renderHeroGrid();
+            updateHeroTabUI();
+            validateForm();
+            lucide.createIcons();
+        };
+    </script>
+</body>
+</html>
