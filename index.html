@@ -405,48 +405,191 @@
 
         /* ================================= ITEMS DATABASE ================================= */
         const ITEMS = [
-            // WEAPON ITEMS
-            { id: 'w1', name: 'Basic Magazine', tier: 1, type: 'Weapon', desc: '+24% Ammo, +15% Weapon Damage' },
-            { id: 'w2', name: 'Close Quarters', tier: 1, type: 'Weapon', desc: '+85 Bullet Shield, +25% Weapon Damage close range' },
-            { id: 'w3', name: 'High-Velocity Mag', tier: 1, type: 'Weapon', desc: '+30% Bullet Velocity, +14% Weapon Damage' },
-            { id: 'w4', name: 'Hollow Point Rounds', tier: 1, type: 'Weapon', desc: '+150 Shield, +20% Damage when above 60% HP' },
-            { id: 'w5', name: 'Active Reload', tier: 2, type: 'Weapon', desc: 'Manual reload gives +20% Fire Rate & Lifesteal' },
-            { id: 'w6', name: 'Fleetfoot', tier: 2, type: 'Weapon', desc: '+90 Health, Removes movement penalty while shooting' },
-            { id: 'w7', name: 'Kinetic Dash', tier: 2, type: 'Weapon', desc: 'Dashing gives +100 Extra Ammo & Fire Rate' },
-            { id: 'w8', name: 'Burst Fire', tier: 3, type: 'Weapon', desc: 'Gains +30% Fire Rate and Movement Speed on hit' },
-            { id: 'w9', name: 'Headhunter', tier: 3, type: 'Weapon', desc: 'Headshots heal and deal +15% bonus weapon damage' },
-            { id: 'w10', name: 'Pristine Emblem', tier: 3, type: 'Weapon', desc: '+25% Weapon Damage against enemies above 50% HP' },
-            { id: 'w11', name: 'Glass Cannon', tier: 4, type: 'Weapon', desc: '+70% Weapon Damage, -15% Max Health' },
-            { id: 'w12', name: 'Siphon Bullets', tier: 4, type: 'Weapon', desc: 'Steals Max HP from enemies on weapon hit' },
+    // --- ARMA ---
+    // Tier I ($800)
+    { name: 'A Bocajarro', tier: 1, type: 'Weapon', desc: 'Aumenta el daño de arma a corta distancia.' },
+    { name: 'Cargador Ampliado', tier: 1, type: 'Weapon', desc: 'Aumenta la munición máxima.' },
+    { name: 'Revientacabezas', tier: 1, type: 'Weapon', desc: 'Los disparos a la cabeza causan daño extra.' },
+    { name: 'Cartuchos de Alta Velocidad', tier: 1, type: 'Weapon', desc: 'Aumenta la velocidad de los proyectiles.' },
+    { name: 'Cartuchos Monstruosos', tier: 1, type: 'Weapon', desc: 'Daño extra contra objetivos no jugadores.' },
+    { name: 'Cartuchos Rápidos', tier: 1, type: 'Weapon', desc: 'Aumenta la cadencia de fuego.' },
+    { name: 'Disparo Reparador', tier: 1, type: 'Weapon', desc: 'Curación al rematar o dañar objetivos.' },
 
-            // SPIRIT ITEMS
-            { id: 's1', name: 'Extra Spirit', tier: 1, type: 'Spirit', desc: '+9 Spirit Power, +1 Health Regen' },
-            { id: 's2', name: 'Mystic Burst', tier: 1, type: 'Spirit', desc: 'Abilities dealing >80 dmg deal +40 extra Spirit dmg' },
-            { id: 's3', name: 'Spirit Strike', tier: 1, type: 'Spirit', desc: 'Melee hits deal +40 Spirit dmg and reduce Spirit resist' },
-            { id: 's4', name: 'Infuser', tier: 1, type: 'Spirit', desc: 'Active: Gain +50 Spirit Power and Spirit Lifesteal' },
-            { id: 's5', name: 'Cold Front', tier: 2, type: 'Spirit', desc: 'Active: Deal 100 Spirit Dmg and Slow around you' },
-            { id: 's6', name: 'Quicksilver Reload', tier: 2, type: 'Spirit', desc: 'Using an ability reloads weapon and adds bonus dmg' },
-            { id: 's7', name: 'Suppressor', tier: 2, type: 'Spirit', desc: 'Spirit dmg applies -30% Fire Rate to enemies' },
-            { id: 's8', name: 'Boundless Spirit', tier: 3, type: 'Spirit', desc: '+60 Spirit Power, +2 m/s Sprint Speed' },
-            { id: 's9', name: 'Surge of Power', tier: 3, type: 'Spirit', desc: 'Imbues an ability with +28 Spirit Power & Move Speed' },
-            { id: 's10', name: 'Torment Pulse', tier: 3, type: 'Spirit', desc: 'Continuously deals Spirit Dmg to nearby enemies' },
-            { id: 's11', name: 'Diviner\'s Kevlar', tier: 4, type: 'Spirit', desc: 'Casting Ultimate grants +700 Bullet & Spirit Shield' },
-            { id: 's12', name: 'Refresher', tier: 4, type: 'Spirit', desc: 'Active: Resets all ability cooldowns instantly' },
+    // Tier II ($1600)
+    { name: 'Recarga Activa', tier: 2, type: 'Weapon', desc: 'Permite recargar rápido para obtener bonificaciones.' },
+    { name: 'Pies Ligeros', tier: 2, type: 'Weapon', desc: 'Elimina la penalización de movimiento al disparar.' },
+    { name: 'Cargador Progresivo', tier: 2, type: 'Weapon', desc: 'Aumenta la munición a medida que disparas.' },
+    { name: 'Impulso Cinético', tier: 2, type: 'Weapon', desc: 'Aumenta la velocidad de movimiento al deslizarte.' },
+    { name: 'Largo Alcance', tier: 2, type: 'Weapon', desc: 'Aumenta el daño a objetivos lejanos.' },
+    { name: 'Carga Cuerpo a Cuerpo', tier: 2, type: 'Weapon', desc: 'Aumenta el daño y rango del ataque melé.' },
+    { name: 'Disparo Místico', tier: 2, type: 'Weapon', desc: 'Añade daño de Espíritu a tus disparos.' },
+    { name: 'Cartuchos Irruptores', tier: 2, type: 'Weapon', desc: 'Atraviesa escudos y defensas enemigas.' },
+    { name: 'Aceleración de Recarga', tier: 2, type: 'Weapon', desc: 'Reduce sustancialmente el tiempo de recarga.' },
+    { name: 'Balas Ralentizadoras', tier: 2, type: 'Weapon', desc: 'Tus disparos frenan el movimiento enemigo.' },
+    { name: 'Destructor Espiritual', tier: 2, type: 'Weapon', desc: 'Reduce la resistencia de espíritu del objetivo.' },
+    { name: 'Disparo Dividido', tier: 2, type: 'Weapon', desc: 'Tus proyectiles se dividen hacia varios enemigos.' },
+    { name: 'Acechador', tier: 2, type: 'Weapon', desc: 'Ganas velocidad de movimiento y daño al flanquear.' },
+    { name: 'Ataque Veloz', tier: 2, type: 'Weapon', desc: 'Aumenta la velocidad de ataque y disparo.' },
+    { name: 'Cargador Monumental', tier: 2, type: 'Weapon', desc: 'Otorga una gran cantidad de munición extra.' },
+    { name: 'Disparo Debilitante', tier: 2, type: 'Weapon', desc: 'Aplica reducción de daño al enemigo impactado.' },
 
-            // VITALITY ITEMS
-            { id: 'v1', name: 'Extra Health', tier: 1, type: 'Vitality', desc: '+160 Max Health, +1% Weapon Damage' },
-            { id: 'v2', name: 'Healing Rite', tier: 1, type: 'Vitality', desc: 'Active: Regen 370 HP over 17 seconds' },
-            { id: 'v3', name: 'Sprint Boots', tier: 1, type: 'Vitality', desc: '+2 m/s Sprint Speed, +1 m/s Move Speed' },
-            { id: 'v4', name: 'Melee Lifesteal', tier: 1, type: 'Vitality', desc: 'Melee attacks heal for 20% of damage dealt' },
-            { id: 'v5', name: 'Divine Barrier', tier: 2, type: 'Vitality', desc: 'Active: Grant target ally +300 Shield & Move Speed' },
-            { id: 'v6', name: 'Enduring Speed', tier: 2, type: 'Vitality', desc: '+1.4 m/s Move Speed, Reduces movement slows' },
-            { id: 'v7', name: 'Healbane', tier: 2, type: 'Vitality', desc: 'Spirit Dmg applies -40% Healing Reduction' },
-            { id: 'v8', name: 'Fortitude', tier: 3, type: 'Vitality', desc: '+360 Health, Regens HP rapidly when out of combat' },
-            { id: 'v9', name: 'Lifestrike', tier: 3, type: 'Vitality', desc: 'Melee hits heal for 100% dmg and slow enemies' },
-            { id: 'v10', name: 'Majestic Leap', tier: 3, type: 'Vitality', desc: 'Active: Launch high into the air and glide' },
-            { id: 'v11', name: 'Colossus', tier: 4, type: 'Vitality', desc: 'Active: Grow huge, gain +600 HP and Slow nearby enemies' },
-            { id: 'v12', name: 'Unstoppable', tier: 4, type: 'Vitality', desc: 'Active: Gain CC Immunity and +150 Shield for 6s' }
-        ];
+    // Tier III ($3200)
+    { name: 'Fuego Alquímico', tier: 3, type: 'Weapon', desc: 'Lanza un frasco que quema el área impactada.' },
+    { name: 'Encantamiento Balístico', tier: 3, type: 'Weapon', desc: 'Aumenta el poder de tus balas mágicas.' },
+    { name: 'Berserker', tier: 3, type: 'Weapon', desc: 'Ganas daño de arma al recibir daño.' },
+    { name: 'Tributo de Sangre', tier: 3, type: 'Weapon', desc: 'Sacrifica salud para obtener poder de disparo.' },
+    { name: 'Fuego a Discreción', tier: 3, type: 'Weapon', desc: 'Dispara en ráfaga continua sin interrupción.' },
+    { name: 'Sacrificio Sectario', tier: 3, type: 'Weapon', desc: 'Efecto de área a costa de curación reducida.' },
+    { name: 'Resiliencia Creciente', tier: 3, type: 'Weapon', desc: 'Aumenta las defensas a medida que peleas.' },
+    { name: 'Disparo Exprés', tier: 3, type: 'Weapon', desc: 'Cadencia de fuego extrema por un breve periodo.' },
+    { name: 'Cazacabezas', tier: 3, type: 'Weapon', desc: 'Bonificación masiva por impacto crítico.' },
+    { name: 'Aura Heroica', tier: 3, type: 'Weapon', desc: 'Otorga velocidad de movimiento y disparo a aliados.' },
+    { name: 'Punta Hueca', tier: 3, type: 'Weapon', desc: 'Causa sangrado y reduce la curación enemiga.' },
+    { name: 'Aura de Cazador', tier: 3, type: 'Weapon', desc: 'Debilita la armadura de los enemigos cercanos.' },
+    { name: 'A Quemarropa', tier: 3, type: 'Weapon', desc: 'Daño devastador en combate melé / cercano.' },
+    { name: 'Tejido de Sombras', tier: 3, type: 'Weapon', desc: 'Te vuelve sigiloso para emboscar al enemigo.' },
+    { name: 'Tiro Certero', tier: 3, type: 'Weapon', desc: 'Garantiza disparos críticos de gran alcance.' },
+    { name: 'Desgarro Espiritual', tier: 3, type: 'Weapon', desc: 'Extrae energía de espíritu con cada impacto.' },
+    { name: 'Balas de Tesla', tier: 3, type: 'Weapon', desc: 'Los disparos rebotan con rayos a objetivos contiguos.' },
+    { name: 'Balas Tóxicas', tier: 3, type: 'Weapon', desc: 'Aplica veneno acumulativo en el objetivo.' },
+    { name: 'Balas Lastradas', tier: 3, type: 'Weapon', desc: 'Frena drásticamente las habilidades de movimiento.' },
+
+    // Tier IV ($6400)
+    { name: 'Perforador de Armadura', tier: 4, type: 'Weapon', desc: 'Ignora gran parte de la armadura del rival.' },
+    { name: 'Condensador', tier: 4, type: 'Weapon', desc: 'Acumula carga para liberar un disparo masivo.' },
+    { name: 'Disparo Paralizante', tier: 4, type: 'Weapon', desc: 'Inmoviliza a los enemigos impactados.' },
+    { name: 'Puños Aplastantes', tier: 4, type: 'Weapon', desc: 'Potencia los golpes físicos con daño colosal.' },
+    { name: 'Frenesí', tier: 4, type: 'Weapon', desc: 'Aumenta exageradamente el ataque al tener poca vida.' },
+    { name: 'Cañón de Cristal', tier: 4, type: 'Weapon', desc: 'Aumento masivo de daño a costa de reducir tu salud.' },
+    { name: 'Chiripa', tier: 4, type: 'Weapon', desc: 'Probabilidad de asestar golpes críticos devastadores.' },
+    { name: 'Rebote', tier: 4, type: 'Weapon', desc: 'Tus proyectiles rebotan entre múltiples enemigos.' },
+    { name: 'Silenciador', tier: 4, type: 'Weapon', desc: 'Impide que los enemigos usen sus habilidades.' },
+    { name: 'Lanzahechizos', tier: 4, type: 'Weapon', desc: 'Combina daño físico con efectos mágicos.' },
+    { name: 'Desborde Espiritual', tier: 4, type: 'Weapon', desc: 'Satura al enemigo con explosiones de poder.' },
+
+
+    // --- VIDA ---
+    // Tier I ($800)
+    { name: 'Vida Adicional', tier: 1, type: 'Vitality', desc: 'Aumenta la salud máxima.' },
+    { name: 'Regeneración Adicional', tier: 1, type: 'Vitality', desc: 'Aumenta la regeneración de vida por segundo.' },
+    { name: 'Aguante Adicional', tier: 1, type: 'Vitality', desc: 'Otorga cargas de esquiva/desplazamiento extra.' },
+    { name: 'Templanza', tier: 1, type: 'Vitality', desc: 'Activa para obtener un escudo temporal.' },
+    { name: 'Rito Curativo', tier: 1, type: 'Vitality', desc: 'Regenera una gran cantidad de salud a lo largo del tiempo.' },
+    { name: 'Robo de Vida Cuerpo a Cuerpo', tier: 1, type: 'Vitality', desc: 'Te cura al golpear cuerpo a cuerpo.' },
+    { name: 'Refutación', tier: 1, type: 'Vitality', desc: 'Devuelve parte del daño recibido.' },
+    { name: 'Botas de Esprintar', tier: 1, type: 'Vitality', desc: 'Aumenta la velocidad de movimiento fuera de combate.' },
+
+    // Tier II ($1600)
+    { name: 'Chaleco de Batalla', tier: 2, type: 'Vitality', desc: 'Otorga armadura contra disparos de armas.' },
+    { name: 'Robo de Vida Balístico', tier: 2, type: 'Vitality', desc: 'Te cura un porcentaje del daño que haces con tus balas.' },
+    { name: 'Reductor de Desventajas', tier: 2, type: 'Vitality', desc: 'Reduce la duración de los estados de alteración.' },
+    { name: 'Emblema del Espíritu', tier: 2, type: 'Vitality', desc: 'Aumenta la resistencia y salud mágica.' },
+    { name: 'Velocidad Persistente', tier: 2, type: 'Vitality', desc: 'Aumenta la velocidad base y reduce ralentizaciones.' },
+    { name: 'Guardián Centinela', tier: 2, type: 'Vitality', desc: 'Protege a los aliados cercanos con escudos.' },
+    { name: 'Maleficio Anticuración', tier: 2, type: 'Vitality', desc: 'Reduce la regeneración de salud del objetivo.' },
+    { name: 'Potenciador de Curación', tier: 2, type: 'Vitality', desc: 'Aumenta la efectividad de todas tus curaciones.' },
+    { name: 'Barrera Reactiva', tier: 2, type: 'Vitality', desc: 'Crea un escudo automático al recibir daño crítico.' },
+    { name: 'Amuleto Reparador', tier: 2, type: 'Vitality', desc: 'Activa para restaurar vida al instante.' },
+    { name: 'Fuego Devuelto', tier: 2, type: 'Vitality', desc: 'Refleja las balas de los atacantes hacia ellos.' },
+    { name: 'Robo de Vida Espiritual', tier: 2, type: 'Vitality', desc: 'Te cura al hacer daño con tus habilidades.' },
+    { name: 'Protección Espiritual', tier: 2, type: 'Vitality', desc: 'Otorga resistencia contra daño de Espíritu.' },
+    { name: 'Colección de Trofeos', tier: 2, type: 'Vitality', desc: 'Ganas vida máxima por cada baja o asistencia.' },
+    { name: 'Protección Balística', tier: 2, type: 'Vitality', desc: 'Aumenta la defensa física contra armas.' },
+
+    // Tier III ($3200)
+    { name: 'Resiliencia Balística', tier: 3, type: 'Vitality', desc: 'Mitiga enormemente el daño de armas entrante.' },
+    { name: 'Contrahechizo', tier: 3, type: 'Vitality', desc: 'Anula la primera habilidad enemiga que te impacte.' },
+    { name: 'Disipador de Magia', tier: 3, type: 'Vitality', desc: 'Limpia todos los efectos negativos de tu personaje.' },
+    { name: 'Fortaleza', tier: 3, type: 'Vitality', desc: 'Aumenta masivamente la salud y regeneración.' },
+    { name: 'Trance de Furia', tier: 3, type: 'Vitality', desc: 'Entra en estado berserker para aguantar más daño.' },
+    { name: 'Nova Curativa', tier: 3, type: 'Vitality', desc: 'Emite una ola de curación para ti y tus aliados.' },
+    { name: 'Golpe Vital', tier: 3, type: 'Vitality', desc: 'Restaura vida en función del daño causado.' },
+    { name: 'Salto Majestuoso', tier: 3, type: 'Vitality', desc: 'Te lanza por el aire para reposicionarte.' },
+    { name: 'Piel de Metal', tier: 3, type: 'Vitality', desc: 'Te vuelve inmune al daño de balas por unos segundos.' },
+    { name: 'Rayo de Rescate', tier: 3, type: 'Vitality', desc: 'Atrae a un aliado hacia ti y lo cura.' },
+    { name: 'Resiliencia Espiritual', tier: 3, type: 'Vitality', desc: 'Resistencia masiva contra habilidades y magias.' },
+    { name: 'Maestría en Aguante', tier: 3, type: 'Vitality', desc: 'Otorga movilidad, saltos y esquivas ilimitadas.' },
+    { name: 'Caminante del Velo', tier: 3, type: 'Vitality', desc: 'Te vuelve invisible e intangible temporalmente.' },
+    { name: 'Piedra de Teletransporte', tier: 3, type: 'Vitality', desc: 'Te desplaza instantáneamente a una distancia corta.' },
+
+    // Tier IV ($6400)
+    { name: 'Burlar a la Muerte', tier: 4, type: 'Vitality', desc: 'Evita el golpe fatal y te otorga invulnerabilidad breve.' },
+    { name: 'Coloso', tier: 4, type: 'Vitality', desc: 'Aumenta tu tamaño, salud y frena a los enemigos.' },
+    { name: 'Barrera Divina', tier: 4, type: 'Vitality', desc: 'Otorga un escudo impenetrable a todo el equipo.' },
+    { name: 'Protección de Vidente', tier: 4, type: 'Vitality', desc: 'Te otorga visión de mapa e inmunidades mágicas.' },
+    { name: 'Tempo Curativo', tier: 4, type: 'Vitality', desc: 'Regenera tu barra de vida a velocidad extrema.' },
+    { name: 'Indomable', tier: 4, type: 'Vitality', desc: 'Te vuelve inamovible contra controles de masas.' },
+    { name: 'Infusor', tier: 4, type: 'Vitality', desc: 'Sobrecarga tus defensas al activar habilidades.' },
+    { name: 'Inhibidor', tier: 4, type: 'Vitality', desc: 'Reduce el daño que infligen los enemigos cercanos.' },
+    { name: 'Gigante', tier: 4, type: 'Vitality', desc: 'Aumenta drásticamente tu masa y resistencia física.' },
+    { name: 'Sanguijuela', tier: 4, type: 'Vitality', desc: 'Absorbe la vida de los enemigos a tu alrededor.' },
+    { name: 'Golpe Fantasmal', tier: 4, type: 'Vitality', desc: 'Ataque sorpresa que aturde y regenera vida.' },
+    { name: 'Coraza Reforzada', tier: 4, type: 'Vitality', desc: 'Bloquea un porcentaje fijo de todos los ataques.' },
+    { name: 'Balas Drenantes', tier: 4, type: 'Vitality', desc: 'Tus proyectiles roban vida al objetivo continuamente.' },
+    { name: 'Rompehechizos', tier: 4, type: 'Vitality', desc: 'Destruye las barreras mágicas de los rivales.' },
+    { name: 'Imparable', tier: 4, type: 'Vitality', desc: 'Ganas inmunidad total a aturdimientos y frenos.' },
+    { name: 'Ráfaga Vampírica', tier: 4, type: 'Vitality', desc: 'Robo de vida extremo durante un breve lapso.' },
+    { name: 'Cota de Bruja', tier: 4, type: 'Vitality', desc: 'Devuelve las maldiciones e incapacitaciones al atacante.' },
+
+
+    // --- ESPÍRITU ---
+    // Tier I ($800)
+    { name: 'Carga Adicional', tier: 1, type: 'Spirit', desc: 'Otorga una carga extra a tus habilidades.' },
+    { name: 'Espíritu Adicional', tier: 1, type: 'Spirit', desc: 'Aumenta el poder de espíritu básico.' },
+    { name: 'Huevo de Oro', tier: 1, type: 'Spirit', desc: 'Otorga oro y poder mágico con el tiempo.' },
+    { name: 'Explosión Mística', tier: 1, type: 'Spirit', desc: 'Las habilidades causan una pequeña explosión de área.' },
+    { name: 'Expansión Mística', tier: 1, type: 'Spirit', desc: 'Aumenta el radio de efecto de tus habilidades.' },
+    { name: 'Regeneración Mística', tier: 1, type: 'Spirit', desc: 'Curación sostenida al usar magia.' },
+    { name: 'Cañón Oxidado', tier: 1, type: 'Spirit', desc: 'Aplica un estado corrosivo con hechizos.' },
+    { name: 'Golpe Espiritual', tier: 1, type: 'Spirit', desc: 'Potencia el siguiente impacto con energía mágica.' },
+
+    // Tier II ($1600)
+    { name: 'Subidón Arcano', tier: 2, type: 'Spirit', desc: 'Aumenta la velocidad tras lanzar un hechizo.' },
+    { name: 'Destructor de Escudos', tier: 2, type: 'Spirit', desc: 'Tus habilidades destrozan barreras defensivas.' },
+    { name: 'Frente Frío', tier: 2, type: 'Spirit', desc: 'Emite una ráfaga de hielo que frena a los rivales.' },
+    { name: 'Compresión de Recarga', tier: 2, type: 'Spirit', desc: 'Reduce los tiempos de reutilización de habilidades.' },
+    { name: 'Ampliador de Duración', tier: 2, type: 'Spirit', desc: 'Tus efectos y estados alterados duran más tiempo.' },
+    { name: 'Espíritu Mejorado', tier: 2, type: 'Spirit', desc: 'Aumenta sustancialmente el poder de espíritu.' },
+    { name: 'Ralentización Mística', tier: 2, type: 'Spirit', desc: 'El daño de habilidades frena a los enemigos.' },
+    { name: 'Vulnerabilidad Mística', tier: 2, type: 'Spirit', desc: 'Hace que el rival reciba más daño mágico.' },
+    { name: 'Recarga Repentina', tier: 2, type: 'Spirit', desc: 'Recupera cargas al realizar ciertas acciones.' },
+    { name: 'Hechizo Ralentizador', tier: 2, type: 'Spirit', desc: 'Proyectil mágico que reduce la movilidad.' },
+    { name: 'Savia Espiritual', tier: 2, type: 'Spirit', desc: 'Extrae energía del enemigo para potenciarte.' },
+    { name: 'Supresor', tier: 2, type: 'Spirit', desc: 'Reduce la cadencia de fuego del rival atacado con magia.' },
+
+    // Tier III ($3200)
+    { name: 'Declive', tier: 3, type: 'Spirit', desc: 'Drena el poder mágico de los objetivos cercanos.' },
+    { name: 'Maldición Desarmante', tier: 3, type: 'Spirit', desc: 'Impide que el rival disparé su arma.' },
+    { name: 'Expansión Superior', tier: 3, type: 'Spirit', desc: 'Aumenta enormemente el área de tus habilidades.' },
+    { name: 'Derribo', tier: 3, type: 'Spirit', desc: 'Interrumpe y derriba al objetivo impactado.' },
+    { name: 'Regeneración Radiante', tier: 3, type: 'Spirit', desc: 'Emana luz que cura continuamente.' },
+    { name: 'Recarga Rápida', tier: 3, type: 'Spirit', desc: 'Reducción masiva del tiempo de enfriamiento.' },
+    { name: 'Ola de Silencio', tier: 3, type: 'Spirit', desc: 'Silencia a los enemigos en una gran zona.' },
+    { name: 'Robo de Espíritu', tier: 3, type: 'Spirit', desc: 'Absorbe el poder de espíritu del enemigo.' },
+    { name: 'Tiempo de Recarga Mejorado', tier: 3, type: 'Spirit', desc: 'Tus hechizos se recuperan mucho más rápido.' },
+    { name: 'Duración Superior', tier: 3, type: 'Spirit', desc: 'Extiende en gran medida tus buffs y debuffs.' },
+    { name: 'Subidón de Poder', tier: 3, type: 'Spirit', desc: 'Aumento temporal de daño mágico al usar una habilidad.' },
+    { name: 'Revientatácticas', tier: 3, type: 'Spirit', desc: 'Desorganiza las habilidades y combos enemigos.' },
+    { name: 'Pulsación de Muerte', tier: 3, type: 'Spirit', desc: 'Emite pulso destructivo cuando cae un rival.' },
+
+    // Tier IV ($6400)
+    { name: 'Explosión Ártica', tier: 4, type: 'Spirit', desc: 'Congela a los enemigos causando daño masivo.' },
+    { name: 'Espíritu Ilimitado', tier: 4, type: 'Spirit', desc: 'Otorga el máximo nivel de poder mágico posible.' },
+    { name: 'Reliquia Maldita', tier: 4, type: 'Spirit', desc: 'Maldice al enemigo haciéndolo recibir daño multiplicado.' },
+    { name: 'Esquirla Reverberante', tier: 4, type: 'Spirit', desc: 'Hace que tus habilidades se repitan automáticamente.' },
+    { name: 'Exposición Creciente', tier: 4, type: 'Spirit', desc: 'Cada golpe mágico aumenta el daño del siguiente.' },
+    { name: 'Transformación Etérea', tier: 4, type: 'Spirit', desc: 'Te vuelve inmune al daño físico por un tiempo.' },
+    { name: 'Lente de Enfoque', tier: 4, type: 'Spirit', desc: 'Focaliza tus habilidades para causar daño devastador.' },
+    { name: 'Pergamino de Poder', tier: 4, type: 'Spirit', desc: 'Potencia al máximo todas las facultades místicas.' },
+    { name: 'Alfombra Mágica', tier: 4, type: 'Spirit', desc: 'Vuela por el mapa inmune a los terrenos dañinos.' },
+    { name: 'Magnum Mercurial', tier: 4, type: 'Spirit', desc: 'Disparo mágico capaz de atravesar cualquier defensa.' },
+    { name: 'Reverberación Mística', tier: 4, type: 'Spirit', desc: 'Tus hechizos generan ondas expansivas secundarias.' },
+    { name: 'Restauración', tier: 4, type: 'Spirit', desc: 'Restaura tus recursos y salud al usar la habilidad definitiva.' },
+    { name: 'Azote', tier: 4, type: 'Spirit', desc: 'Castiga duramente a los enemigos con menor salud.' },
+    { name: 'Quemadura Espiritual', tier: 4, type: 'Spirit', desc: 'Prende fuego mágico al rival quitándole vida porcentual.' },
+    { name: 'Tiempo de Recarga Definitivo', tier: 4, type: 'Spirit', desc: 'Reduce casi a cero la recarga de tu habilidad Ultimate.' },
+    { name: 'Red de Vórtices', tier: 4, type: 'Spirit', desc: 'Crea un agujero negro que atrae y destruye a los enemigos.' }
+];
 
         /* ================================= GAME STATE ================================= */
         let gameState = {
@@ -673,26 +816,15 @@
         }
 
         function generateCardChoices() {
-    const activeHero = gameState.currentTurnPlayer === 1 ? gameState.p1.hero : gameState.p2.hero;
-    const preferredTypes = HERO_BUILDS[activeHero] || ["Weapon", "Spirit", "Vitality"];
-
-    // Separamos la base de datos por tipos
-    const weapons = ITEMS.filter(i => i.type === 'Weapon');
-    const spirits = ITEMS.filter(i => i.type === 'Spirit');
-    const vitalities = ITEMS.filter(i => i.type === 'Vitality');
-
     let choices = [];
+    let pool = [...ITEMS];
 
-    // Garantizamos al menos 1 ítem de cada categoría principal si es posible
-    const pickRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
-
-    // Elegimos 1 de cada tipo para asegurar diversidad
-    if (weapons.length) choices.push(pickRandom(weapons));
-    if (spirits.length) choices.push(pickRandom(spirits));
-    if (vitalities.length) choices.push(pickRandom(vitalities));
-
-    // Si el héroe prefiere cierto tipo, le damos prioridad a esa categoría en el orden
-    choices.sort(() => Math.random() - 0.5);
+    // Seleccionamos 3 ítems completamente al azar de toda la base de datos
+    while (choices.length < 3 && pool.length > 0) {
+        const randomIndex = Math.floor(Math.random() * pool.length);
+        choices.push(pool[randomIndex]);
+        pool.splice(randomIndex, 1); // Evita que salgan repetidos en el mismo turno
+    }
 
     gameState.currentChoices = choices;
 }
