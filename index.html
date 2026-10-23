@@ -505,35 +505,24 @@
     <!-- App Logic Script -->
     <script>
         /* ==================== ASSET IMAGE HANDLERS & MAPPING ==================== */
-        let assetSource = "local"; // "wiki", "local", "vector"
+        let assetSource = "local";
 
-        function getHeroImageUrl(heroName) {
-            if (assetSource === "vector") return null;
-            const formatted = heroName.replace(/ /g, "_");
-            if (assetSource === "local") {
-                return heroes/${formatted.toLowerCase()}.png`;
-            }
-            // Online Wiki CDN
-            return `https://deadlock.wiki/images/thumb/${formatted}_card.png/120px-${formatted}_card.png`;
-        }
+function getHeroImageUrl(heroName) {
+    if (assetSource === "vector") return null;
+    
+    // Convertimos espacios y caracteres especiales a guiones medios (-)
+    const formatted = heroName
+        .toLowerCase()
+        .replace(/ & /g, "-and-")
+        .replace(/ /g, "-")
+        .replace(/[^a-z0-9-]/g, "");
 
-        function getItemImageUrl(itemName) {
-            if (assetSource === "vector") return null;
-            const formatted = itemName.replace(/ /g, "_");
-            if (assetSource === "local") {
-                return `assets/items/${formatted.toLowerCase()}.png`;
-            }
-            // Online Wiki CDN
-            return `https://deadlock.wiki/images/thumb/${formatted}_item.png/100px-${formatted}_item.png`;
-        }
-
-        /* Helper function to generate an <img> tag with smart error fallback to SVG icons */
-        function createFallbackImageHTML(src, fallbackCharOrIcon, altText, extraClasses = "w-full h-full object-cover") {
-            if (!src) {
-                return `<div class="w-full h-full flex items-center justify-center font-bold">${fallbackCharOrIcon}</div>`;
-            }
-            return `<img src="${src}" alt="${altText}" class="${extraClasses}" onerror="this.onerror=null; this.parentNode.innerHTML='<div class=\'w-full h-full flex items-center justify-center font-bold\'>${fallbackCharOrIcon}</div>';">`;
-        }
+    if (assetSource === "local") {
+        return `./heroes/${formatted}.png`;
+    }
+    
+    return `https://deadlock.wiki/images/thumb/${heroName.replace(/ /g, "_")}_card.png/120px-${heroName.replace(/ /g, "_")}_card.png`;
+}
 
         /* ==================== HEROES & BUILD PROFILE WEIGHTS ==================== */
         const HERO_BUILDS = {
