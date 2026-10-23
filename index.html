@@ -350,10 +350,11 @@
         }
 
         function getItemImageUrl(itemName) {
-            if (!itemName) return "";
-            const cleanName = itemName.toLowerCase().replace(/['.]/g, "").replace(/\s+/g, "_");
-            return `https://raw.githubusercontent.com/deadlock-wiki/assets/main/items/${cleanName}.png`;
-        }
+    if (!itemName) return "";
+    // Reemplaza espacios por guiones bajos y codifica caracteres especiales
+    const formatted = itemName.replace(/ /g, "_").replace(/'/g, "%27");
+    return `https://deadlock.wiki/images/thumb/${formatted}.png/120px-${formatted}.png`;
+}
 
         const HERO_NAMES = [
             "Abrams", "Apollo", "Baba", "Bebop", "Billy", "Calico", "Celeste", "Deadman Danny", 
@@ -672,75 +673,79 @@
         }
 
         function renderCards() {
-            const container = document.getElementById('cardsContainer');
-            container.innerHTML = '';
+    const container = document.getElementById('cardsContainer');
+    container.innerHTML = '';
 
-            gameState.currentChoices.forEach((item, index) => {
-                const cardOuter = document.createElement('div');
-                cardOuter.className = `perspective-1000 w-full h-72 cursor-pointer group`;
-                cardOuter.onclick = () => onCardClick(index);
+    gameState.currentChoices.forEach((item, index) => {
+        const cardOuter = document.createElement('div');
+        cardOuter.className = `w-full h-80 cursor-pointer select-none transition-transform duration-200`;
+        cardOuter.onclick = () => onCardClick(index);
 
-                const isFlipped = gameState.mode === 'normal' || gameState.isFlipped[index];
-                const isSelected = gameState.selectedCardIndex === index;
+        const isFlipped = gameState.mode === 'normal' || gameState.isFlipped[index];
+        const isSelected = gameState.selectedCardIndex === index;
 
-                let borderGlow = 'border-[#2A3038]';
-                if (isSelected) borderGlow = 'border-[#D1A23D] ring-2 ring-[#D1A23D] scale-105';
-
-                let typeBg = '#F97316';
-                if (item.type === 'Spirit') typeBg = '#A162F7';
-                if (item.type === 'Vitality') typeBg = '#4ADE80';
-
-                const itemImgUrl = getItemImageUrl(item.name);
-
-                cardOuter.innerHTML = `
-                    <div class="card-flip-inner relative w-full h-full transform-style-3d duration-500 ${isFlipped ? 'rotate-y-180' : ''}">
-                        
-                        <!-- FRONT -->
-                        <div class="absolute inset-0 w-full h-full bg-[#0B0D0E] border-2 ${borderGlow} rounded-xl p-4 flex flex-col items-center justify-between backface-hidden shadow-xl">
-                            <div class="w-full flex justify-between items-center text-xs text-gray-500">
-                                <span>MYSTERY CARD</span>
-                                <i data-lucide="help-circle" class="w-4 h-4 text-[#D1A23D]"></i>
-                            </div>
-                            <div class="w-16 h-16 rounded-full bg-[#161A1E] border border-[#2A3038] flex items-center justify-center gold-border-glow">
-                                <i data-lucide="sparkles" class="w-8 h-8 text-[#D1A23D] animate-pulse"></i>
-                            </div>
-                            <span class="text-xs text-gray-400 font-bold uppercase tracking-wider">Click to Reveal</span>
-                        </div>
-
-                        <!-- BACK -->
-                        <div class="absolute inset-0 w-full h-full bg-[#161A1E] border-2 ${borderGlow} rounded-xl p-3 flex flex-col justify-between backface-hidden rotate-y-180 shadow-xl">
-                            <div>
-                                <div class="flex items-center justify-between mb-2">
-                                    <span class="text-[10px] px-2 py-0.5 rounded font-bold text-[#0B0D0E]" style="background-color: ${typeBg}">
-                                        ${item.type.toUpperCase()} - TIER ${item.tier}
-                                    </span>
-                                </div>
-
-                                <div class="w-full h-20 bg-[#0B0D0E] rounded-lg border border-[#2A3038] mb-2 flex items-center justify-center overflow-hidden p-1">
-                                    <img src="${itemImgUrl}" alt="${item.name}" class="max-h-full object-contain" 
-                                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                    <div class="hidden w-full h-full items-center justify-center font-title font-bold text-xs text-[#D1A23D]">
-                                        ${item.name}
-                                    </div>
-                                </div>
-
-                                <h4 class="font-title font-bold text-xs text-white mb-1 truncate">${item.name}</h4>
-                                <p class="text-[11px] text-gray-300 leading-snug line-clamp-2">${item.desc}</p>
-                            </div>
-
-                            <div class="pt-2 border-t border-[#2A3038] flex items-center justify-between text-[10px] text-gray-400">
-                                <span>Deadlock Item</span>
-                                <span class="text-[#D1A23D] font-bold">${isSelected ? 'SELECTED' : 'CLICK TO SELECT'}</span>
-                            </div>
-                        </div>
-
-                    </div>
-                `;
-                container.appendChild(cardOuter);
-            });
-            lucide.createIcons();
+        let borderStyle = 'border-[#2A3038] hover:border-[#D1A23D]';
+        if (isSelected) {
+            borderStyle = 'border-[#D1A23D] ring-2 ring-[#D1A23D] scale-105 z-10';
         }
 
+        let typeBg = '#F97316'; // Weapon
+        if (item.type === 'Spirit') typeBg = '#A162F7';
+        if (item.type === 'Vitality') typeBg = '#4ADE80';
+
+        const itemImgUrl = getItemImageUrl(item.name);
+
+        cardOuter.innerHTML = `
+            <div class="relative w-full h-full bg-[#161A1E] border-2 ${borderStyle} rounded-xl p-3 flex flex-col justify-between shadow-xl transition-all">
+                
+                ${!isFlipped ? `
+                    <!-- FRENTE: CARTA NO REVELADA -->
+                    <div class="w-full h-full bg-[#0B0D0E] rounded-lg p-4 flex flex-col items-center justify-between">
+                        <div class="w-full flex justify-between items-center text-xs text-gray-500">
+                            <span>MYSTERY CARD</span>
+                            <i data-lucide="help-circle" class="w-4 h-4 text-[#D1A23D]"></i>
+                        </div>
+                        <div class="w-16 h-16 rounded-full bg-[#161A1E] border border-[#2A3038] flex items-center justify-center gold-border-glow">
+                            <i data-lucide="sparkles" class="w-8 h-8 text-[#D1A23D] animate-pulse"></i>
+                        </div>
+                        <span class="text-xs text-gray-400 font-bold uppercase tracking-wider">Click to Reveal</span>
+                    </div>
+                ` : `
+                    <!-- DORSO: CARTA REVELADA -->
+                    <div class="flex flex-col h-full justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-[10px] px-2 py-0.5 rounded font-bold text-[#0B0D0E]" style="background-color: ${typeBg}">
+                                    ${item.type.toUpperCase()} - TIER ${item.tier}
+                                </span>
+                            </div>
+
+                            <!-- Contenedor de Imagen -->
+                            <div class="w-full h-24 bg-[#0B0D0E] rounded-lg border border-[#2A3038] mb-2 flex items-center justify-center overflow-hidden p-2">
+                                <img src="${itemImgUrl}" alt="${item.name}" class="max-h-full object-contain"
+                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="hidden w-full h-full items-center justify-center font-title font-bold text-xs text-[#D1A23D] text-center p-1">
+                                    ${item.name}
+                                </div>
+                            </div>
+
+                            <h4 class="font-title font-bold text-sm text-white mb-1 truncate">${item.name}</h4>
+                            <p class="text-[11px] text-gray-300 leading-snug line-clamp-3">${item.desc}</p>
+                        </div>
+
+                        <div class="pt-2 border-t border-[#2A3038] flex items-center justify-between text-[10px] text-gray-400">
+                            <span>Deadlock Item</span>
+                            <span class="text-[#D1A23D] font-bold">${isSelected ? 'SELECTED' : 'CLICK TO SELECT'}</span>
+                        </div>
+                    </div>
+                `}
+
+            </div>
+        `;
+        container.appendChild(cardOuter);
+    });
+    lucide.createIcons();
+}
         function onCardClick(index) {
             // Reveal card
             gameState.isFlipped[index] = true;
