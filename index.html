@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="h-full bg-[#0B0D0E]">
+<html lang="en" class="h-full bg-[#0B0D0E]">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,11 +26,8 @@
                             gold: '#D1A23D',
                             goldHover: '#E5C365',
                             weapon: '#F97316',
-                            weaponGlow: 'rgba(249, 115, 22, 0.25)',
                             spirit: '#A162F7',
-                            spiritGlow: 'rgba(161, 98, 247, 0.25)',
                             vitality: '#4ADE80',
-                            vitalityGlow: 'rgba(74, 222, 128, 0.25)',
                         }
                     },
                     fontFamily: {
@@ -45,20 +42,18 @@
         body { font-family: 'Rajdhani', sans-serif; background-color: #0B0D0E; color: #E2E8F0; }
         .font-title { font-family: 'Cinzel', serif; }
         
-        /* 3D Flip Card Animation */
         .perspective-1000 { perspective: 1000px; }
         .transform-style-3d { transform-style: preserve-3d; }
         .backface-hidden { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
         .rotate-y-180 { transform: rotateY(180deg); }
         
         .card-flip-inner {
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .card-flipped .card-flip-inner {
             transform: rotateY(180deg);
         }
 
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #0B0D0E; }
         ::-webkit-scrollbar-thumb { background: #2A3038; border-radius: 3px; }
@@ -77,7 +72,7 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between overflow-x-hidden">
 
-    <!-- Header / Navbar -->
+    <!-- Header -->
     <header class="w-full border-b border-[#2A3038] bg-[#161A1E]/90 px-6 py-4 flex items-center justify-between sticky top-0 z-50 backdrop-blur-md">
         <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded bg-gradient-to-br from-[#D1A23D] to-[#8C6212] p-0.5 flex items-center justify-center shadow-lg">
@@ -87,13 +82,13 @@
             </div>
             <div>
                 <h1 class="font-title text-xl font-bold tracking-wider gold-gradient-text">DEADLOCK <span class="text-xs px-2 py-0.5 rounded bg-[#D1A23D]/20 text-[#D1A23D] border border-[#D1A23D]/40 font-body">ITEM DRAFT 1v1</span></h1>
-                <p class="text-xs text-gray-400">Selección de Héroes, Imágenes Reales e Ítems por Build</p>
+                <p class="text-xs text-gray-400">Hero Selection, Real Assets & Custom Builds</p>
             </div>
         </div>
         <div class="flex items-center gap-4">
             <button id="soundToggle" onclick="toggleSound()" class="text-xs flex items-center gap-2 px-3 py-1.5 rounded border border-[#2A3038] hover:border-[#D1A23D] text-gray-300 transition-colors">
                 <i data-lucide="volume-2" class="w-4 h-4 text-[#D1A23D]"></i>
-                <span id="soundStatus">Sonido: ON</span>
+                <span id="soundStatus">Sound: ON</span>
             </button>
         </div>
     </header>
@@ -105,42 +100,39 @@
         <section id="setupScreen" class="w-full max-w-4xl bg-[#161A1E] border border-[#2A3038] rounded-xl p-6 shadow-2xl relative overflow-hidden">
             <div class="absolute -top-24 -right-24 w-72 h-72 bg-[#D1A23D]/10 rounded-full blur-3xl pointer-events-none"></div>
 
-            <h2 class="font-title text-2xl font-bold text-center gold-gradient-text mb-2">CONFIGURACIÓN DE PARTIDA</h2>
-            <p class="text-center text-sm text-gray-400 mb-6">Personaliza la sala, elige héroes y configura tus rutas de imágenes o rondas.</p>
+            <h2 class="font-title text-2xl font-bold text-center gold-gradient-text mb-2">MATCH CONFIGURATION</h2>
+            <p class="text-center text-sm text-gray-400 mb-6">Setup player names, game mode and choose your heroes.</p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <!-- Player 1 Setup -->
                 <div class="bg-[#0B0D0E] p-4 rounded-lg border border-[#2A3038] focus-within:border-[#D1A23D] transition-all">
                     <label class="block text-xs font-bold text-gray-400 mb-2 uppercase tracking-wider flex items-center gap-2">
-                        <i data-lucide="user" class="w-4 h-4 text-[#F97316]"></i> Nombre Jugador 1
+                        <i data-lucide="user" class="w-4 h-4 text-[#F97316]"></i> Player 1 Name
                     </label>
-                    <input type="text" id="p1Name" value="Jugador 1" class="w-full bg-[#161A1E] text-white px-3 py-2 rounded border border-[#2A3038] focus:outline-none focus:border-[#D1A23D]">
+                    <input type="text" id="p1Name" value="Player 1" class="w-full bg-[#161A1E] text-white px-3 py-2 rounded border border-[#2A3038] focus:outline-none focus:border-[#D1A23D]">
                 </div>
 
-                <!-- Player 2 Setup -->
                 <div class="bg-[#0B0D0E] p-4 rounded-lg border border-[#2A3038] focus-within:border-[#D1A23D] transition-all">
                     <label class="block text-xs font-bold text-gray-400 mb-2 uppercase tracking-wider flex items-center gap-2">
-                        <i data-lucide="user" class="w-4 h-4 text-[#A162F7]"></i> Nombre Jugador 2
+                        <i data-lucide="user" class="w-4 h-4 text-[#A162F7]"></i> Player 2 Name
                     </label>
-                    <input type="text" id="p2Name" value="Jugador 2" class="w-full bg-[#161A1E] text-white px-3 py-2 rounded border border-[#2A3038] focus:outline-none focus:border-[#D1A23D]">
+                    <input type="text" id="p2Name" value="Player 2" class="w-full bg-[#161A1E] text-white px-3 py-2 rounded border border-[#2A3038] focus:outline-none focus:border-[#D1A23D]">
                 </div>
             </div>
 
-            <!-- Game Options -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                 <div class="bg-[#0B0D0E] p-4 rounded-lg border border-[#2A3038]">
                     <label class="block text-xs font-bold text-gray-400 mb-2 flex items-center gap-2">
-                        <i data-lucide="eye-off" class="w-4 h-4 text-[#D1A23D]"></i> Modo de Revelación
+                        <i data-lucide="eye-off" class="w-4 h-4 text-[#D1A23D]"></i> Reveal Mode
                     </label>
                     <div class="grid grid-cols-2 gap-2">
-                        <button type="button" id="modeBlind" onclick="setMode('blind')" class="px-3 py-1.5 text-xs rounded font-bold border border-[#D1A23D] bg-[#D1A23D]/20 text-[#D1A23D]">Oculto</button>
+                        <button type="button" id="modeBlind" onclick="setMode('blind')" class="px-3 py-1.5 text-xs rounded font-bold border border-[#D1A23D] bg-[#D1A23D]/20 text-[#D1A23D]">Blind</button>
                         <button type="button" id="modeNormal" onclick="setMode('normal')" class="px-3 py-1.5 text-xs rounded font-bold border border-[#2A3038] text-gray-400 hover:border-gray-500">Visible</button>
                     </div>
                 </div>
 
                 <div class="bg-[#0B0D0E] p-4 rounded-lg border border-[#2A3038]">
                     <label class="block text-xs font-bold text-gray-400 mb-2 flex items-center gap-2">
-                        <i data-lucide="layers" class="w-4 h-4 text-[#D1A23D]"></i> Rondas
+                        <i data-lucide="layers" class="w-4 h-4 text-[#D1A23D]"></i> Rounds
                     </label>
                     <div class="flex items-center justify-between gap-2">
                         <button onclick="setRounds(3)" id="r3" class="flex-1 py-1.5 text-xs rounded font-bold border border-[#D1A23D] bg-[#D1A23D]/20 text-[#D1A23D]">3</button>
@@ -152,12 +144,11 @@
 
                 <div class="bg-[#0B0D0E] p-4 rounded-lg border border-[#2A3038]">
                     <label class="block text-xs font-bold text-gray-400 mb-2 flex items-center gap-2">
-                        <i data-lucide="image" class="w-4 h-4 text-[#D1A23D]"></i> Origen de Imágenes
+                        <i data-lucide="image" class="w-4 h-4 text-[#D1A23D]"></i> Image Source
                     </label>
                     <select id="assetSourceSelect" onchange="changeAssetSource(this.value)" class="w-full bg-[#161A1E] text-xs text-white px-3 py-2 rounded border border-[#2A3038] focus:outline-none focus:border-[#D1A23D]">
-                        <option value="local">Carpeta Local (./heroes/)</option>
-                        <option value="wiki">Wiki/Servidor Online (Auto)</option>
-                        <option value="vector">Íconos Vectoriales (Respaldo)</option>
+                        <option value="local">Local Folder (./heroes/)</option>
+                        <option value="wiki">Online Wiki CDN</option>
                     </select>
                 </div>
             </div>
@@ -166,213 +157,186 @@
             <div class="bg-[#0B0D0E] p-4 rounded-lg border border-[#2A3038] mb-6">
                 <div class="flex items-center justify-between mb-3">
                     <h3 class="text-sm font-bold text-gray-300 flex items-center gap-2">
-                        <i data-lucide="users" class="w-4 h-4 text-[#D1A23D]"></i> SELECCIÓN DE HÉROES
+                        <i data-lucide="users" class="w-4 h-4 text-[#D1A23D]"></i> HERO SELECTION
                     </h3>
-                    <span class="text-xs text-gray-400">Haz clic en una pestaña para asignar o cambiar el personaje de cada jugador.</span>
+                    <span class="text-xs text-gray-400">Click a tab to assign a hero to each player.</span>
                 </div>
 
-                <!-- Tabs to choose P1 or P2 Hero -->
                 <div class="flex gap-2 mb-4">
                     <button id="p1HeroTab" onclick="setActiveHeroTab(1)" class="flex-1 py-2 px-3 rounded text-xs font-bold flex items-center justify-center gap-2 border border-[#F97316] bg-[#F97316]/20 text-[#F97316]">
                         <span class="w-2 h-2 rounded-full bg-[#F97316]"></span>
-                        Jugador 1: <span id="p1SelectedHeroText">Sin elegir</span>
+                        Player 1: <span id="p1SelectedHeroText">None</span>
                     </button>
                     <button id="p2HeroTab" onclick="setActiveHeroTab(2)" class="flex-1 py-2 px-3 rounded text-xs font-bold flex items-center justify-center gap-2 border border-[#2A3038] text-gray-400">
                         <span class="w-2 h-2 rounded-full bg-gray-500"></span>
-                        Jugador 2: <span id="p2SelectedHeroText">Sin elegir</span>
+                        Player 2: <span id="p2SelectedHeroText">None</span>
                     </button>
                 </div>
 
-                <!-- Hero Display Card Preview -->
                 <div class="grid grid-cols-2 gap-4 mb-4">
                     <div id="p1HeroCardPreview" class="bg-[#161A1E] border border-[#2A3038] rounded-lg p-3 flex items-center gap-3">
                         <div id="p1HeroImgBox" class="w-12 h-12 rounded bg-[#0B0D0E] border border-[#2A3038] flex items-center justify-center text-gray-500 overflow-hidden font-title text-xl font-bold">?</div>
                         <div>
-                            <span class="text-[10px] text-[#F97316] font-bold block uppercase tracking-wider">JUGADOR 1</span>
-                            <h4 id="p1HeroNamePreview" class="text-sm font-bold text-white">Ninguno seleccionado</h4>
+                            <span class="text-[10px] text-[#F97316] font-bold block uppercase tracking-wider">PLAYER 1</span>
+                            <h4 id="p1HeroNamePreview" class="text-sm font-bold text-white">None Selected</h4>
                         </div>
                     </div>
 
                     <div id="p2HeroCardPreview" class="bg-[#161A1E] border border-[#2A3038] rounded-lg p-3 flex items-center gap-3">
                         <div id="p2HeroImgBox" class="w-12 h-12 rounded bg-[#0B0D0E] border border-[#2A3038] flex items-center justify-center text-gray-500 overflow-hidden font-title text-xl font-bold">?</div>
                         <div>
-                            <span class="text-[10px] text-[#A162F7] font-bold block uppercase tracking-wider">JUGADOR 2</span>
-                            <h4 id="p2HeroNamePreview" class="text-sm font-bold text-white">Ninguno seleccionado</h4>
+                            <span class="text-[10px] text-[#A162F7] font-bold block uppercase tracking-wider">PLAYER 2</span>
+                            <h4 id="p2HeroNamePreview" class="text-sm font-bold text-white">None Selected</h4>
                         </div>
                     </div>
                 </div>
 
-                <!-- 44 Heroes Grid -->
-                <div id="heroGrid" class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2 max-h-56 overflow-y-auto pr-1">
-                    <!-- Dynamic Hero Badges -->
-                </div>
+                <div id="heroGrid" class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2 max-h-56 overflow-y-auto pr-1"></div>
             </div>
 
-            <!-- START GAME BUTTON -->
             <button id="startBtn" onclick="startGame()" disabled class="w-full py-4 rounded-lg bg-gray-800 text-gray-500 font-title font-bold text-lg tracking-widest cursor-not-allowed transition-all">
-                SELECCIONA AMBOS HÉROES PARA INICIAR
+                SELECT BOTH HEROES TO START
             </button>
         </section>
 
         <!-- STEP 2: DRAFTING BOARD -->
         <section id="draftScreen" class="w-full max-w-6xl hidden flex-col gap-6">
             
-            <!-- Top Status Bar -->
             <div class="bg-[#161A1E] border border-[#2A3038] rounded-xl p-4 flex flex-wrap items-center justify-between gap-4">
                 <div class="flex items-center gap-4">
                     <div class="flex items-center gap-2">
-                        <span class="text-xs text-gray-400">Ronda:</span>
+                        <span class="text-xs text-gray-400">Round:</span>
                         <span id="currentRoundDisplay" class="text-xl font-title font-bold text-[#D1A23D]">1 / 3</span>
                     </div>
                     <div class="h-6 w-px bg-[#2A3038]"></div>
                     <div class="flex items-center gap-2">
-                        <span class="text-xs text-gray-400">Turno De:</span>
-                        <span id="currentTurnDisplay" class="text-base font-bold text-[#F97316]">Jugador 1</span>
+                        <span class="text-xs text-gray-400">Turn:</span>
+                        <span id="currentTurnDisplay" class="text-base font-bold text-[#F97316]">Player 1</span>
                     </div>
                 </div>
 
                 <div class="flex items-center gap-2">
                     <div id="draftPhaseBadge" class="px-3 py-1 rounded-full bg-[#D1A23D]/20 text-[#D1A23D] border border-[#D1A23D]/40 text-xs font-bold uppercase tracking-wider">
-                        Fase de Selección
+                        Drafting Phase
                     </div>
                 </div>
             </div>
 
-            <!-- Draft Arena: P1 vs Cards vs P2 -->
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                 
                 <!-- Player 1 Panel -->
                 <div id="p1Panel" class="lg:col-span-3 bg-[#161A1E] border-2 border-[#F97316] rounded-xl p-4 transition-all">
                     <div class="flex items-center gap-3 mb-4 pb-3 border-b border-[#2A3038]">
-                        <div id="p1ActiveImg" class="w-14 h-14 rounded-lg bg-[#0B0D0E] border border-[#F97316] flex items-center justify-center overflow-hidden font-title text-2xl font-bold text-[#F97316]">
-                            ?
-                        </div>
+                        <div id="p1ActiveImg" class="w-14 h-14 rounded-lg bg-[#0B0D0E] border border-[#F97316] flex items-center justify-center overflow-hidden font-title text-2xl font-bold text-[#F97316]">?</div>
                         <div>
-                            <span class="text-[10px] text-[#F97316] font-bold block uppercase tracking-wider">JUGADOR 1</span>
-                            <h3 id="p1NameDisplay" class="font-bold text-lg text-white">Jugador 1</h3>
-                            <span id="p1HeroDisplay" class="text-xs text-gray-400 font-bold">Héroe: -</span>
+                            <span class="text-[10px] text-[#F97316] font-bold block uppercase tracking-wider">PLAYER 1</span>
+                            <h3 id="p1NameDisplay" class="font-bold text-lg text-white">Player 1</h3>
+                            <span id="p1HeroDisplay" class="text-xs text-gray-400 font-bold">Hero: -</span>
                         </div>
                     </div>
 
                     <h4 class="text-xs font-bold text-gray-400 mb-2 uppercase tracking-wider flex items-center justify-between">
-                        <span>Inventario</span>
+                        <span>Inventory</span>
                         <span id="p1ItemCount" class="text-[#D1A23D]">0/0</span>
                     </h4>
-                    <div id="p1Inventory" class="space-y-2 max-h-[400px] overflow-y-auto pr-1">
-                        <!-- P1 Selected Items -->
-                    </div>
+                    <div id="p1Inventory" class="space-y-2 max-h-[400px] overflow-y-auto pr-1"></div>
                 </div>
 
-                <!-- Center Choice Area (Cards) -->
+                <!-- Center Choice Area -->
                 <div class="lg:col-span-6 bg-[#161A1E] border border-[#2A3038] rounded-xl p-6 flex flex-col items-center">
                     <div class="text-center mb-6">
-                        <h3 class="font-title text-xl font-bold gold-gradient-text mb-1">ELIGE TUS ÍTEMS</h3>
-                        <p id="instructionText" class="text-xs text-gray-400">Selecciona una de las cartas disponibles para agregarla a tu build.</p>
+                        <h3 class="font-title text-xl font-bold gold-gradient-text mb-1">CHOOSE YOUR ITEM</h3>
+                        <p id="instructionText" class="text-xs text-gray-400">Click a card to reveal and select it for your build.</p>
                     </div>
 
-                    <!-- 3 Draft Cards Container -->
-                    <div id="cardsContainer" class="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full mb-6">
-                        <!-- Cards dynamically rendered here -->
-                    </div>
+                    <div id="cardsContainer" class="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full mb-6"></div>
 
                     <button id="confirmChoiceBtn" onclick="confirmPick()" disabled class="w-full py-3 rounded-lg bg-gray-800 text-gray-500 font-title font-bold text-base tracking-wider cursor-not-allowed transition-all">
-                        CONFIRMAR ELECCIÓN
+                        CONFIRM CHOICE
                     </button>
                 </div>
 
                 <!-- Player 2 Panel -->
                 <div id="p2Panel" class="lg:col-span-3 bg-[#161A1E] border border-[#2A3038] rounded-xl p-4 transition-all">
                     <div class="flex items-center gap-3 mb-4 pb-3 border-b border-[#2A3038]">
-                        <div id="p2ActiveImg" class="w-14 h-14 rounded-lg bg-[#0B0D0E] border border-[#A162F7] flex items-center justify-center overflow-hidden font-title text-2xl font-bold text-[#A162F7]">
-                            ?
-                        </div>
+                        <div id="p2ActiveImg" class="w-14 h-14 rounded-lg bg-[#0B0D0E] border border-[#A162F7] flex items-center justify-center overflow-hidden font-title text-2xl font-bold text-[#A162F7]">?</div>
                         <div>
-                            <span class="text-[10px] text-[#A162F7] font-bold block uppercase tracking-wider">JUGADOR 2</span>
-                            <h3 id="p2NameDisplay" class="font-bold text-lg text-white">Jugador 2</h3>
-                            <span id="p2HeroDisplay" class="text-xs text-gray-400 font-bold">Héroe: -</span>
+                            <span class="text-[10px] text-[#A162F7] font-bold block uppercase tracking-wider">PLAYER 2</span>
+                            <h3 id="p2NameDisplay" class="font-bold text-lg text-white">Player 2</h3>
+                            <span id="p2HeroDisplay" class="text-xs text-gray-400 font-bold">Hero: -</span>
                         </div>
                     </div>
 
                     <h4 class="text-xs font-bold text-gray-400 mb-2 uppercase tracking-wider flex items-center justify-between">
-                        <span>Inventario</span>
+                        <span>Inventory</span>
                         <span id="p2ItemCount" class="text-[#D1A23D]">0/0</span>
                     </h4>
-                    <div id="p2Inventory" class="space-y-2 max-h-[400px] overflow-y-auto pr-1">
-                        <!-- P2 Selected Items -->
-                    </div>
+                    <div id="p2Inventory" class="space-y-2 max-h-[400px] overflow-y-auto pr-1"></div>
                 </div>
 
             </div>
         </section>
 
-        <!-- STEP 3: SUMMARY & BUILD COMPARISON -->
+        <!-- STEP 3: SUMMARY -->
         <section id="summaryScreen" class="w-full max-w-5xl hidden flex-col gap-6">
             <div class="bg-[#161A1E] border border-[#2A3038] rounded-xl p-6 text-center relative overflow-hidden">
                 <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-[#D1A23D]/10 rounded-full blur-3xl pointer-events-none"></div>
-                <h2 class="font-title text-3xl font-bold gold-gradient-text mb-2">¡DRAFT FINALIZADO!</h2>
-                <p class="text-sm text-gray-400 mb-6">Resumen de Builds y Combinaciones Recomendadas para cada Héroe.</p>
+                <h2 class="font-title text-3xl font-bold gold-gradient-text mb-2">DRAFT FINISHED!</h2>
+                <p class="text-sm text-gray-400 mb-6">Final Build Comparison & Item Summary.</p>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left mb-6">
-                    <!-- Player 1 Final Build -->
                     <div class="bg-[#0B0D0E] border border-[#F97316]/50 rounded-xl p-5">
                         <div class="flex items-center gap-3 mb-4 pb-3 border-b border-[#2A3038]">
                             <div id="p1SummaryImg" class="w-14 h-14 rounded-lg bg-[#161A1E] border border-[#F97316] flex items-center justify-center overflow-hidden"></div>
                             <div>
-                                <span class="text-xs text-[#F97316] font-bold">BUILD JUGADOR 1</span>
-                                <h3 id="p1SummaryName" class="font-bold text-lg text-white">Jugador 1</h3>
-                                <span id="p1SummaryHero" class="text-xs text-gray-400">Héroe</span>
+                                <span class="text-xs text-[#F97316] font-bold">PLAYER 1 BUILD</span>
+                                <h3 id="p1SummaryName" class="font-bold text-lg text-white">Player 1</h3>
+                                <span id="p1SummaryHero" class="text-xs text-gray-400">Hero</span>
                             </div>
                         </div>
                         <div id="p1SummaryItems" class="space-y-2 mb-4 max-h-60 overflow-y-auto pr-1"></div>
-                        <div id="p1SynergyBox" class="p-3 rounded bg-[#161A1E] border border-[#2A3038] text-xs text-gray-300"></div>
                     </div>
 
-                    <!-- Player 2 Final Build -->
                     <div class="bg-[#0B0D0E] border border-[#A162F7]/50 rounded-xl p-5">
                         <div class="flex items-center gap-3 mb-4 pb-3 border-b border-[#2A3038]">
                             <div id="p2SummaryImg" class="w-14 h-14 rounded-lg bg-[#161A1E] border border-[#A162F7] flex items-center justify-center overflow-hidden"></div>
                             <div>
-                                <span class="text-xs text-[#A162F7] font-bold">BUILD JUGADOR 2</span>
-                                <h3 id="p2SummaryName" class="font-bold text-lg text-white">Jugador 2</h3>
-                                <span id="p2SummaryHero" class="text-xs text-gray-400">Héroe</span>
+                                <span class="text-xs text-[#A162F7] font-bold">PLAYER 2 BUILD</span>
+                                <h3 id="p2SummaryName" class="font-bold text-lg text-white">Player 2</h3>
+                                <span id="p2SummaryHero" class="text-xs text-gray-400">Hero</span>
                             </div>
                         </div>
                         <div id="p2SummaryItems" class="space-y-2 mb-4 max-h-60 overflow-y-auto pr-1"></div>
-                        <div id="p2SynergyBox" class="p-3 rounded bg-[#161A1E] border border-[#2A3038] text-xs text-gray-300"></div>
                     </div>
                 </div>
 
-                <div class="flex gap-4">
-                    <button onclick="restartGame()" class="flex-1 py-3 rounded-lg bg-gradient-to-r from-[#D1A23D] to-[#8C6212] text-[#0B0D0E] font-title font-bold text-base hover:brightness-110 transition-all">
-                        NUEVA PARTIDA
-                    </button>
-                </div>
+                <button onclick="restartGame()" class="w-full py-3 rounded-lg bg-gradient-to-r from-[#D1A23D] to-[#8C6212] text-[#0B0D0E] font-title font-bold text-base hover:brightness-110 transition-all">
+                    NEW MATCH
+                </button>
             </div>
         </section>
 
     </main>
 
-    <!-- Notification Toast Box -->
     <div id="toast" class="fixed bottom-6 right-6 bg-[#161A1E] border border-[#D1A23D] text-white px-5 py-3 rounded-lg shadow-xl translate-y-20 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-3 z-50">
         <i data-lucide="info" class="w-5 h-5 text-[#D1A23D]"></i>
-        <span id="toastMsg" class="text-sm font-bold">Notificación</span>
+        <span id="toastMsg" class="text-sm font-bold">Notification</span>
     </div>
 
-    <!-- Footer -->
     <footer class="w-full border-t border-[#2A3038] py-3 text-center text-xs text-gray-500 bg-[#0B0D0E]">
-        Deadlock Item Draft - Basado en los personajes e ítems oficiales de Deadlock.
+        Deadlock Item Draft - Built with Official Deadlock Assets.
     </footer>
 
     <!-- App Logic Script -->
     <script>
-        /* ================================= ASSET IMAGE HANDLERS & MAPPING ================================= */
         let assetSource = "local";
 
+        function createFallbackImageHTML(initial) {
+            return `<div class="w-8 h-8 rounded bg-[#0B0D0E] flex items-center justify-center font-title font-bold text-xs text-[#D1A23D]">${initial}</div>`;
+        }
+
         function getHeroImageUrl(heroName) {
-            if (assetSource === "vector") return null;
             if (!heroName) return "";
-            
-            // Convertimos espacios y caracteres especiales a guiones (-)
             const formatted = heroName
                 .toLowerCase()
                 .replace(/ & /g, "-and-")
@@ -382,231 +346,117 @@
             if (assetSource === "local") {
                 return `./heroes/${formatted}.png`;
             }
-            
             return `https://deadlock.wiki/images/thumb/${heroName.replace(/ /g, "_")}_card.png/120px-${heroName.replace(/ /g, "_")}_card.png`;
         }
 
-        /* ================================= HEROES & BUILD PROFILE WEIGHTS ================================= */
-        const HERO_BUILDS = {
-            "Abrams": ["Weapon", "Vitality"], "Apollo": ["Weapon", "Spirit"], "Baba": ["Spirit", "Vitality"], "Bebop": ["Spirit", "Weapon"], 
-            "Billy": ["Weapon"], "Calico": ["Spirit", "Weapon"], "Celeste": ["Spirit"], "Deadman Danny": ["Weapon", "Vitality"], 
-            "The Doorman": ["Spirit", "Vitality"], "Drifter": ["Weapon", "Vitality"], "Dynamo": ["Spirit", "Vitality"], "Graves": ["Weapon"], 
-            "Grey Talon": ["Weapon", "Spirit"], "Haze": ["Weapon"], "Holliday": ["Weapon", "Spirit"], "Infernus": ["Spirit", "Weapon"], 
-            "Ivy": ["Spirit", "Weapon"], "Kelvin": ["Spirit", "Vitality"], "Lady Geist": ["Spirit", "Vitality"], "Lash": ["Spirit", "Weapon"], 
-            "McGinnis": ["Weapon", "Spirit"], "Mina": ["Spirit"], "Mirage": ["Weapon", "Spirit"], "Mo & Krill": ["Vitality", "Spirit"], 
-            "Nurse Harrow": ["Spirit", "Vitality"], "Paige": ["Spirit"], "Paradox": ["Spirit", "Weapon"], "Pocket": ["Spirit", "Weapon"], 
-            "Rat King": ["Spirit", "Vitality"], "Rem": ["Spirit"], "Seven": ["Spirit", "Weapon"], "Shiv": ["Weapon", "Vitality"], 
-            "Silver": ["Weapon"], "Sinclair": ["Spirit"], "Solomon": ["Weapon", "Spirit"], "Venator": ["Weapon"], 
-            "Victor": ["Vitality", "Weapon"], "Vindicta": ["Weapon"], "Violet": ["Spirit", "Weapon"], "Viscous": ["Spirit", "Vitality"], 
-            "Vyper": ["Weapon"], "Warden": ["Weapon", "Vitality"], "Wraith": ["Weapon"], "Yamato": ["Spirit", "Weapon"]
-        };
+        function getItemImageUrl(itemName) {
+            if (!itemName) return "";
+            const cleanName = itemName.toLowerCase().replace(/['.]/g, "").replace(/\s+/g, "_");
+            return `https://raw.githubusercontent.com/deadlock-wiki/assets/main/items/${cleanName}.png`;
+        }
 
-        const HERO_NAMES = Object.keys(HERO_BUILDS);
+        const HERO_NAMES = [
+            "Abrams", "Apollo", "Baba", "Bebop", "Billy", "Calico", "Celeste", "Deadman Danny", 
+            "The Doorman", "Drifter", "Dynamo", "Graves", "Grey Talon", "Haze", "Holliday", "Infernus", 
+            "Ivy", "Kelvin", "Lady Geist", "Lash", "McGinnis", "Mina", "Mirage", "Mo & Krill", 
+            "Nurse Harrow", "Paige", "Paradox", "Pocket", "Rat King", "Rem", "Seven", "Shiv", 
+            "Silver", "Sinclair", "Solomon", "Venator", "Victor", "Vindicta", "Violet", "Viscous", 
+            "Vyper", "Warden", "Wraith", "Yamato"
+        ];
 
-        /* ================================= ITEMS DATABASE ================================= */
+        /* OFFICIAL ENGLISH ITEMS DATABASE */
         const ITEMS = [
-    // --- ARMA ---
-    // Tier I ($800)
-    { name: 'A Bocajarro', tier: 1, type: 'Weapon', desc: 'Aumenta el daño de arma a corta distancia.' },
-    { name: 'Cargador Ampliado', tier: 1, type: 'Weapon', desc: 'Aumenta la munición máxima.' },
-    { name: 'Revientacabezas', tier: 1, type: 'Weapon', desc: 'Los disparos a la cabeza causan daño extra.' },
-    { name: 'Cartuchos de Alta Velocidad', tier: 1, type: 'Weapon', desc: 'Aumenta la velocidad de los proyectiles.' },
-    { name: 'Cartuchos Monstruosos', tier: 1, type: 'Weapon', desc: 'Daño extra contra objetivos no jugadores.' },
-    { name: 'Cartuchos Rápidos', tier: 1, type: 'Weapon', desc: 'Aumenta la cadencia de fuego.' },
-    { name: 'Disparo Reparador', tier: 1, type: 'Weapon', desc: 'Curación al rematar o dañar objetivos.' },
+            // WEAPON
+            { name: "Close Quarters", tier: 1, type: "Weapon", desc: "Weapon Damage at close range and Bullet Shield." },
+            { name: "Basic Magazine", tier: 1, type: "Weapon", desc: "Increases Ammo and Weapon Damage." },
+            { name: "Headshot Booster", tier: 1, type: "Weapon", desc: "Bonus Headshot Weapon Damage." },
+            { name: "High-Velocity Mag", tier: 1, type: "Weapon", desc: "Increases Bullet Velocity and Weapon Damage." },
+            { name: "Monster Rounds", tier: 1, type: "Weapon", desc: "Extra damage against non-player targets." },
+            { name: "Rapid Rounds", tier: 1, type: "Weapon", desc: "Increases Fire Rate and Movement Speed." },
+            { name: "Restorative Shot", tier: 1, type: "Weapon", desc: "Heals upon damaging enemies with weapon." },
 
-    // Tier II ($1600)
-    { name: 'Recarga Activa', tier: 2, type: 'Weapon', desc: 'Permite recargar rápido para obtener bonificaciones.' },
-    { name: 'Pies Ligeros', tier: 2, type: 'Weapon', desc: 'Elimina la penalización de movimiento al disparar.' },
-    { name: 'Cargador Progresivo', tier: 2, type: 'Weapon', desc: 'Aumenta la munición a medida que disparas.' },
-    { name: 'Impulso Cinético', tier: 2, type: 'Weapon', desc: 'Aumenta la velocidad de movimiento al deslizarte.' },
-    { name: 'Largo Alcance', tier: 2, type: 'Weapon', desc: 'Aumenta el daño a objetivos lejanos.' },
-    { name: 'Carga Cuerpo a Cuerpo', tier: 2, type: 'Weapon', desc: 'Aumenta el daño y rango del ataque melé.' },
-    { name: 'Disparo Místico', tier: 2, type: 'Weapon', desc: 'Añade daño de Espíritu a tus disparos.' },
-    { name: 'Cartuchos Irruptores', tier: 2, type: 'Weapon', desc: 'Atraviesa escudos y defensas enemigas.' },
-    { name: 'Aceleración de Recarga', tier: 2, type: 'Weapon', desc: 'Reduce sustancialmente el tiempo de recarga.' },
-    { name: 'Balas Ralentizadoras', tier: 2, type: 'Weapon', desc: 'Tus disparos frenan el movimiento enemigo.' },
-    { name: 'Destructor Espiritual', tier: 2, type: 'Weapon', desc: 'Reduce la resistencia de espíritu del objetivo.' },
-    { name: 'Disparo Dividido', tier: 2, type: 'Weapon', desc: 'Tus proyectiles se dividen hacia varios enemigos.' },
-    { name: 'Acechador', tier: 2, type: 'Weapon', desc: 'Ganas velocidad de movimiento y daño al flanquear.' },
-    { name: 'Ataque Veloz', tier: 2, type: 'Weapon', desc: 'Aumenta la velocidad de ataque y disparo.' },
-    { name: 'Cargador Monumental', tier: 2, type: 'Weapon', desc: 'Otorga una gran cantidad de munición extra.' },
-    { name: 'Disparo Debilitante', tier: 2, type: 'Weapon', desc: 'Aplica reducción de daño al enemigo impactado.' },
+            { name: "Active Reload", tier: 2, type: "Weapon", desc: "Reloading during highlight grants Fire Rate & Lifesteal." },
+            { name: "Fleetfoot", tier: 2, type: "Weapon", desc: "Removes movement penalty while shooting." },
+            { name: "Kinetic Dash", tier: 2, type: "Weapon", desc: "Dashing grants extra Ammo and Fire Rate." },
+            { name: "Long Range", tier: 2, type: "Weapon", desc: "Bonus Weapon Damage at far distances." },
+            { name: "Melee Charge", tier: 2, type: "Weapon", desc: "Increases Heavy Melee distance and damage." },
+            { name: "Mystic Shot", tier: 2, type: "Weapon", desc: "Deals bonus Spirit Damage on weapon hits." },
+            { name: "Slowing Bullets", tier: 2, type: "Weapon", desc: "Bullets apply a movement slow to targets." },
+            { name: "Soul Shredder Bullets", tier: 2, type: "Weapon", desc: "Bullets apply Spirit Amplification." },
+            { name: "Split Shot", tier: 2, type: "Weapon", desc: "Bullets split to hit multiple nearby targets." },
 
-    // Tier III ($3200)
-    { name: 'Fuego Alquímico', tier: 3, type: 'Weapon', desc: 'Lanza un frasco que quema el área impactada.' },
-    { name: 'Encantamiento Balístico', tier: 3, type: 'Weapon', desc: 'Aumenta el poder de tus balas mágicas.' },
-    { name: 'Berserker', tier: 3, type: 'Weapon', desc: 'Ganas daño de arma al recibir daño.' },
-    { name: 'Tributo de Sangre', tier: 3, type: 'Weapon', desc: 'Sacrifica salud para obtener poder de disparo.' },
-    { name: 'Fuego a Discreción', tier: 3, type: 'Weapon', desc: 'Dispara en ráfaga continua sin interrupción.' },
-    { name: 'Sacrificio Sectario', tier: 3, type: 'Weapon', desc: 'Efecto de área a costa de curación reducida.' },
-    { name: 'Resiliencia Creciente', tier: 3, type: 'Weapon', desc: 'Aumenta las defensas a medida que peleas.' },
-    { name: 'Disparo Exprés', tier: 3, type: 'Weapon', desc: 'Cadencia de fuego extrema por un breve periodo.' },
-    { name: 'Cazacabezas', tier: 3, type: 'Weapon', desc: 'Bonificación masiva por impacto crítico.' },
-    { name: 'Aura Heroica', tier: 3, type: 'Weapon', desc: 'Otorga velocidad de movimiento y disparo a aliados.' },
-    { name: 'Punta Hueca', tier: 3, type: 'Weapon', desc: 'Causa sangrado y reduce la curación enemiga.' },
-    { name: 'Aura de Cazador', tier: 3, type: 'Weapon', desc: 'Debilita la armadura de los enemigos cercanos.' },
-    { name: 'A Quemarropa', tier: 3, type: 'Weapon', desc: 'Daño devastador en combate melé / cercano.' },
-    { name: 'Tejido de Sombras', tier: 3, type: 'Weapon', desc: 'Te vuelve sigiloso para emboscar al enemigo.' },
-    { name: 'Tiro Certero', tier: 3, type: 'Weapon', desc: 'Garantiza disparos críticos de gran alcance.' },
-    { name: 'Desgarro Espiritual', tier: 3, type: 'Weapon', desc: 'Extrae energía de espíritu con cada impacto.' },
-    { name: 'Balas de Tesla', tier: 3, type: 'Weapon', desc: 'Los disparos rebotan con rayos a objetivos contiguos.' },
-    { name: 'Balas Tóxicas', tier: 3, type: 'Weapon', desc: 'Aplica veneno acumulativo en el objetivo.' },
-    { name: 'Balas Lastradas', tier: 3, type: 'Weapon', desc: 'Frena drásticamente las habilidades de movimiento.' },
+            { name: "Alchemical Fire", tier: 3, type: "Weapon", desc: "Throws a flask that burns targets in an area." },
+            { name: "Burst Fire", tier: 3, type: "Weapon", desc: "Gains massive Fire Rate on hitting bullets." },
+            { name: "Headhunter", tier: 3, type: "Weapon", desc: "Headshots deal bonus damage and heal." },
+            { name: "Heroic Aura", tier: 3, type: "Weapon", desc: "Active aura granting Fire Rate and Move Speed." },
+            { name: "Hollow Point Rounds", tier: 3, type: "Weapon", desc: "Bonus damage when above health threshold." },
 
-    // Tier IV ($6400)
-    { name: 'Perforador de Armadura', tier: 4, type: 'Weapon', desc: 'Ignora gran parte de la armadura del rival.' },
-    { name: 'Condensador', tier: 4, type: 'Weapon', desc: 'Acumula carga para liberar un disparo masivo.' },
-    { name: 'Disparo Paralizante', tier: 4, type: 'Weapon', desc: 'Inmoviliza a los enemigos impactados.' },
-    { name: 'Puños Aplastantes', tier: 4, type: 'Weapon', desc: 'Potencia los golpes físicos con daño colosal.' },
-    { name: 'Frenesí', tier: 4, type: 'Weapon', desc: 'Aumenta exageradamente el ataque al tener poca vida.' },
-    { name: 'Cañón de Cristal', tier: 4, type: 'Weapon', desc: 'Aumento masivo de daño a costa de reducir tu salud.' },
-    { name: 'Chiripa', tier: 4, type: 'Weapon', desc: 'Probabilidad de asestar golpes críticos devastadores.' },
-    { name: 'Rebote', tier: 4, type: 'Weapon', desc: 'Tus proyectiles rebotan entre múltiples enemigos.' },
-    { name: 'Silenciador', tier: 4, type: 'Weapon', desc: 'Impide que los enemigos usen sus habilidades.' },
-    { name: 'Lanzahechizos', tier: 4, type: 'Weapon', desc: 'Combina daño físico con efectos mágicos.' },
-    { name: 'Desborde Espiritual', tier: 4, type: 'Weapon', desc: 'Satura al enemigo con explosiones de poder.' },
+            { name: "Glass Cannon", tier: 4, type: "Weapon", desc: "Massive Weapon Damage at the cost of Max HP." },
+            { name: "Siphon Bullets", tier: 4, type: "Weapon", desc: "Steals Max Health from enemies on hit." },
+            { name: "Lucky Shot", tier: 4, type: "Weapon", desc: "Chance for bullets to deal massive bonus damage." },
+            { name: "Ricochet", tier: 4, type: "Weapon", desc: "Bullets bounce to nearby secondary targets." },
+            { name: "Silencer", tier: 4, type: "Weapon", desc: "Bullets apply Silence to enemy abilities." },
 
+            // VITALITY
+            { name: "Extra Health", tier: 1, type: "Vitality", desc: "Increases Max Health and Weapon Damage." },
+            { name: "Extra Regen", tier: 1, type: "Vitality", desc: "Increases Health Regeneration per second." },
+            { name: "Extra Stamina", tier: 1, type: "Vitality", desc: "Grants additional Stamina charges." },
+            { name: "Healing Rite", tier: 1, type: "Vitality", desc: "Active item that regenerates health over time." },
+            { name: "Melee Lifesteal", tier: 1, type: "Vitality", desc: "Heals for a portion of Melee damage dealt." },
+            { name: "Sprint Boots", tier: 1, type: "Vitality", desc: "Increases Sprint and Movement Speed." },
 
-    // --- VIDA ---
-    // Tier I ($800)
-    { name: 'Vida Adicional', tier: 1, type: 'Vitality', desc: 'Aumenta la salud máxima.' },
-    { name: 'Regeneración Adicional', tier: 1, type: 'Vitality', desc: 'Aumenta la regeneración de vida por segundo.' },
-    { name: 'Aguante Adicional', tier: 1, type: 'Vitality', desc: 'Otorga cargas de esquiva/desplazamiento extra.' },
-    { name: 'Templanza', tier: 1, type: 'Vitality', desc: 'Activa para obtener un escudo temporal.' },
-    { name: 'Rito Curativo', tier: 1, type: 'Vitality', desc: 'Regenera una gran cantidad de salud a lo largo del tiempo.' },
-    { name: 'Robo de Vida Cuerpo a Cuerpo', tier: 1, type: 'Vitality', desc: 'Te cura al golpear cuerpo a cuerpo.' },
-    { name: 'Refutación', tier: 1, type: 'Vitality', desc: 'Devuelve parte del daño recibido.' },
-    { name: 'Botas de Esprintar', tier: 1, type: 'Vitality', desc: 'Aumenta la velocidad de movimiento fuera de combate.' },
+            { name: "Bullet Armor", tier: 2, type: "Vitality", desc: "Grants Bullet Resistance against weapons." },
+            { name: "Bullet Lifesteal", tier: 2, type: "Vitality", desc: "Heals for a percentage of weapon damage." },
+            { name: "Debuff Reducer", tier: 2, type: "Vitality", desc: "Reduces duration of enemy debuffs." },
+            { name: "Enduring Speed", tier: 2, type: "Vitality", desc: "Movement Speed and slow resistance." },
+            { name: "Healbane", tier: 2, type: "Vitality", desc: "Spirit Damage applies Healing Reduction." },
+            { name: "Reactive Barrier", tier: 2, type: "Vitality", desc: "Gains a shield when affected by crowd control." },
+            { name: "Spirit Armor", tier: 2, type: "Vitality", desc: "Grants Spirit Resistance against abilities." },
 
-    // Tier II ($1600)
-    { name: 'Chaleco de Batalla', tier: 2, type: 'Vitality', desc: 'Otorga armadura contra disparos de armas.' },
-    { name: 'Robo de Vida Balístico', tier: 2, type: 'Vitality', desc: 'Te cura un porcentaje del daño que haces con tus balas.' },
-    { name: 'Reductor de Desventajas', tier: 2, type: 'Vitality', desc: 'Reduce la duración de los estados de alteración.' },
-    { name: 'Emblema del Espíritu', tier: 2, type: 'Vitality', desc: 'Aumenta la resistencia y salud mágica.' },
-    { name: 'Velocidad Persistente', tier: 2, type: 'Vitality', desc: 'Aumenta la velocidad base y reduce ralentizaciones.' },
-    { name: 'Guardián Centinela', tier: 2, type: 'Vitality', desc: 'Protege a los aliados cercanos con escudos.' },
-    { name: 'Maleficio Anticuración', tier: 2, type: 'Vitality', desc: 'Reduce la regeneración de salud del objetivo.' },
-    { name: 'Potenciador de Curación', tier: 2, type: 'Vitality', desc: 'Aumenta la efectividad de todas tus curaciones.' },
-    { name: 'Barrera Reactiva', tier: 2, type: 'Vitality', desc: 'Crea un escudo automático al recibir daño crítico.' },
-    { name: 'Amuleto Reparador', tier: 2, type: 'Vitality', desc: 'Activa para restaurar vida al instante.' },
-    { name: 'Fuego Devuelto', tier: 2, type: 'Vitality', desc: 'Refleja las balas de los atacantes hacia ellos.' },
-    { name: 'Robo de Vida Espiritual', tier: 2, type: 'Vitality', desc: 'Te cura al hacer daño con tus habilidades.' },
-    { name: 'Protección Espiritual', tier: 2, type: 'Vitality', desc: 'Otorga resistencia contra daño de Espíritu.' },
-    { name: 'Colección de Trofeos', tier: 2, type: 'Vitality', desc: 'Ganas vida máxima por cada baja o asistencia.' },
-    { name: 'Protección Balística', tier: 2, type: 'Vitality', desc: 'Aumenta la defensa física contra armas.' },
+            { name: "Fortitude", tier: 3, type: "Vitality", desc: "Massive Health and rapid out-of-combat regen." },
+            { name: "Lifestrike", tier: 3, type: "Vitality", desc: "Melee attacks heal for 100% damage and slow." },
+            { name: "Majestic Leap", tier: 3, type: "Vitality", desc: "Launches high into the air with glide control." },
+            { name: "Metal Skin", tier: 3, type: "Vitality", desc: "Immunity to bullet damage for a short duration." },
+            { name: "Rescue Beam", tier: 3, type: "Vitality", desc: "Pulls an ally toward you and heals them." },
 
-    // Tier III ($3200)
-    { name: 'Resiliencia Balística', tier: 3, type: 'Vitality', desc: 'Mitiga enormemente el daño de armas entrante.' },
-    { name: 'Contrahechizo', tier: 3, type: 'Vitality', desc: 'Anula la primera habilidad enemiga que te impacte.' },
-    { name: 'Disipador de Magia', tier: 3, type: 'Vitality', desc: 'Limpia todos los efectos negativos de tu personaje.' },
-    { name: 'Fortaleza', tier: 3, type: 'Vitality', desc: 'Aumenta masivamente la salud y regeneración.' },
-    { name: 'Trance de Furia', tier: 3, type: 'Vitality', desc: 'Entra en estado berserker para aguantar más daño.' },
-    { name: 'Nova Curativa', tier: 3, type: 'Vitality', desc: 'Emite una ola de curación para ti y tus aliados.' },
-    { name: 'Golpe Vital', tier: 3, type: 'Vitality', desc: 'Restaura vida en función del daño causado.' },
-    { name: 'Salto Majestuoso', tier: 3, type: 'Vitality', desc: 'Te lanza por el aire para reposicionarte.' },
-    { name: 'Piel de Metal', tier: 3, type: 'Vitality', desc: 'Te vuelve inmune al daño de balas por unos segundos.' },
-    { name: 'Rayo de Rescate', tier: 3, type: 'Vitality', desc: 'Atrae a un aliado hacia ti y lo cura.' },
-    { name: 'Resiliencia Espiritual', tier: 3, type: 'Vitality', desc: 'Resistencia masiva contra habilidades y magias.' },
-    { name: 'Maestría en Aguante', tier: 3, type: 'Vitality', desc: 'Otorga movilidad, saltos y esquivas ilimitadas.' },
-    { name: 'Caminante del Velo', tier: 3, type: 'Vitality', desc: 'Te vuelve invisible e intangible temporalmente.' },
-    { name: 'Piedra de Teletransporte', tier: 3, type: 'Vitality', desc: 'Te desplaza instantáneamente a una distancia corta.' },
+            { name: "Colossus", tier: 4, type: "Vitality", desc: "Grows huge, gaining HP and slowing nearby enemies." },
+            { name: "Unstoppable", tier: 4, type: "Vitality", desc: "Grants Immunity to all Crowd Control effects." },
+            { name: "Leech", tier: 4, type: "Vitality", desc: "Massive Bullet and Spirit Lifesteal." },
 
-    // Tier IV ($6400)
-    { name: 'Burlar a la Muerte', tier: 4, type: 'Vitality', desc: 'Evita el golpe fatal y te otorga invulnerabilidad breve.' },
-    { name: 'Coloso', tier: 4, type: 'Vitality', desc: 'Aumenta tu tamaño, salud y frena a los enemigos.' },
-    { name: 'Barrera Divina', tier: 4, type: 'Vitality', desc: 'Otorga un escudo impenetrable a todo el equipo.' },
-    { name: 'Protección de Vidente', tier: 4, type: 'Vitality', desc: 'Te otorga visión de mapa e inmunidades mágicas.' },
-    { name: 'Tempo Curativo', tier: 4, type: 'Vitality', desc: 'Regenera tu barra de vida a velocidad extrema.' },
-    { name: 'Indomable', tier: 4, type: 'Vitality', desc: 'Te vuelve inamovible contra controles de masas.' },
-    { name: 'Infusor', tier: 4, type: 'Vitality', desc: 'Sobrecarga tus defensas al activar habilidades.' },
-    { name: 'Inhibidor', tier: 4, type: 'Vitality', desc: 'Reduce el daño que infligen los enemigos cercanos.' },
-    { name: 'Gigante', tier: 4, type: 'Vitality', desc: 'Aumenta drásticamente tu masa y resistencia física.' },
-    { name: 'Sanguijuela', tier: 4, type: 'Vitality', desc: 'Absorbe la vida de los enemigos a tu alrededor.' },
-    { name: 'Golpe Fantasmal', tier: 4, type: 'Vitality', desc: 'Ataque sorpresa que aturde y regenera vida.' },
-    { name: 'Coraza Reforzada', tier: 4, type: 'Vitality', desc: 'Bloquea un porcentaje fijo de todos los ataques.' },
-    { name: 'Balas Drenantes', tier: 4, type: 'Vitality', desc: 'Tus proyectiles roban vida al objetivo continuamente.' },
-    { name: 'Rompehechizos', tier: 4, type: 'Vitality', desc: 'Destruye las barreras mágicas de los rivales.' },
-    { name: 'Imparable', tier: 4, type: 'Vitality', desc: 'Ganas inmunidad total a aturdimientos y frenos.' },
-    { name: 'Ráfaga Vampírica', tier: 4, type: 'Vitality', desc: 'Robo de vida extremo durante un breve lapso.' },
-    { name: 'Cota de Bruja', tier: 4, type: 'Vitality', desc: 'Devuelve las maldiciones e incapacitaciones al atacante.' },
+            // SPIRIT
+            { name: "Extra Charge", tier: 1, type: "Spirit", desc: "Grants +1 charge to all abilities." },
+            { name: "Extra Spirit", tier: 1, type: "Spirit", desc: "Increases Spirit Power and Health Regen." },
+            { name: "Mystic Burst", tier: 1, type: "Spirit", desc: "Abilities dealing damage proc bonus Spirit Burst." },
+            { name: "Spirit Strike", tier: 1, type: "Spirit", desc: "Melee hits deal bonus Spirit damage." },
+            { name: "Infuser", tier: 1, type: "Spirit", desc: "Active item giving Spirit Power & Lifesteal." },
 
+            { name: "Cold Front", tier: 2, type: "Spirit", desc: "Emits an expanding ice wave that slows." },
+            { name: "Quicksilver Reload", tier: 2, type: "Spirit", desc: "Ability cast reloads weapon with bonus damage." },
+            { name: "Suppressor", tier: 2, type: "Spirit", desc: "Spirit Damage reduces enemy Fire Rate." },
+            { name: "Duration Extender", tier: 2, type: "Spirit", desc: "Increases duration of status effects." },
 
-    // --- ESPÍRITU ---
-    // Tier I ($800)
-    { name: 'Carga Adicional', tier: 1, type: 'Spirit', desc: 'Otorga una carga extra a tus habilidades.' },
-    { name: 'Espíritu Adicional', tier: 1, type: 'Spirit', desc: 'Aumenta el poder de espíritu básico.' },
-    { name: 'Huevo de Oro', tier: 1, type: 'Spirit', desc: 'Otorga oro y poder mágico con el tiempo.' },
-    { name: 'Explosión Mística', tier: 1, type: 'Spirit', desc: 'Las habilidades causan una pequeña explosión de área.' },
-    { name: 'Expansión Mística', tier: 1, type: 'Spirit', desc: 'Aumenta el radio de efecto de tus habilidades.' },
-    { name: 'Regeneración Mística', tier: 1, type: 'Spirit', desc: 'Curación sostenida al usar magia.' },
-    { name: 'Cañón Oxidado', tier: 1, type: 'Spirit', desc: 'Aplica un estado corrosivo con hechizos.' },
-    { name: 'Golpe Espiritual', tier: 1, type: 'Spirit', desc: 'Potencia el siguiente impacto con energía mágica.' },
+            { name: "Boundless Spirit", tier: 3, type: "Spirit", desc: "High Spirit Power and Sprint Speed." },
+            { name: "Surge of Power", tier: 3, type: "Spirit", desc: "Imbues an ability with bonus Spirit and Speed." },
+            { name: "Torment Pulse", tier: 3, type: "Spirit", desc: "Continuously deals Spirit damage to nearby targets." },
 
-    // Tier II ($1600)
-    { name: 'Subidón Arcano', tier: 2, type: 'Spirit', desc: 'Aumenta la velocidad tras lanzar un hechizo.' },
-    { name: 'Destructor de Escudos', tier: 2, type: 'Spirit', desc: 'Tus habilidades destrozan barreras defensivas.' },
-    { name: 'Frente Frío', tier: 2, type: 'Spirit', desc: 'Emite una ráfaga de hielo que frena a los rivales.' },
-    { name: 'Compresión de Recarga', tier: 2, type: 'Spirit', desc: 'Reduce los tiempos de reutilización de habilidades.' },
-    { name: 'Ampliador de Duración', tier: 2, type: 'Spirit', desc: 'Tus efectos y estados alterados duran más tiempo.' },
-    { name: 'Espíritu Mejorado', tier: 2, type: 'Spirit', desc: 'Aumenta sustancialmente el poder de espíritu.' },
-    { name: 'Ralentización Mística', tier: 2, type: 'Spirit', desc: 'El daño de habilidades frena a los enemigos.' },
-    { name: 'Vulnerabilidad Mística', tier: 2, type: 'Spirit', desc: 'Hace que el rival reciba más daño mágico.' },
-    { name: 'Recarga Repentina', tier: 2, type: 'Spirit', desc: 'Recupera cargas al realizar ciertas acciones.' },
-    { name: 'Hechizo Ralentizador', tier: 2, type: 'Spirit', desc: 'Proyectil mágico que reduce la movilidad.' },
-    { name: 'Savia Espiritual', tier: 2, type: 'Spirit', desc: 'Extrae energía del enemigo para potenciarte.' },
-    { name: 'Supresor', tier: 2, type: 'Spirit', desc: 'Reduce la cadencia de fuego del rival atacado con magia.' },
+            { name: "Diviner's Kevlar", tier: 4, type: "Spirit", desc: "Ultimate cast grants massive Shields and Spirit." },
+            { name: "Refresher", tier: 4, type: "Spirit", desc: "Resets all ability cooldowns instantly." }
+        ];
 
-    // Tier III ($3200)
-    { name: 'Declive', tier: 3, type: 'Spirit', desc: 'Drena el poder mágico de los objetivos cercanos.' },
-    { name: 'Maldición Desarmante', tier: 3, type: 'Spirit', desc: 'Impide que el rival disparé su arma.' },
-    { name: 'Expansión Superior', tier: 3, type: 'Spirit', desc: 'Aumenta enormemente el área de tus habilidades.' },
-    { name: 'Derribo', tier: 3, type: 'Spirit', desc: 'Interrumpe y derriba al objetivo impactado.' },
-    { name: 'Regeneración Radiante', tier: 3, type: 'Spirit', desc: 'Emana luz que cura continuamente.' },
-    { name: 'Recarga Rápida', tier: 3, type: 'Spirit', desc: 'Reducción masiva del tiempo de enfriamiento.' },
-    { name: 'Ola de Silencio', tier: 3, type: 'Spirit', desc: 'Silencia a los enemigos en una gran zona.' },
-    { name: 'Robo de Espíritu', tier: 3, type: 'Spirit', desc: 'Absorbe el poder de espíritu del enemigo.' },
-    { name: 'Tiempo de Recarga Mejorado', tier: 3, type: 'Spirit', desc: 'Tus hechizos se recuperan mucho más rápido.' },
-    { name: 'Duración Superior', tier: 3, type: 'Spirit', desc: 'Extiende en gran medida tus buffs y debuffs.' },
-    { name: 'Subidón de Poder', tier: 3, type: 'Spirit', desc: 'Aumento temporal de daño mágico al usar una habilidad.' },
-    { name: 'Revientatácticas', tier: 3, type: 'Spirit', desc: 'Desorganiza las habilidades y combos enemigos.' },
-    { name: 'Pulsación de Muerte', tier: 3, type: 'Spirit', desc: 'Emite pulso destructivo cuando cae un rival.' },
-
-    // Tier IV ($6400)
-    { name: 'Explosión Ártica', tier: 4, type: 'Spirit', desc: 'Congela a los enemigos causando daño masivo.' },
-    { name: 'Espíritu Ilimitado', tier: 4, type: 'Spirit', desc: 'Otorga el máximo nivel de poder mágico posible.' },
-    { name: 'Reliquia Maldita', tier: 4, type: 'Spirit', desc: 'Maldice al enemigo haciéndolo recibir daño multiplicado.' },
-    { name: 'Esquirla Reverberante', tier: 4, type: 'Spirit', desc: 'Hace que tus habilidades se repitan automáticamente.' },
-    { name: 'Exposición Creciente', tier: 4, type: 'Spirit', desc: 'Cada golpe mágico aumenta el daño del siguiente.' },
-    { name: 'Transformación Etérea', tier: 4, type: 'Spirit', desc: 'Te vuelve inmune al daño físico por un tiempo.' },
-    { name: 'Lente de Enfoque', tier: 4, type: 'Spirit', desc: 'Focaliza tus habilidades para causar daño devastador.' },
-    { name: 'Pergamino de Poder', tier: 4, type: 'Spirit', desc: 'Potencia al máximo todas las facultades místicas.' },
-    { name: 'Alfombra Mágica', tier: 4, type: 'Spirit', desc: 'Vuela por el mapa inmune a los terrenos dañinos.' },
-    { name: 'Magnum Mercurial', tier: 4, type: 'Spirit', desc: 'Disparo mágico capaz de atravesar cualquier defensa.' },
-    { name: 'Reverberación Mística', tier: 4, type: 'Spirit', desc: 'Tus hechizos generan ondas expansivas secundarias.' },
-    { name: 'Restauración', tier: 4, type: 'Spirit', desc: 'Restaura tus recursos y salud al usar la habilidad definitiva.' },
-    { name: 'Azote', tier: 4, type: 'Spirit', desc: 'Castiga duramente a los enemigos con menor salud.' },
-    { name: 'Quemadura Espiritual', tier: 4, type: 'Spirit', desc: 'Prende fuego mágico al rival quitándole vida porcentual.' },
-    { name: 'Tiempo de Recarga Definitivo', tier: 4, type: 'Spirit', desc: 'Reduce casi a cero la recarga de tu habilidad Ultimate.' },
-    { name: 'Red de Vórtices', tier: 4, type: 'Spirit', desc: 'Crea un agujero negro que atrae y destruye a los enemigos.' }
-];
-
-        /* ================================= GAME STATE ================================= */
         let gameState = {
             sound: true,
-            mode: 'blind', // 'blind' or 'normal'
+            mode: 'blind',
             totalRounds: 3,
             currentRound: 1,
-            currentTurnPlayer: 1, // 1 or 2
-            activeTabPlayer: 1, // For hero selection
-            p1: { name: 'Jugador 1', hero: null, items: [] },
-            p2: { name: 'Jugador 2', hero: null, items: [] },
+            currentTurnPlayer: 1,
+            activeTabPlayer: 1,
+            p1: { name: 'Player 1', hero: null, items: [] },
+            p2: { name: 'Player 2', hero: null, items: [] },
             currentChoices: [],
             selectedCardIndex: null,
             isFlipped: [false, false, false]
         };
 
-        /* ================================= INITIALIZATION ================================= */
         window.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
             renderHeroGrid();
@@ -615,8 +465,8 @@
 
         function toggleSound() {
             gameState.sound = !gameState.sound;
-            document.getElementById('soundStatus').innerText = `Sonido: ${gameState.sound ? 'ON' : 'OFF'}`;
-            showToast(`Sonido ${gameState.sound ? 'Activado' : 'Desactivado'}`);
+            document.getElementById('soundStatus').innerText = `Sound: ${gameState.sound ? 'ON' : 'OFF'}`;
+            showToast(`Sound ${gameState.sound ? 'Enabled' : 'Disabled'}`);
         }
 
         function showToast(msg) {
@@ -633,7 +483,7 @@
             renderHeroGrid();
             updateHeroCardPreview(1);
             updateHeroCardPreview(2);
-            showToast(`Origen cambiado a: ${source.toUpperCase()}`);
+            showToast(`Image Source: ${source.toUpperCase()}`);
         }
 
         function setMode(mode) {
@@ -651,15 +501,12 @@
             gameState.totalRounds = r;
             [3, 4, 5, 6].forEach(num => {
                 const btn = document.getElementById(`r${num}`);
-                if (num === r) {
-                    btn.className = 'flex-1 py-1.5 text-xs rounded font-bold border border-[#D1A23D] bg-[#D1A23D]/20 text-[#D1A23D]';
-                } else {
-                    btn.className = 'flex-1 py-1.5 text-xs rounded font-bold border border-[#2A3038] text-gray-400';
-                }
+                btn.className = num === r 
+                    ? 'flex-1 py-1.5 text-xs rounded font-bold border border-[#D1A23D] bg-[#D1A23D]/20 text-[#D1A23D]'
+                    : 'flex-1 py-1.5 text-xs rounded font-bold border border-[#2A3038] text-gray-400';
             });
         }
 
-        /* ================================= HERO SELECTION UI ================================= */
         function renderHeroGrid() {
             const grid = document.getElementById('heroGrid');
             grid.innerHTML = '';
@@ -673,15 +520,8 @@
                 const imgUrl = getHeroImageUrl(hero);
                 const initial = hero.charAt(0);
 
-                let imgHtml = '';
-                if (imgUrl) {
-                    imgHtml = `<img src="${imgUrl}" alt="${hero}" class="w-8 h-8 rounded object-cover" onerror="this.outerHTML='<div class=\'w-8 h-8 rounded bg-[#0B0D0E] flex items-center justify-center font-title font-bold text-xs text-[#D1A23D]\'>${initial}</div>'">`;
-                } else {
-                    imgHtml = `<div class="w-8 h-8 rounded bg-[#0B0D0E] flex items-center justify-center font-title font-bold text-xs text-[#D1A23D]">${initial}</div>`;
-                }
-
                 btn.innerHTML = `
-                    ${imgHtml}
+                    ${imgUrl ? `<img src="${imgUrl}" alt="${hero}" class="w-8 h-8 rounded object-cover" onerror="this.outerHTML='${createFallbackImageHTML(initial)}'">` : createFallbackImageHTML(initial)}
                     <span class="text-[10px] text-gray-300 font-bold truncate w-full text-center group-hover:text-[#D1A23D]">${hero}</span>
                 `;
                 grid.appendChild(btn);
@@ -722,7 +562,7 @@
 
             if (!hero) {
                 imgBox.innerHTML = '?';
-                nameTxt.innerText = 'Ninguno seleccionado';
+                nameTxt.innerText = 'None Selected';
                 return;
             }
 
@@ -742,18 +582,17 @@
             if (gameState.p1.hero && gameState.p2.hero) {
                 startBtn.disabled = false;
                 startBtn.className = 'w-full py-4 rounded-lg bg-gradient-to-r from-[#D1A23D] to-[#8C6212] text-[#0B0D0E] font-title font-bold text-lg tracking-widest hover:brightness-110 cursor-pointer shadow-lg transition-all gold-border-glow';
-                startBtn.innerText = '¡INICIAR PARTIDA DE DRAFT!';
+                startBtn.innerText = 'START ITEM DRAFT MATCH!';
             } else {
                 startBtn.disabled = true;
                 startBtn.className = 'w-full py-4 rounded-lg bg-gray-800 text-gray-500 font-title font-bold text-lg tracking-widest cursor-not-allowed transition-all';
-                startBtn.innerText = 'SELECCIONA AMBOS HÉROES PARA INICIAR';
+                startBtn.innerText = 'SELECT BOTH HEROES TO START';
             }
         }
 
-        /* ================================= DRAFTING ENGINE ================================= */
         function startGame() {
-            gameState.p1.name = document.getElementById('p1Name').value || 'Jugador 1';
-            gameState.p2.name = document.getElementById('p2Name').value || 'Jugador 2';
+            gameState.p1.name = document.getElementById('p1Name').value || 'Player 1';
+            gameState.p2.name = document.getElementById('p2Name').value || 'Player 2';
             gameState.currentRound = 1;
             gameState.currentTurnPlayer = 1;
             gameState.p1.items = [];
@@ -764,9 +603,9 @@
             document.getElementById('draftScreen').classList.add('flex');
 
             document.getElementById('p1NameDisplay').innerText = gameState.p1.name;
-            document.getElementById('p1HeroDisplay').innerText = `Héroe: ${gameState.p1.hero}`;
+            document.getElementById('p1HeroDisplay').innerText = `Hero: ${gameState.p1.hero}`;
             document.getElementById('p2NameDisplay').innerText = gameState.p2.name;
-            document.getElementById('p2HeroDisplay').innerText = `Héroe: ${gameState.p2.hero}`;
+            document.getElementById('p2HeroDisplay').innerText = `Hero: ${gameState.p2.hero}`;
 
             updateActivePlayerAvatars();
             startTurn();
@@ -816,102 +655,96 @@
         }
 
         function generateCardChoices() {
-    let choices = [];
-    let pool = [...ITEMS];
+            let choices = [];
+            const activePlayerItems = gameState.currentTurnPlayer === 1 ? gameState.p1.items : gameState.p2.items;
+            const ownedNames = activePlayerItems.map(i => i.name);
 
-    // Seleccionamos 3 ítems completamente al azar de toda la base de datos
-    while (choices.length < 3 && pool.length > 0) {
-        const randomIndex = Math.floor(Math.random() * pool.length);
-        choices.push(pool[randomIndex]);
-        pool.splice(randomIndex, 1); // Evita que salgan repetidos en el mismo turno
-    }
+            // Filter out items already owned by the player
+            let pool = ITEMS.filter(i => !ownedNames.includes(i.name));
 
-    gameState.currentChoices = choices;
-}
+            while (choices.length < 3 && pool.length > 0) {
+                const randomIndex = Math.floor(Math.random() * pool.length);
+                choices.push(pool[randomIndex]);
+                pool.splice(randomIndex, 1);
+            }
 
-        /* ================================= ITEM IMAGE GENERATOR ================================= */
-function getItemImageUrl(itemName) {
-    // Convierte el nombre del ítem al formato URL (ej: "Basic Magazine" -> "Basic_Magazine")
-    const formatted = itemName.replace(/ /g, "_").replace(/'/g, "%27");
-    return `https://deadlock.wiki/images/thumb/${formatted}.png/100px-${formatted}.png`;
-}
+            gameState.currentChoices = choices;
+        }
 
-/* ================================= RENDER CARDS WITH IMAGES ================================= */
-function renderCards() {
-    const container = document.getElementById('cardsContainer');
-    container.innerHTML = '';
+        function renderCards() {
+            const container = document.getElementById('cardsContainer');
+            container.innerHTML = '';
 
-    gameState.currentChoices.forEach((item, index) => {
-        const cardOuter = document.createElement('div');
-        cardOuter.className = `perspective-1000 w-full h-72 cursor-pointer group`;
-        cardOuter.onclick = () => onCardClick(index);
+            gameState.currentChoices.forEach((item, index) => {
+                const cardOuter = document.createElement('div');
+                cardOuter.className = `perspective-1000 w-full h-72 cursor-pointer group`;
+                cardOuter.onclick = () => onCardClick(index);
 
-        const isFlipped = gameState.mode === 'normal' || gameState.isFlipped[index];
-        const isSelected = gameState.selectedCardIndex === index;
+                const isFlipped = gameState.mode === 'normal' || gameState.isFlipped[index];
+                const isSelected = gameState.selectedCardIndex === index;
 
-        let borderGlow = 'border-[#2A3038]';
-        if (isSelected) borderGlow = 'border-[#D1A23D] ring-2 ring-[#D1A23D] scale-105';
+                let borderGlow = 'border-[#2A3038]';
+                if (isSelected) borderGlow = 'border-[#D1A23D] ring-2 ring-[#D1A23D] scale-105';
 
-        let typeBg = '#F97316'; // Weapon
-        if (item.type === 'Spirit') typeBg = '#A162F7';
-        if (item.type === 'Vitality') typeBg = '#4ADE80';
+                let typeBg = '#F97316';
+                if (item.type === 'Spirit') typeBg = '#A162F7';
+                if (item.type === 'Vitality') typeBg = '#4ADE80';
 
-        const itemImgUrl = getItemImageUrl(item.name);
+                const itemImgUrl = getItemImageUrl(item.name);
 
-        cardOuter.innerHTML = `
-            <div class="card-flip-inner relative w-full h-full transform-style-3d duration-500 ${isFlipped ? 'rotate-y-180' : ''}">
-                
-                <!-- CARD FRONT (MISTERIOSA) -->
-                <div class="absolute inset-0 w-full h-full bg-[#0B0D0E] border-2 ${borderGlow} rounded-xl p-4 flex flex-col items-center justify-between backface-hidden shadow-xl">
-                    <div class="w-full flex justify-between items-center text-xs text-gray-500">
-                        <span>CARTA MISTERIOSA</span>
-                        <i data-lucide="help-circle" class="w-4 h-4 text-[#D1A23D]"></i>
-                    </div>
-                    <div class="w-16 h-16 rounded-full bg-[#161A1E] border border-[#2A3038] flex items-center justify-center gold-border-glow">
-                        <i data-lucide="sparkles" class="w-8 h-8 text-[#D1A23D] animate-pulse"></i>
-                    </div>
-                    <span class="text-xs text-gray-400 font-bold uppercase tracking-wider">Haz Clic para Revelar</span>
-                </div>
-
-                <!-- CARD BACK (REVELADA CON FOTO) -->
-                <div class="absolute inset-0 w-full h-full bg-[#161A1E] border-2 ${borderGlow} rounded-xl p-3 flex flex-col justify-between backface-hidden rotate-y-180 shadow-xl">
-                    <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="text-[10px] px-2 py-0.5 rounded font-bold text-[#0B0D0E]" style="background-color: ${typeBg}">
-                                ${item.type.toUpperCase()} - TIER ${item.tier}
-                            </span>
+                cardOuter.innerHTML = `
+                    <div class="card-flip-inner relative w-full h-full transform-style-3d duration-500 ${isFlipped ? 'rotate-y-180' : ''}">
+                        
+                        <!-- FRONT -->
+                        <div class="absolute inset-0 w-full h-full bg-[#0B0D0E] border-2 ${borderGlow} rounded-xl p-4 flex flex-col items-center justify-between backface-hidden shadow-xl">
+                            <div class="w-full flex justify-between items-center text-xs text-gray-500">
+                                <span>MYSTERY CARD</span>
+                                <i data-lucide="help-circle" class="w-4 h-4 text-[#D1A23D]"></i>
+                            </div>
+                            <div class="w-16 h-16 rounded-full bg-[#161A1E] border border-[#2A3038] flex items-center justify-center gold-border-glow">
+                                <i data-lucide="sparkles" class="w-8 h-8 text-[#D1A23D] animate-pulse"></i>
+                            </div>
+                            <span class="text-xs text-gray-400 font-bold uppercase tracking-wider">Click to Reveal</span>
                         </div>
 
-                        <!-- Imagen del Ítem -->
-                        <div class="w-full h-20 bg-[#0B0D0E] rounded-lg border border-[#2A3038] mb-2 flex items-center justify-center overflow-hidden p-1">
-                            <img src="${itemImgUrl}" alt="${item.name}" class="max-h-full object-contain" 
-                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            <div class="hidden w-full h-full items-center justify-center font-title font-bold text-xs text-gray-400">
-                                ${item.name}
+                        <!-- BACK -->
+                        <div class="absolute inset-0 w-full h-full bg-[#161A1E] border-2 ${borderGlow} rounded-xl p-3 flex flex-col justify-between backface-hidden rotate-y-180 shadow-xl">
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-[10px] px-2 py-0.5 rounded font-bold text-[#0B0D0E]" style="background-color: ${typeBg}">
+                                        ${item.type.toUpperCase()} - TIER ${item.tier}
+                                    </span>
+                                </div>
+
+                                <div class="w-full h-20 bg-[#0B0D0E] rounded-lg border border-[#2A3038] mb-2 flex items-center justify-center overflow-hidden p-1">
+                                    <img src="${itemImgUrl}" alt="${item.name}" class="max-h-full object-contain" 
+                                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <div class="hidden w-full h-full items-center justify-center font-title font-bold text-xs text-[#D1A23D]">
+                                        ${item.name}
+                                    </div>
+                                </div>
+
+                                <h4 class="font-title font-bold text-xs text-white mb-1 truncate">${item.name}</h4>
+                                <p class="text-[11px] text-gray-300 leading-snug line-clamp-2">${item.desc}</p>
+                            </div>
+
+                            <div class="pt-2 border-t border-[#2A3038] flex items-center justify-between text-[10px] text-gray-400">
+                                <span>Deadlock Item</span>
+                                <span class="text-[#D1A23D] font-bold">${isSelected ? 'SELECTED' : 'CLICK TO SELECT'}</span>
                             </div>
                         </div>
 
-                        <h4 class="font-title font-bold text-xs text-white mb-1 truncate">${item.name}</h4>
-                        <p class="text-[11px] text-gray-300 leading-snug line-clamp-2">${item.desc}</p>
                     </div>
-
-                    <div class="pt-2 border-t border-[#2A3038] flex items-center justify-between text-[10px] text-gray-400">
-                        <span>Deadlock Item</span>
-                        <span class="text-[#D1A23D] font-bold">SELECCIONABLE</span>
-                    </div>
-                </div>
-
-            </div>
-        `;
-        container.appendChild(cardOuter);
-    });
-    lucide.createIcons();
-}
+                `;
+                container.appendChild(cardOuter);
+            });
+            lucide.createIcons();
+        }
 
         function onCardClick(index) {
-            if (gameState.mode === 'blind' && !gameState.isFlipped[index]) {
-                gameState.isFlipped[index] = true;
-            }
+            // Reveal card
+            gameState.isFlipped[index] = true;
+            // Select index
             gameState.selectedCardIndex = index;
             renderCards();
             updateConfirmButton();
@@ -922,11 +755,11 @@ function renderCards() {
             if (gameState.selectedCardIndex !== null) {
                 btn.disabled = false;
                 btn.className = 'w-full py-3 rounded-lg bg-gradient-to-r from-[#D1A23D] to-[#8C6212] text-[#0B0D0E] font-title font-bold text-base hover:brightness-110 cursor-pointer transition-all shadow-lg gold-border-glow';
-                btn.innerText = 'CONFIRMAR ÍTEM SELECCIONADO';
+                btn.innerText = 'CONFIRM SELECTED ITEM';
             } else {
                 btn.disabled = true;
                 btn.className = 'w-full py-3 rounded-lg bg-gray-800 text-gray-500 font-title font-bold text-base cursor-not-allowed transition-all';
-                btn.innerText = 'ELIGE O REVELA UNA CARTA';
+                btn.innerText = 'REVEAL AND CHOOSE AN ITEM';
             }
         }
 
@@ -957,7 +790,7 @@ function renderCards() {
                 box.innerHTML = '';
 
                 if (items.length === 0) {
-                    box.innerHTML = '<div class="text-xs text-gray-500 italic p-2 text-center">Sin ítems seleccionados</div>';
+                    box.innerHTML = '<div class="text-xs text-gray-500 italic p-2 text-center">No items selected</div>';
                     return;
                 }
 
@@ -967,11 +800,14 @@ function renderCards() {
                     if (item.type === 'Vitality') typeColor = 'border-[#4ADE80]';
 
                     const div = document.createElement('div');
-                    div.className = `p-2 rounded bg-[#0B0D0E] border-l-4 ${typeColor} border-y border-r border-[#2A3038] text-xs flex justify-between items-center`;
+                    div.className = `p-2 rounded bg-[#0B0D0E] border-l-4 ${typeColor} border-y border-r border-[#2A3038] text-xs flex justify-between items-center gap-2`;
                     div.innerHTML = `
-                        <div>
-                            <div class="font-bold text-white">${item.name}</div>
-                            <div class="text-[10px] text-gray-400">Tier ${item.tier} - ${item.type}</div>
+                        <div class="flex items-center gap-2 overflow-hidden">
+                            <img src="${getItemImageUrl(item.name)}" class="w-6 h-6 object-contain rounded bg-[#161A1E] p-0.5 shrink-0" onerror="this.style.display='none'">
+                            <div class="truncate">
+                                <div class="font-bold text-white truncate">${item.name}</div>
+                                <div class="text-[10px] text-gray-400">Tier ${item.tier} - ${item.type}</div>
+                            </div>
                         </div>
                     `;
                     box.appendChild(div);
@@ -982,16 +818,15 @@ function renderCards() {
             renderInv(gameState.p2.items, 'p2Inventory', 'p2ItemCount');
         }
 
-        /* ================================= SUMMARY & SYNERGY CALCULATOR ================================= */
         function finishGame() {
             document.getElementById('draftScreen').classList.add('hidden');
             document.getElementById('summaryScreen').classList.remove('hidden');
             document.getElementById('summaryScreen').classList.add('flex');
 
             document.getElementById('p1SummaryName').innerText = gameState.p1.name;
-            document.getElementById('p1SummaryHero').innerText = `Héroe: ${gameState.p1.hero}`;
+            document.getElementById('p1SummaryHero').innerText = `Hero: ${gameState.p1.hero}`;
             document.getElementById('p2SummaryName').innerText = gameState.p2.name;
-            document.getElementById('p2SummaryHero').innerText = `Héroe: ${gameState.p2.hero}`;
+            document.getElementById('p2SummaryHero').innerText = `Hero: ${gameState.p2.hero}`;
 
             renderSummaryPlayer(1);
             renderSummaryPlayer(2);
@@ -1001,7 +836,6 @@ function renderCards() {
             const pData = player === 1 ? gameState.p1 : gameState.p2;
             const imgBox = document.getElementById(player === 1 ? 'p1SummaryImg' : 'p2SummaryImg');
             const itemsBox = document.getElementById(player === 1 ? 'p1SummaryItems' : 'p2SummaryItems');
-            const synergyBox = document.getElementById(player === 1 ? 'p1SynergyBox' : 'p2SynergyBox');
 
             const url = getHeroImageUrl(pData.hero);
             if (url) {
@@ -1013,30 +847,16 @@ function renderCards() {
             itemsBox.innerHTML = '';
             pData.items.forEach(item => {
                 const div = document.createElement('div');
-                div.className = 'p-2 rounded bg-[#161A1E] border border-[#2A3038] text-xs flex justify-between items-center';
+                div.className = 'p-2 rounded bg-[#161A1E] border border-[#2A3038] text-xs flex justify-between items-center gap-2';
                 div.innerHTML = `
-                    <span class="font-bold text-white">${item.name}</span>
+                    <div class="flex items-center gap-2">
+                        <img src="${getItemImageUrl(item.name)}" class="w-6 h-6 object-contain rounded bg-[#0B0D0E] p-0.5" onerror="this.style.display='none'">
+                        <span class="font-bold text-white">${item.name}</span>
+                    </div>
                     <span class="text-[10px] text-gray-400">Tier ${item.tier} ${item.type}</span>
                 `;
                 itemsBox.appendChild(div);
             });
-
-            // Synergy calculation
-            const preferredTypes = HERO_BUILDS[pData.hero] || [];
-            const matchingCount = pData.items.filter(i => preferredTypes.includes(i.type)).length;
-            const scorePct = Math.round((matchingCount / pData.items.length) * 100) || 0;
-
-            synergyBox.innerHTML = `
-                <div class="flex items-center justify-between mb-1 font-bold">
-                    <span>Sinergia con ${pData.hero}:</span>
-                    <span class="text-[#D1A23D]">${scorePct}%</span>
-                </div>
-                <p class="text-gray-400">
-                    ${scorePct >= 60 
-                        ? '¡Excelente build! Has elegido ítems que potencian directamente las habilidades principales de tu héroe.' 
-                        : 'Build híbrida/defensiva. Aporta flexibilidad pero con menor especialización.'}
-                </p>
-            `;
         }
 
         function restartGame() {
@@ -1044,8 +864,8 @@ function renderCards() {
             document.getElementById('setupScreen').classList.remove('hidden');
             gameState.p1.hero = null;
             gameState.p2.hero = null;
-            document.getElementById('p1SelectedHeroText').innerText = 'Sin elegir';
-            document.getElementById('p2SelectedHeroText').innerText = 'Sin elegir';
+            document.getElementById('p1SelectedHeroText').innerText = 'None';
+            document.getElementById('p2SelectedHeroText').innerText = 'None';
             updateHeroCardPreview(1);
             updateHeroCardPreview(2);
             updateSetupUI();
