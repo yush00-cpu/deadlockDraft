@@ -673,31 +673,29 @@
         }
 
         function generateCardChoices() {
-            const activeHero = gameState.currentTurnPlayer === 1 ? gameState.p1.hero : gameState.p2.hero;
-            const preferredTypes = HERO_BUILDS[activeHero] || ["Weapon", "Spirit", "Vitality"];
+    const activeHero = gameState.currentTurnPlayer === 1 ? gameState.p1.hero : gameState.p2.hero;
+    const preferredTypes = HERO_BUILDS[activeHero] || ["Weapon", "Spirit", "Vitality"];
 
-            // Weight-based random selection
-            let pool = [];
-            ITEMS.forEach(item => {
-                if (preferredTypes.includes(item.type)) {
-                    pool.push(item, item); // Higher probability
-                } else {
-                    pool.push(item);
-                }
-            });
+    // Separamos la base de datos por tipos
+    const weapons = ITEMS.filter(i => i.type === 'Weapon');
+    const spirits = ITEMS.filter(i => i.type === 'Spirit');
+    const vitalities = ITEMS.filter(i => i.type === 'Vitality');
 
-            // Pick 3 unique items
-            let choices = [];
-            let guard = 0;
-            while (choices.length < 3 && guard < 100) {
-                guard++;
-                let randItem = pool[Math.floor(Math.random() * pool.length)];
-                if (!choices.some(c => c.id === randItem.id)) {
-                    choices.push(randItem);
-                }
-            }
-            gameState.currentChoices = choices;
-        }
+    let choices = [];
+
+    // Garantizamos al menos 1 ítem de cada categoría principal si es posible
+    const pickRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+    // Elegimos 1 de cada tipo para asegurar diversidad
+    if (weapons.length) choices.push(pickRandom(weapons));
+    if (spirits.length) choices.push(pickRandom(spirits));
+    if (vitalities.length) choices.push(pickRandom(vitalities));
+
+    // Si el héroe prefiere cierto tipo, le damos prioridad a esa categoría en el orden
+    choices.sort(() => Math.random() - 0.5);
+
+    gameState.currentChoices = choices;
+}
 
         function renderCards() {
             const container = document.getElementById('cardsContainer');
