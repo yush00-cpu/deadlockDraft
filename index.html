@@ -505,13 +505,13 @@
     <!-- App Logic Script -->
     <script>
         /* ==================== ASSET IMAGE HANDLERS & MAPPING ==================== */
-        let assetSource = "wiki"; // "wiki", "local", "vector"
+        let assetSource = "local"; // "wiki", "local", "vector"
 
         function getHeroImageUrl(heroName) {
             if (assetSource === "vector") return null;
             const formatted = heroName.replace(/ /g, "_");
             if (assetSource === "local") {
-                return `assets/heroes/${formatted.toLowerCase()}.png`;
+                return heroes/${formatted.toLowerCase()}.png`;
             }
             // Online Wiki CDN
             return `https://deadlock.wiki/images/thumb/${formatted}_card.png/120px-${formatted}_card.png`;
