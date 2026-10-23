@@ -349,11 +349,17 @@
             return `https://deadlock.wiki/images/thumb/${heroName.replace(/ /g, "_")}_card.png/120px-${heroName.replace(/ /g, "_")}_card.png`;
         }
 
-       function getItemImageUrl(itemName) {
+      function getItemImageUrl(itemName) {
     if (!itemName) return "";
-    // Limpiamos el nombre para consultar el repositorio oficial de assets
-    const formatted = itemName.toLowerCase().replace(/[^a-z0-9]/g, "");
-    return `https://assets.deadlock-api.com/images/items/${formatted}.png`;
+    
+    // Convertimos el nombre al formato exacto de los assets del juego
+    // Ej: "Close Quarters" -> "close_quarters", "Diviner's Kevlar" -> "diviners_kevlar"
+    const cleanName = itemName
+        .toLowerCase()
+        .replace(/['.]/g, "")
+        .replace(/\s+/g, "_");
+
+    return `https://assets.deadlock-api.com/images/items/${cleanName}.png`;
 }
 
         const HERO_NAMES = [
