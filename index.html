@@ -349,11 +349,11 @@
             return `https://deadlock.wiki/images/thumb/${heroName.replace(/ /g, "_")}_card.png/120px-${heroName.replace(/ /g, "_")}_card.png`;
         }
 
-        function getItemImageUrl(itemName) {
+       function getItemImageUrl(itemName) {
     if (!itemName) return "";
-    // Reemplaza espacios por guiones bajos y codifica caracteres especiales
-    const formatted = itemName.replace(/ /g, "_").replace(/'/g, "%27");
-    return `https://deadlock.wiki/images/thumb/${formatted}.png/120px-${formatted}.png`;
+    // Limpiamos el nombre para consultar el repositorio oficial de assets
+    const formatted = itemName.toLowerCase().replace(/[^a-z0-9]/g, "");
+    return `https://assets.deadlock-api.com/images/items/${formatted}.png`;
 }
 
         const HERO_NAMES = [
@@ -686,9 +686,13 @@
     const container = document.getElementById('cardsContainer');
     container.innerHTML = '';
 
+    // Ocultamos el botón inferior ya que la elección es instantánea al hacer clic
+    const confirmBtn = document.getElementById('confirmChoiceBtn');
+    if (confirmBtn) confirmBtn.style.display = 'none';
+
     gameState.currentChoices.forEach((item, index) => {
         const cardOuter = document.createElement('div');
-        cardOuter.className = `w-full h-80 cursor-pointer select-none transition-transform duration-200`;
+        cardOuter.className = `w-full h-80 cursor-pointer select-none transition-all duration-200`;
         cardOuter.onclick = () => onCardClick(index);
 
         const isFlipped = gameState.mode === 'normal' || gameState.isFlipped[index];
@@ -709,7 +713,7 @@
             <div class="relative w-full h-full bg-[#161A1E] border-2 ${borderStyle} rounded-xl p-3 flex flex-col justify-between shadow-xl transition-all">
                 
                 ${!isFlipped ? `
-                    <!-- FRENTE: CARTA NO REVELADA -->
+                    <!-- FRENTE: CARTA OCULTA -->
                     <div class="w-full h-full bg-[#0B0D0E] rounded-lg p-4 flex flex-col items-center justify-between">
                         <div class="w-full flex justify-between items-center text-xs text-gray-500">
                             <span>MYSTERY CARD</span>
@@ -718,7 +722,7 @@
                         <div class="w-16 h-16 rounded-full bg-[#161A1E] border border-[#2A3038] flex items-center justify-center gold-border-glow">
                             <i data-lucide="sparkles" class="w-8 h-8 text-[#D1A23D] animate-pulse"></i>
                         </div>
-                        <span class="text-xs text-gray-400 font-bold uppercase tracking-wider">Click to Reveal</span>
+                        <span class="text-xs text-gray-400 font-bold uppercase tracking-wider text-center">Click to Choose</span>
                     </div>
                 ` : `
                     <!-- DORSO: CARTA REVELADA -->
@@ -730,13 +734,10 @@
                                 </span>
                             </div>
 
-                            <!-- Contenedor de Imagen -->
-                            <div class="w-full h-24 bg-[#0B0D0E] rounded-lg border border-[#2A3038] mb-2 flex items-center justify-center overflow-hidden p-2">
-                                <img src="${itemImgUrl}" alt="${item.name}" class="max-h-full object-contain"
-                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                <div class="hidden w-full h-full items-center justify-center font-title font-bold text-xs text-[#D1A23D] text-center p-1">
-                                    ${item.name}
-                                </div>
+                            <!-- Imagen del Ítem -->
+                            <div class="w-full h-24 bg-[#0B0D0E] rounded-lg border border-[#2A3038] mb-2 flex items-center justify-center overflow-hidden p-1">
+                                <img src="${itemImgUrl}" alt="${item.name}" class="max-h-full object-contain" 
+                                     onerror="this.onerror=null; this.src='https://wiki.deadlock-game.com/images/thumb/${item.name.replace(/ /g, '_')}.png/120px-${item.name.replace(/ /g, '_')}.png';">
                             </div>
 
                             <h4 class="font-title font-bold text-sm text-white mb-1 truncate">${item.name}</h4>
@@ -745,7 +746,7 @@
 
                         <div class="pt-2 border-t border-[#2A3038] flex items-center justify-between text-[10px] text-gray-400">
                             <span>Deadlock Item</span>
-                            <span class="text-[#D1A23D] font-bold">${isSelected ? 'SELECTED' : 'CLICK TO SELECT'}</span>
+                            <span class="text-[#D1A23D] font-bold">${isSelected ? 'CHOSEN!' : 'LOCKED'}</span>
                         </div>
                     </div>
                 `}
@@ -757,13 +758,35 @@
     lucide.createIcons();
 }
         function onCardClick(index) {
-            // Reveal card
-            gameState.isFlipped[index] = true;
-            // Select index
-            gameState.selectedCardIndex = index;
-            renderCards();
-            updateConfirmButton();
+    const selectedItem = gameState.currentChoices[index];
+    
+    // Si ya elegiste una carta en esta ronda, ignoramos el clic
+    if (gameState.selectedCardIndex !== null) return;
+
+    gameState.selectedCardIndex = index;
+    gameState.isFlipped[index] = true;
+    
+    // Renderizamos para mostrar cuál te tocó
+    renderCards();
+
+    // Pequeña pausa de 800ms para que veas el ítem que te tocó y pase el turno automático
+    setTimeout(() => {
+        if (gameState.currentTurnPlayer === 1) {
+            gameState.p1.items.push(selectedItem);
+            gameState.currentTurnPlayer = 2;
+        } else {
+            gameState.p2.items.push(selectedItem);
+            gameState.currentTurnPlayer = 1;
+            gameState.currentRound++;
         }
+
+        if (gameState.currentRound > gameState.totalRounds) {
+            finishGame();
+        } else {
+            startTurn();
+        }
+    }, 850);
+}
 
         function updateConfirmButton() {
             const btn = document.getElementById('confirmChoiceBtn');
