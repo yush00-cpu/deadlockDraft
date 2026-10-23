@@ -332,8 +332,8 @@
         let assetSource = "local";
 
         function createFallbackImageHTML(initial) {
-            return `<div class="w-8 h-8 rounded bg-[#0B0D0E] flex items-center justify-center font-title font-bold text-xs text-[#D1A23D]">${initial}</div>`;
-        }
+    return `<div class="w-8 h-8 rounded bg-[#0B0D0E] flex items-center justify-center font-title font-bold text-xs text-[#D1A23D]">${initial}</div>`;
+}
 
         function getHeroImageUrl(heroName) {
             if (!heroName) return "";
@@ -509,25 +509,35 @@
         }
 
         function renderHeroGrid() {
-            const grid = document.getElementById('heroGrid');
-            grid.innerHTML = '';
+    const grid = document.getElementById('heroGrid');
+    grid.innerHTML = '';
 
-            HERO_NAMES.forEach(hero => {
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.onclick = () => selectHero(hero);
-                btn.className = `p-1.5 rounded border border-[#2A3038] bg-[#161A1E] hover:border-[#D1A23D] transition-all flex flex-col items-center justify-center gap-1 group relative`;
-                
-                const imgUrl = getHeroImageUrl(hero);
-                const initial = hero.charAt(0);
+    HERO_NAMES.forEach(hero => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.onclick = () => selectHero(hero);
+        btn.className = `p-1.5 rounded border border-[#2A3038] bg-[#161A1E] hover:border-[#D1A23D] transition-all flex flex-col items-center justify-center gap-1 group relative`;
+        
+        const imgUrl = getHeroImageUrl(hero);
+        const initial = hero.charAt(0);
 
-                btn.innerHTML = `
-                    ${imgUrl ? `<img src="${imgUrl}" alt="${hero}" class="w-8 h-8 rounded object-cover" onerror="this.outerHTML='${createFallbackImageHTML(initial)}'">` : createFallbackImageHTML(initial)}
-                    <span class="text-[10px] text-gray-300 font-bold truncate w-full text-center group-hover:text-[#D1A23D]">${hero}</span>
-                `;
-                grid.appendChild(btn);
-            });
-        }
+        const imgElement = document.createElement('img');
+        imgElement.src = imgUrl;
+        imgElement.alt = hero;
+        imgElement.className = "w-8 h-8 rounded object-cover";
+        imgElement.onerror = function() {
+            this.replaceWith(document.createRange().createContextualFragment(createFallbackImageHTML(initial)));
+        };
+
+        const nameSpan = document.createElement('span');
+        nameSpan.className = "text-[10px] text-gray-300 font-bold truncate w-full text-center group-hover:text-[#D1A23D]";
+        nameSpan.textContent = hero;
+
+        btn.appendChild(imgElement);
+        btn.appendChild(nameSpan);
+        grid.appendChild(btn);
+    });
+}
 
         function setActiveHeroTab(p) {
             gameState.activeTabPlayer = p;
